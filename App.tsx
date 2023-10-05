@@ -1,35 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
+import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { PaperProvider, MD3DarkTheme, MD3LightTheme } from "react-native-paper";
 
-import { dark } from "./src/theme/dark";
-import { light } from "./src/theme/light";
 import { Teste } from "./src/components/Teste";
+import { theme } from "./src/theme";
 
 export default function App() {
   const colorScheme = useColorScheme();
-
-  const theme = colorScheme === "dark"
-    ? { ...MD3DarkTheme, colors: { ...dark } }
-    : { ...MD3LightTheme, colors: { ...light } };
-
-  const background = {
-    dark: dark.background,
-    light: light.background,
-  };
+  const appTheme = theme[colorScheme!];
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: background[colorScheme!] }}>
-        <PaperProvider theme={theme}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: appTheme?.colors?.background }}>
+        <PaperProvider theme={appTheme}>
 
           <Teste />
 
         </PaperProvider>
 
         <StatusBar
-          backgroundColor={background[colorScheme!]}
+          backgroundColor={appTheme?.colors?.background}
           style={colorScheme === "dark" ? "light" : "dark"}
         />
       </SafeAreaView>

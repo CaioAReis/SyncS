@@ -1,13 +1,27 @@
-import { View } from "react-native";
-import { Button, Text, useTheme } from "react-native-paper";
+import { useAppTheme } from "../theme";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 export function Teste() {
-  const { colors } = useTheme();
+  const { colors } = useAppTheme();
 
   return (
-    <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-      <Text>ASIUHDIUASHDI</Text>
-      <Button buttonColor={colors.purple5} mode="contained" >AISUDIAUHS</Button>
+    <View style={{ ...styles.container, backgroundColor: colors.pink }}>
+      <Text style={{ fontSize: 30 }}>ASIUHDIUASHDI</Text>
+      <Button buttonColor={colors.primary} mode="contained" >AISUDIAUHS</Button>
+
+      <StatusBar
+        style={"auto"}
+        backgroundColor={colors?.pink}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center", justifyContent: "center", flex: 1, 
+  }
+});
+
