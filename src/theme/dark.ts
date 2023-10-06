@@ -1,8 +1,47 @@
 import { colors } from "./colors";
-import { MD3DarkTheme } from "react-native-paper";
+import { MD3DarkTheme, configureFonts } from "react-native-paper";
+
+const fontConfig = {
+
+  default: {
+    fontFamily: "Nunito_400Regular",
+  },
+
+  labelSmall: {
+    fontFamily: "Nunito_500Medium",
+  },
+  labelMedium: {
+    fontFamily: "Nunito_500Medium",
+  },
+  labelLarge: {
+    fontFamily: "Nunito_500Medium",
+  },
+
+  bodySmall: {
+    fontFamily: "Nunito_400Regular",
+  },
+  bodyMedium: {
+    fontFamily: "Nunito_400Regular",
+  },
+  bodyLarge: {
+    fontFamily: "Nunito_400Regular",
+  },
+
+  titleSmall: {
+    fontFamily: "Nunito_600SemiBold",
+  },
+  titleMedium: {
+    fontFamily: "Nunito_600SemiBold",
+  },
+  titleLarge: {
+    fontFamily: "Nunito_600SemiBold",
+  },
+
+};
 
 export const dark = {
   ...MD3DarkTheme,
+  fonts: configureFonts({ config: fontConfig }),
   colors: {
     primary: colors.light,
     onPrimary: colors.dark,
