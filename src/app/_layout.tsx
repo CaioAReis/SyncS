@@ -1,9 +1,10 @@
+import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-import { Teste } from "./src/components/Teste";
-import { theme } from "./src/theme";
+import { theme } from "../theme";
 import {
   useFonts,
   Nunito_300Light,
@@ -14,8 +15,7 @@ import {
 } from "@expo-google-fonts/nunito";
 
 export default function App() {
-  // const colorScheme = useColorScheme();
-  const colorScheme = "dark";
+  const colorScheme = useColorScheme();
 
   const appTheme = theme[colorScheme!];
 
@@ -34,7 +34,7 @@ export default function App() {
       <SafeAreaView style={{ flex: 1, backgroundColor: appTheme?.colors?.background }}>
         <PaperProvider theme={appTheme}>
 
-          <Teste />
+          <Slot />
 
         </PaperProvider>
 
