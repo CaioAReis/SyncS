@@ -1,7 +1,8 @@
 import { useAppTheme } from "../theme";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, Title } from "react-native-paper";
+import { Button, Title } from "react-native-paper";
+import { FontWeight, Text } from "./Text";
 
 export function Teste() {
   const { colors } = useAppTheme();
@@ -10,8 +11,9 @@ export function Teste() {
     <View style={{ ...styles.container, backgroundColor: colors.pink }}>
    
       <Title style={{ fontSize: 40 }}>ASIUHDIUASHDI</Title>
-      <Text style={{ fontSize: 40 }}>ASIUHDIUASHDI</Text>
-      <Text variant="titleMedium" style={{ fontSize: 40, lineHeight: 50 }}>ASIUHDIUASHDI</Text>
+      <Text fs={40} fw={FontWeight.BOLD}>CAIO</Text>
+      <Text style={{ lineHeight: 50, color: "blue" }}>ASIUHDIUASHDI</Text>
+      {/* <Text variant="titleMedium" style={{ fontSize: 40, lineHeight: 50 }}>ASIUHDIUASHDI</Text> */}
       <Button buttonColor={colors.primary} mode="contained" >AISUDIAUHS</Button>
 
       <StatusBar
