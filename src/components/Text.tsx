@@ -19,8 +19,11 @@ interface TextProps {
   lh?: number,
   lineHeight?: number,
 
-  fw?: FontWeight,
-  fontWeight?: FontWeight,
+  fw?: "LIGHT" | "REGULAR" | "MEDIUM" | "SEMIB" | "BOLD",
+  fontWeight?: "LIGHT" | "REGULAR" | "MEDIUM" | "SEMIB" | "BOLD",
+
+  ta?: "center" | "auto" | "left" | "right" | "justify" | undefined,
+  textAlign?: "center" | "auto" | "left" | "right" | "justify" | undefined,
 
   style?: TextStyle
 }
@@ -29,6 +32,7 @@ export function Text({
   style,
   children,
   fs, fontSize,
+  ta, textAlign,
   fw, fontWeight,
   lh, lineHeight,
 }: TextProps) {
@@ -37,7 +41,8 @@ export function Text({
     <PaperText
       style={{
         fontSize: fs || fontSize || 20,
-        fontFamily: fw || fontWeight || "Nunito_400Regular",
+        textAlign: ta || textAlign || "left",
+        fontFamily: FontWeight[fw || fontWeight || "REGULAR"],
         lineHeight: lh || lineHeight || (fs || fontSize || 20) + 10,
         ...style
       }}

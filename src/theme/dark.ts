@@ -8,13 +8,13 @@ const fontConfig = {
   },
 
   labelSmall: {
-    fontFamily: "Nunito_500Medium",
+    fontFamily: "Nunito_700Bold",
   },
   labelMedium: {
-    fontFamily: "Nunito_500Medium",
+    fontFamily: "Nunito_700Bold",
   },
   labelLarge: {
-    fontFamily: "Nunito_500Medium",
+    fontFamily: "Nunito_700Bold",
   },
 
   bodySmall: {
