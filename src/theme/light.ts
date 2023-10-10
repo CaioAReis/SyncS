@@ -42,6 +42,7 @@ export const light = {
   ...MD3LightTheme,
   fonts: configureFonts({ config: fontConfig }),
   colors: {
+    ...MD3LightTheme.colors,
     primary: colors.dark,
     onPrimary: colors.light,
     primaryContainer: colors.dark,

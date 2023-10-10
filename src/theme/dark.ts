@@ -43,6 +43,7 @@ export const dark = {
   ...MD3DarkTheme,
   fonts: configureFonts({ config: fontConfig }),
   colors: {
+    ...MD3DarkTheme.colors,
     primary: colors.light,
     onPrimary: colors.dark,
     primaryContainer: colors.light,
@@ -103,8 +104,8 @@ export const dark = {
     color11: colors.light11,
     color12: colors.light12,
 
-    outline: colors.dark5,
-    outlineVariant: colors.dark7,
+    outline: colors.light5,
+    outlineVariant: colors.light7,
 
     elevation: {
       level0: "transparent",

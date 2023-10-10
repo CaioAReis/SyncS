@@ -16,6 +16,7 @@ import {
 
 export default function App() {
   const colorScheme = useColorScheme();
+  // const colorScheme = "dark";
 
   const appTheme = theme[colorScheme!];
 
