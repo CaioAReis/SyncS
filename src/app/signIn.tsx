@@ -6,22 +6,22 @@ import { Button, TextInput } from "react-native-paper";
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
 
-interface LoginData {
+interface SignInData {
   email: string,
   password: string,
 }
 
 export default function SignIn() {
-  const { colors } = useAppTheme();
+  const { dark, colors } = useAppTheme();
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginData>({
+  const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: LoginData) => {
+  const onSubmit = (data: SignInData) => {
     console.warn(data);
     router.push("/home");
   };
@@ -49,11 +49,14 @@ export default function SignIn() {
               onChangeText={onChange}
               keyboardType="email-address"
               error={Boolean(errors.email)}
+              outlineColor={dark ? colors.background7 : colors.background1}
+              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              left={<TextInput.Icon icon="email-outline" color={errors.email ? colors.error : colors.primary9} />}
             />
           )}
         />
         {errors.email && (
-          <Text fs={14} fw="SEMIB" style={{ marginLeft: 15, color: colors.error }}>
+          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
             {errors.email.message}
           </Text>
         )}
@@ -70,13 +73,16 @@ export default function SignIn() {
               mode="outlined"
               onBlur={onBlur}
               onChangeText={onChange}
-              style={{ marginTop: 20 }}
               error={Boolean(errors.password)}
+              outlineColor={dark ? colors.background7 : colors.background1}
+              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              left={<TextInput.Icon icon="lock-outline" color={errors.password ? colors.error : colors.primary9} />}
+            
             />
           )}
         />
         {errors.password && (
-          <Text fs={14} fw="SEMIB" style={{ marginLeft: 15, color: colors.error }}>
+          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
             {errors.password.message}
           </Text>
         )}
