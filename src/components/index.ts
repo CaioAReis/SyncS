@@ -1,6 +1,7 @@
 
 import { Text } from "./Text";
+import { Header } from "./Header";
 
 export {
-  Text,
+  Text, Header,
 };

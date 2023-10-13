@@ -25,6 +25,8 @@ interface TextProps {
   ta?: "center" | "auto" | "left" | "right" | "justify" | undefined,
   textAlign?: "center" | "auto" | "left" | "right" | "justify" | undefined,
 
+  numberOfLines?: number | undefined,
+
   style?: TextStyle
 }
 
@@ -32,6 +34,7 @@ export function Text({
   style,
   children,
   fs, fontSize,
+  numberOfLines,
   ta, textAlign,
   fw, fontWeight,
   lh, lineHeight,
@@ -39,6 +42,7 @@ export function Text({
 
   return (
     <PaperText
+      numberOfLines={numberOfLines}
       style={{
         fontSize: fs || fontSize || 20,
         textAlign: ta || textAlign || "left",

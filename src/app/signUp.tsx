@@ -14,7 +14,7 @@ interface SignUpData {
 }
 
 export default function SignUp() {
-  const { dark, colors } = useAppTheme();
+  const { colors } = useAppTheme();
 
   const { control, handleSubmit, getValues, formState: { errors } } = useForm<SignUpData>({
     defaultValues: {
@@ -52,8 +52,8 @@ export default function SignUp() {
               onBlur={onBlur}
               onChangeText={onChange}
               error={Boolean(errors.name)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ backgroundColor: dark ? colors.background7 : colors.background1 }}
+              outlineColor={colors.suface}
+              style={{ backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="account-outline" color={errors.name ? colors.error : colors.primary9} />}
             />
           )}
@@ -76,9 +76,9 @@ export default function SignUp() {
               onBlur={onBlur}
               onChangeText={onChange}
               keyboardType="email-address"
+              outlineColor={colors.suface}
               error={Boolean(errors.email)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              style={{ marginTop: 10, backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="email-outline" color={errors.name ? colors.error : colors.primary9} />}
             />
           )}
@@ -101,9 +101,9 @@ export default function SignUp() {
               mode="outlined"
               onBlur={onBlur}
               onChangeText={onChange}
+              outlineColor={colors.suface}
               error={Boolean(errors.password)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              style={{ marginTop: 10, backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="lock-outline" color={errors.name ? colors.error : colors.primary9} />}
             />
           )}
@@ -133,9 +133,9 @@ export default function SignUp() {
               onBlur={onBlur}
               label="Confirmar senha"
               onChangeText={onChange}
+              outlineColor={colors.suface}
               error={Boolean(errors.confirmPass)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              style={{ marginTop: 10, backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="lock-check-outline" color={errors.name ? colors.error : colors.primary9} />}
             />
           )}

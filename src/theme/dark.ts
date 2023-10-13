@@ -62,6 +62,8 @@ export const dark = {
     primary11: colors.light11,
     primary12: colors.light12,
 
+    suface: colors.dark7,
+
     secondary: colors.light6,
     onSecondary: colors.dark,
     secondaryContainer: colors.light6,

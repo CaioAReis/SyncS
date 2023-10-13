@@ -12,7 +12,7 @@ interface SignInData {
 }
 
 export default function SignIn() {
-  const { dark, colors } = useAppTheme();
+  const { colors } = useAppTheme();
 
   const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
@@ -48,9 +48,9 @@ export default function SignIn() {
               onBlur={onBlur}
               onChangeText={onChange}
               keyboardType="email-address"
+              outlineColor={colors.suface}
               error={Boolean(errors.email)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              style={{ marginTop: 10, backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="email-outline" color={errors.email ? colors.error : colors.primary9} />}
             />
           )}
@@ -73,11 +73,11 @@ export default function SignIn() {
               mode="outlined"
               onBlur={onBlur}
               onChangeText={onChange}
+              outlineColor={colors.surface}
               error={Boolean(errors.password)}
-              outlineColor={dark ? colors.background7 : colors.background1}
-              style={{ marginTop: 10, backgroundColor: dark ? colors.background7 : colors.background1 }}
+              style={{ marginTop: 10, backgroundColor: colors.suface }}
               left={<TextInput.Icon icon="lock-outline" color={errors.password ? colors.error : colors.primary9} />}
-            
+
             />
           )}
         />
@@ -87,7 +87,7 @@ export default function SignIn() {
           </Text>
         )}
 
-        <Link href="/" style={{ marginVertical: 8, alignSelf: "flex-end" }}>
+        <Link href="/recoverPass" style={{ marginVertical: 8, alignSelf: "flex-end" }}>
           <Text fs={14} style={{ textDecorationLine: "underline", color: colors.blue5 }}>
             Esqueçeu a senha?
           </Text>
