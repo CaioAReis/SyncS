@@ -5,6 +5,7 @@ import { Button, TextInput } from "react-native-paper";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import { regexValidations } from "../utils/regexValidations";
 
 interface SignUpData {
   name: string,
@@ -43,7 +44,10 @@ export default function SignUp() {
         <Controller
           name="name"
           control={control}
-          rules={{ required: "Informe seu nome" }}
+          rules={{ 
+            required: "Nome é obrigatório", 
+            pattern: { value: regexValidations.NAME, message: "Nome inválido" }
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="Nome"
@@ -67,7 +71,10 @@ export default function SignUp() {
         <Controller
           name="email"
           control={control}
-          rules={{ required: "Informe um email" }}
+          rules={{ 
+            required: "Email é obrigatório",
+            pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="Email"
@@ -92,7 +99,10 @@ export default function SignUp() {
         <Controller
           name="password"
           control={control}
-          rules={{ required: "Informe uma senha" }}
+          rules={{ 
+            required: "A senha é obrigatória",
+            minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="Senha"
@@ -118,7 +128,7 @@ export default function SignUp() {
           control={control}
           name="confirmPass"
           rules={{
-            required: "Confirme a senha",
+            required: "É necessário confirmar a senha",
             validate: {
               checkPass: v => {
                 if (v !== getValues("password")) return "As senhas não correspondem";

@@ -7,6 +7,7 @@ import { Avatar, Button, TextInput } from "react-native-paper";
 
 import { useAppTheme } from "../theme";
 import { Header, Text } from "../components";
+import { regexValidations } from "../utils/regexValidations";
 
 interface RecoverData {
   email: string,
@@ -49,7 +50,10 @@ export default function RecoverPass() {
           <Controller
             name="email"
             control={control}
-            rules={{ required: "Informe o email para redefinir a senha" }}
+            rules={{ 
+              required: "Informe o email para redefinir a senha",
+              pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 label="Email"

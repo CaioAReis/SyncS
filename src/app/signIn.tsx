@@ -5,6 +5,7 @@ import { Button, TextInput } from "react-native-paper";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import { regexValidations } from "../utils/regexValidations";
 
 interface SignInData {
   email: string,
@@ -39,7 +40,10 @@ export default function SignIn() {
         <Controller
           name="email"
           control={control}
-          rules={{ required: "Informe um email" }}
+          rules={{ 
+            required: "Informe um email",
+            pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="Email"
@@ -64,7 +68,10 @@ export default function SignIn() {
         <Controller
           name="password"
           control={control}
-          rules={{ required: "Informe uma senha" }}
+          rules={{ 
+            required: "Informe uma senha", 
+            minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="Senha"
