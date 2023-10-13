@@ -28,7 +28,7 @@ export default function RecoverPass() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header />
+      <Header title="Recuperar senha" />
 
       <PagerView scrollEnabled={false} ref={pagesRef} style={{ flex: 1 }}>
         <View key={0} style={{ flex: 1 }}>
