@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { useAppTheme } from "../../theme";
-import { Text } from "../../components";
+import { TabButton } from "../../components";
 
 export default function TabsApp() {
   const { colors } = useAppTheme();
@@ -13,20 +13,16 @@ export default function TabsApp() {
         lazy: true,
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarLabelPosition: "beside-icon",
         tabBarInactiveTintColor: colors.primary10,
-
-        tabBarItemStyle: { borderWidth: 1, borderRadius: 80 },
 
         tabBarStyle: {
           elevation: 0,
+          paddingHorizontal: 6,
           borderColor: colors.background,
           backgroundColor: colors.background,
         },
 
-        tabBarLabel: ({ children, focused }) => (
-          <Text fw="BOLD" fs={14}>{focused ? children : null}</Text>
-        )
+        tabBarLabel: () => null,
       }}
     >
 
@@ -34,19 +30,48 @@ export default function TabsApp() {
         name="home"
         options={{
           title: "Início",
-          tabBarItemStyle: { backgroundColor: "red" },
-          // tabBarIcon: ({ size, color, focused }) => (<></>)
+          tabBarIcon: ({ focused }) => (
+            <TabButton
+              label="Início"
+              focused={focused}
+              bg={colors.blue12}
+              color={colors.blue5}
+              icon="home-variant-outline"
+            />
+          )
         }}
       />
 
       <Tabs.Screen
         name="timeline"
-        options={{ title: "Timeline" }}
+        options={{
+          title: "Timeline",
+          tabBarIcon: ({ focused }) => (
+            <TabButton
+              label="Timeline"
+              focused={focused}
+              bg={colors.green12}
+              color={colors.green5}
+              icon="clock-check-outline"
+            />
+          )
+        }}
       />
 
       <Tabs.Screen
         name="profile"
-        options={{ title: "Perfil" }}
+        options={{
+          title: "Perfil",
+          tabBarIcon: ({ focused }) => (
+            <TabButton
+              label="Perfil"
+              focused={focused}
+              bg={colors.red12}
+              color={colors.red5}
+              icon="account-outline"
+            />
+          )
+        }}
       />
 
     </Tabs>

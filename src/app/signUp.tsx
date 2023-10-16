@@ -1,4 +1,4 @@
-import { Image, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
@@ -41,129 +41,131 @@ export default function SignUp() {
 
         <Text fw="BOLD" fs={25} style={{ marginVertical: 30 }}>Crie sua conta</Text>
 
-        <Controller
-          name="name"
-          control={control}
-          rules={{ 
-            required: "Nome é obrigatório", 
-            pattern: { value: regexValidations.NAME, message: "Nome inválido" }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Nome"
-              value={value}
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              error={Boolean(errors.name)}
-              outlineColor={colors.suface}
-              style={{ backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="account-outline" color={errors.name ? colors.error : colors.primary9} />}
-            />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              required: "Nome é obrigatório",
+              pattern: { value: regexValidations.NAME, message: "Nome inválido" }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Nome"
+                value={value}
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                error={Boolean(errors.name)}
+                outlineColor={colors.suface}
+                style={{ backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="account-outline" color={errors.name ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.name && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.name.message}
+            </Text>
           )}
-        />
-        {errors.name && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.name.message}
-          </Text>
-        )}
 
-        <Controller
-          name="email"
-          control={control}
-          rules={{ 
-            required: "Email é obrigatório",
-            pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Email"
-              value={value}
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              keyboardType="email-address"
-              outlineColor={colors.suface}
-              error={Boolean(errors.email)}
-              style={{ marginTop: 10, backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="email-outline" color={errors.name ? colors.error : colors.primary9} />}
-            />
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: "Email é obrigatório",
+              pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Email"
+                value={value}
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                keyboardType="email-address"
+                outlineColor={colors.suface}
+                error={Boolean(errors.email)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="email-outline" color={errors.name ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.email && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.email.message}
+            </Text>
           )}
-        />
-        {errors.email && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.email.message}
-          </Text>
-        )}
 
-        <Controller
-          name="password"
-          control={control}
-          rules={{ 
-            required: "A senha é obrigatória",
-            minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Senha"
-              value={value}
-              secureTextEntry
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              outlineColor={colors.suface}
-              error={Boolean(errors.password)}
-              style={{ marginTop: 10, backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="lock-outline" color={errors.name ? colors.error : colors.primary9} />}
-            />
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: "A senha é obrigatória",
+              minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Senha"
+                value={value}
+                secureTextEntry
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                outlineColor={colors.suface}
+                error={Boolean(errors.password)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="lock-outline" color={errors.name ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.password && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.password.message}
+            </Text>
           )}
-        />
-        {errors.password && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.password.message}
-          </Text>
-        )}
 
-        <Controller
-          control={control}
-          name="confirmPass"
-          rules={{
-            required: "É necessário confirmar a senha",
-            validate: {
-              checkPass: v => {
-                if (v !== getValues("password")) return "As senhas não correspondem";
+          <Controller
+            control={control}
+            name="confirmPass"
+            rules={{
+              required: "É necessário confirmar a senha",
+              validate: {
+                checkPass: v => {
+                  if (v !== getValues("password")) return "As senhas não correspondem";
+                }
               }
-            }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              secureTextEntry
-              mode="outlined"
-              onBlur={onBlur}
-              label="Confirmar senha"
-              onChangeText={onChange}
-              outlineColor={colors.suface}
-              error={Boolean(errors.confirmPass)}
-              style={{ marginTop: 10, backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="lock-check-outline" color={errors.name ? colors.error : colors.primary9} />}
-            />
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                value={value}
+                secureTextEntry
+                mode="outlined"
+                onBlur={onBlur}
+                label="Confirmar senha"
+                onChangeText={onChange}
+                outlineColor={colors.suface}
+                error={Boolean(errors.confirmPass)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="lock-check-outline" color={errors.name ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.confirmPass && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.confirmPass.message}
+            </Text>
           )}
-        />
-        {errors.confirmPass && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.confirmPass.message}
-          </Text>
-        )}
 
-        <Button
-          mode="contained"
-          icon="account-plus"
-          style={{ marginVertical: 40 }}
-          onPress={handleSubmit(onSubmit)}
-        >
-          CRIAR CONTA
-        </Button>
+          <Button
+            mode="contained"
+            icon="account-plus"
+            style={{ marginVertical: 40 }}
+            onPress={handleSubmit(onSubmit)}
+          >
+            CRIAR CONTA
+          </Button>
+        </KeyboardAvoidingView>
 
         <Text fs={14} ta="center">
           {"Já possui conta? Faça o "}

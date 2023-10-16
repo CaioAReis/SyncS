@@ -1,4 +1,4 @@
-import { Image, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
@@ -37,77 +37,79 @@ export default function SignIn() {
 
         <Text fw="BOLD" fs={25} style={{ marginVertical: 30 }}>Faça seu Login</Text>
 
-        <Controller
-          name="email"
-          control={control}
-          rules={{ 
-            required: "Informe um email",
-            pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Email"
-              value={value}
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              keyboardType="email-address"
-              outlineColor={colors.suface}
-              error={Boolean(errors.email)}
-              style={{ marginTop: 10, backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="email-outline" color={errors.email ? colors.error : colors.primary9} />}
-            />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: "Informe um email",
+              pattern: { value: regexValidations.EMAIL, message: "Email inválido." }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Email"
+                value={value}
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                keyboardType="email-address"
+                outlineColor={colors.suface}
+                error={Boolean(errors.email)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="email-outline" color={errors.email ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.email && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.email.message}
+            </Text>
           )}
-        />
-        {errors.email && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.email.message}
-          </Text>
-        )}
 
-        <Controller
-          name="password"
-          control={control}
-          rules={{ 
-            required: "Informe uma senha", 
-            minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Senha"
-              value={value}
-              secureTextEntry
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              outlineColor={colors.surface}
-              error={Boolean(errors.password)}
-              style={{ marginTop: 10, backgroundColor: colors.suface }}
-              left={<TextInput.Icon icon="lock-outline" color={errors.password ? colors.error : colors.primary9} />}
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: "Informe uma senha",
+              minLength: { value: 8, message: "A senha precisa ter mais que 8 caracteres" }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Senha"
+                value={value}
+                secureTextEntry
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                outlineColor={colors.surface}
+                error={Boolean(errors.password)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="lock-outline" color={errors.password ? colors.error : colors.primary9} />}
 
-            />
+              />
+            )}
+          />
+          {errors.password && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.password.message}
+            </Text>
           )}
-        />
-        {errors.password && (
-          <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
-            {errors.password.message}
-          </Text>
-        )}
 
-        <Link href="/recoverPass" style={{ marginVertical: 8, alignSelf: "flex-end" }}>
-          <Text fs={14} style={{ textDecorationLine: "underline", color: colors.blue5 }}>
-            Esqueçeu a senha?
-          </Text>
-        </Link>
+          <Link href="/recoverPass" style={{ marginVertical: 8, alignSelf: "flex-end" }}>
+            <Text fs={14} style={{ textDecorationLine: "underline", color: colors.blue5 }}>
+              Esqueçeu a senha?
+            </Text>
+          </Link>
 
-        <Button
-          icon="login"
-          mode="contained"
-          style={{ marginVertical: 40 }}
-          onPress={handleSubmit(onSubmit)}
-        >
-          ENTRAR
-        </Button>
+          <Button
+            icon="login"
+            mode="contained"
+            style={{ marginVertical: 40 }}
+            onPress={handleSubmit(onSubmit)}
+          >
+            ENTRAR
+          </Button>
+        </KeyboardAvoidingView>
 
         <Text fs={14} ta="center">
           {"Não possui conta? "}
