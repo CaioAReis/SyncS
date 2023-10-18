@@ -32,20 +32,20 @@ export default function Home() {
         <View style={{ margin: 20 }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1 }}>
-              <HomeButton height={180} color={colors.red} />
-              <HomeButton height={300} color={colors.purple} />
-              <HomeButton height={260} color={colors.yellow} />
+              <HomeButton icon="play-network" label="Carreira" height={180} color={colors.red} />
+              <HomeButton icon="school" label="Formação Acadêmica" height={300} color={colors.purple} />
+              <HomeButton icon="help-circle-outline" label="Dúvida dos Ingressos" height={260} color={colors.yellow} />
             </View>
 
             <View style={{ width: 16 }} />
 
             <View style={{ flex: 1 }}>
-              <HomeButton height={300} color={colors.blue} />
-              <HomeButton height={260} color={colors.green} />
-              <HomeButton height={180} color={colors.gray} />
+              <HomeButton icon="office-building" label="Mercado de Trabalho" height={300} color={colors.blue} />
+              <HomeButton icon="chart-timeline-variant-shimmer" label="Desenvolvimento Pessoal" height={260} color={colors.green} />
+              <HomeButton icon="tooltip-account" label="Sobre você" height={180} color={colors.gray} />
             </View>
           </View>
-          <HomeButton height={110} color={colors.pink} />
+          <HomeButton icon="arrow-decision-outline" label="Recomende" horizontal height={110} color={colors.pink} />
         </View>
 
       </ScrollView>
