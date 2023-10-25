@@ -1,9 +1,9 @@
 // import PagerView from "react-native-pager-view";
 import { Avatar, IconButton } from "react-native-paper";
-import { FlatList, Image, View, useWindowDimensions } from "react-native";
+import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { useAppTheme } from "../../theme";
-import { CollectionItem, ExpCard, Text } from "../../components";
+import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 
 const collection = [
   "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png",
@@ -46,11 +46,11 @@ export default function Profile() {
         numColumns={3}
         data={collection}
         showsVerticalScrollIndicator={false}
+        columnWrapperStyle={styles.columnStyle}
         ListFooterComponent={<View style={{ height: 80 }} />}
-        columnWrapperStyle={{ justifyContent: "space-around", marginHorizontal: 10, marginBottom: 10 }}
         ListHeaderComponent={
           <>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 4, marginHorizontal: 10 }}>
+            <View style={styles.headerView}>
               <IconButton
                 size={30}
                 icon="share-outline"
@@ -75,7 +75,7 @@ export default function Profile() {
               </Text>
             </View>
 
-            <View style={{ marginTop: 15, marginHorizontal: 20, flexDirection: "row", justifyContent: "space-between" }}>
+            <View style={styles.levels}>
               <ExpCard
                 expLevel={14}
                 expType="EXP."
@@ -110,22 +110,19 @@ export default function Profile() {
             <View style={{ marginTop: 25 }}>
               <Text fw="BOLD" fs={16} style={{ marginHorizontal: 20 }}>CONQUISTAS</Text>
 
-              <View style={{ marginTop: 10, flexDirection: "row", flexWrap: "wrap", marginHorizontal: 10, justifyContent: "space-between" }}>
+              <View style={styles.achievementList}>
                 {achievements.map(item => (
-                  <View key={item?._id} style={{ margin: 6, borderRadius: 20, width: width / 6.8, height: width / 6.8, backgroundColor: colors.background5 }}>
-                    <Image source={{ uri: item?.image }} style={{ flex: 1 }} />
-
-                    {item.quantity > 1 && (
-                      <View style={{ bottom: -4, left: -6, backgroundColor: colors.color, position: "absolute", paddingVertical: 2, paddingHorizontal: 6, borderRadius: 360 }}>
-                        <Text fs={12} fw="BOLD" style={{ color: colors.background }}>{item?.quantity}x</Text>
-                      </View>
-                    )}
-                  </View>
+                  <Achievement key={item?._id} achievement={item} />
                 ))}
               </View>
             </View>
 
-            <Text fw="BOLD" fs={16} style={{ marginHorizontal: 20, marginTop: 25, marginBottom: 15 }}>SUA COLEÇÃO</Text>
+            <Text
+              fw="BOLD" fs={16}
+              style={{ marginHorizontal: 20, marginTop: 25, marginBottom: 15 }}
+            >
+              SUA COLEÇÃO
+            </Text>
           </>
         }
 
@@ -134,3 +131,35 @@ export default function Profile() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+
+  headerView: {
+    marginVertical: 4,
+    marginHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  columnStyle: {
+    marginBottom: 10,
+    marginHorizontal: 10,
+    justifyContent: "space-around",
+  },
+
+  levels: {
+    marginTop: 15,
+    marginHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  achievementList: {
+    marginTop: 10,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    marginHorizontal: 10,
+    justifyContent: "space-between",
+  },
+
+});
