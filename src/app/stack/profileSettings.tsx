@@ -1,40 +1,141 @@
-import { View } from "react-native";
-import { Header, Text } from "../../components";
-import { useAppTheme } from "../../theme";
-import { Avatar, IconButton, List, TouchableRipple } from "react-native-paper";
 import { Link } from "expo-router";
+import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
+import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
+
+import { useAppTheme } from "../../theme";
+import { Header, Text } from "../../components";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <Header title="Perfil" />
+      <ScrollView style={{ flex: 1 }}>
+        <Header title="Perfil" />
 
-      <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginVertical: 30, paddingHorizontal: 20 }}>
-        <Avatar.Image
-          size={90}
-          source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }}
-        />
+        <View style={styles.avatarView}>
+          <Avatar.Image
+            size={90}
+            source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }}
+          />
 
-        <View style={{ flex: 1, marginHorizontal: 12 }}>
-          <Text fw="SEMIB" fs={18} lh={24}>Caio Almeida</Text>
+          <View style={{ flex: 1, marginHorizontal: 12 }}>
+            <Text fw="SEMIB" fs={18} lh={24}>Caio Almeida</Text>
 
-          <Link href={"/home"} asChild>
-            <TouchableRipple rippleColor={colors.blue} style={{ marginTop: 4, flexDirection: "row", alignItems: "center" }}>
-              <>
-                <List.Icon color={colors.color} icon="account-edit" style={{ marginRight: 8 }} />
-                <Text fs={16} lh={20} style={{ textDecorationLine: "underline" }}>
-                  Editar perfil
-                </Text>
-              </>
-            </TouchableRipple>
-          </Link>
+            <Link href={"/home"} asChild>
+              <TouchableRipple
+                rippleColor={colors.blue}
+                style={{ marginTop: 4, flexDirection: "row", alignItems: "center" }}
+              >
+                <>
+                  <List.Icon color={colors.color} icon="account-edit" style={{ marginRight: 8 }} />
+                  <Text fs={16} lh={20} style={{ textDecorationLine: "underline" }}>
+                    Editar perfil
+                  </Text>
+                </>
+              </TouchableRipple>
+            </Link>
+          </View>
+
+          <IconButton size={25} icon="moon-waning-crescent" />
         </View>
 
-        <IconButton size={25} icon="moon-waning-crescent" />
-      </View>
+        <View style={{ marginHorizontal: 20 }}>
 
+          <List.Section style={{ marginBottom: 60 }}>
+            <List.Subheader>Definições</List.Subheader>
+
+            <List.Item
+              title="Receber notificações"
+              onPress={() => { }}
+              rippleColor={colors.blue11}
+              style={{ marginBottom: 10 }}
+              left={props => <List.Icon {...props} icon="bell-outline" />}
+              right={props => (
+                <Switch
+                  {...props}
+                  value={true}
+                  color={colors.green}
+                  onValueChange={() => { }}
+                  style={{ height: 20, borderBlockColor: "red" }}
+                />
+              )}
+
+            />
+
+            <List.Item
+              onPress={() => { }}
+              title="Compartilhar"
+              style={{ marginBottom: 10 }}
+              rippleColor={colors.yellow11}
+              right={props => <List.Icon {...props} icon="chevron-right" />}
+              left={props => (
+                <List.Icon
+                  {...props}
+                  icon={
+                    Platform.select({
+                      android: "share-variant-outline",
+                      ios: "tray-arrow-up"
+                    }) || "share-variant-outline"
+                  }
+                />
+              )}
+            />
+
+            <List.Item
+              title="Sobre"
+              onPress={() => { }}
+              style={{ marginBottom: 10 }}
+              rippleColor={colors.purple11}
+              right={props => <List.Icon {...props} icon="chevron-right" />}
+              left={props => <List.Icon {...props} icon="information-outline" />}
+            />
+
+            <List.Item
+              title="Sair"
+              onPress={() => { }}
+              rippleColor={colors.red11}
+              titleStyle={{ color: colors.red }}
+              left={props => <List.Icon {...props} color={colors.red} icon="logout" />}
+              right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
+            />
+
+            <View style={{ alignItems: "center", marginVertical: 50 }}>
+              <Image
+                source={require("../../../assets/images/Logo.png")}
+                style={{
+                  width: 90,
+                  height: 90,
+                }}
+              />
+
+              <Text fs={14} style={{ marginTop: 10 }}>Versão: {"1.0.0"}</Text>
+            </View>
+
+            <List.Item
+              onPress={() => { }}
+              title="Apagar conta"
+              rippleColor={colors.red11}
+              titleStyle={{ color: colors.red }}
+              right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
+              left={props => <List.Icon {...props} color={colors.red} icon="trash-can-outline" />}
+            />
+
+          </List.Section>
+        </View>
+      </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+
+  avatarView: {
+    marginVertical: 30,
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+  }
+
+});
