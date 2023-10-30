@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
+import { router } from "expo-router";
 
 const collection = [
   "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png",
@@ -61,6 +62,7 @@ export default function Profile() {
                 size={30}
                 icon="cog-outline"
                 iconColor={colors.color1}
+                onPress={() => router.push("/stack/profileSettings")}
               />
             </View>
 

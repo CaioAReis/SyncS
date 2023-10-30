@@ -22,7 +22,7 @@ export function Header({ title, goBack }: HeaderProps) {
     }}>
 
       <IconButton
-        size={30}
+        size={25}
         icon="arrow-left"
         style={{ margin: 0 }}
         iconColor={colors.color}
