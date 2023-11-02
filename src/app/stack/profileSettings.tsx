@@ -3,7 +3,7 @@ import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
 import { useAppTheme } from "../../theme";
-import { Header, Text } from "../../components";
+import { Header, LogoutButton, Text } from "../../components";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
@@ -91,14 +91,16 @@ export default function ProfileSettings() {
               left={props => <List.Icon {...props} icon="information-outline" />}
             />
 
-            <List.Item
+            <LogoutButton />
+
+            {/* <List.Item
               title="Sair"
               onPress={() => { }}
               rippleColor={colors.red11}
               titleStyle={{ color: colors.red }}
               left={props => <List.Icon {...props} color={colors.red} icon="logout" />}
               right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
-            />
+            /> */}
 
             <View style={{ alignItems: "center", marginVertical: 50 }}>
               <Image
