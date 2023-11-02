@@ -3,7 +3,7 @@ import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
 import { useAppTheme } from "../../theme";
-import { DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
+import { AboutButton, DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
@@ -82,14 +82,7 @@ export default function ProfileSettings() {
               )}
             />
 
-            <List.Item
-              title="Sobre"
-              onPress={() => { }}
-              style={{ marginBottom: 10 }}
-              rippleColor={colors.purple11}
-              right={props => <List.Icon {...props} icon="chevron-right" />}
-              left={props => <List.Icon {...props} icon="information-outline" />}
-            />
+            <AboutButton />
 
             <LogoutButton />
 
