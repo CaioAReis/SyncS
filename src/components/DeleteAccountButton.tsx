@@ -6,24 +6,27 @@ import { Text } from "./Text";
 import { router } from "expo-router";
 import { useAppTheme } from "../theme";
 
-export function LogoutButton() {
+export function DeleteAccountButton() {
   const { colors } = useAppTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  const onLogout = () => {
+  const onDeleteAccount = () => {
     //  Limpar cache
+
+    //  APAGAR CONTA DO USUÁRIO
+
     router.push("/signIn");
   };
 
   return (
-    <View>
+    <>
       <List.Item
-        title="Sair"
+        title="Apagar conta"
         rippleColor={colors.red11}
         onPress={() => setIsOpen(true)}
         titleStyle={{ color: colors.red }}
-        left={props => <List.Icon {...props} color={colors.red} icon="logout" />}
         right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
+        left={props => <List.Icon {...props} color={colors.red} icon="trash-can-outline" />}
       />
 
       <Portal>
@@ -31,12 +34,12 @@ export function LogoutButton() {
 
           <View style={{ padding: 15, width: "75%", borderRadius: 10, alignSelf: "center", backgroundColor: colors.background }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-              <Text fw="MEDIUM">Sair da conta?</Text>
-              <IconButton icon="close" onPress={() => setIsOpen(false)}/>
+              <Text fw="MEDIUM">Apagar conta?</Text>
+              <IconButton icon="close" onPress={() => setIsOpen(false)} />
             </View>
 
             <Text fs={16} style={{ color: colors.color1 }}>
-              Você realmente deseja sair da sua conta?
+              Você realmente deseja apagar sua conta?
             </Text>
 
             <View style={{ alignItems: "flex-end", marginTop: 20 }}>
@@ -52,16 +55,16 @@ export function LogoutButton() {
 
                 <Button
                   mode="contained"
-                  onPress={onLogout}
                   buttonColor={colors.red}
+                  onPress={onDeleteAccount}
                 >
-                  Sair
+                  APAGAR
                 </Button>
               </View>
             </View>
           </View>
         </Modal>
       </Portal>
-    </View>
+    </>
   );
 }

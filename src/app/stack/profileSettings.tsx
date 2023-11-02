@@ -3,7 +3,7 @@ import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
 import { useAppTheme } from "../../theme";
-import { Header, LogoutButton, Text } from "../../components";
+import { DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
@@ -93,15 +93,6 @@ export default function ProfileSettings() {
 
             <LogoutButton />
 
-            {/* <List.Item
-              title="Sair"
-              onPress={() => { }}
-              rippleColor={colors.red11}
-              titleStyle={{ color: colors.red }}
-              left={props => <List.Icon {...props} color={colors.red} icon="logout" />}
-              right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
-            /> */}
-
             <View style={{ alignItems: "center", marginVertical: 50 }}>
               <Image
                 source={require("../../../assets/images/Logo.png")}
@@ -114,14 +105,7 @@ export default function ProfileSettings() {
               <Text fs={14} style={{ marginTop: 10 }}>Versão: {"1.0.0"}</Text>
             </View>
 
-            <List.Item
-              onPress={() => { }}
-              title="Apagar conta"
-              rippleColor={colors.red11}
-              titleStyle={{ color: colors.red }}
-              right={props => <List.Icon {...props} color={colors.red} icon="chevron-right" />}
-              left={props => <List.Icon {...props} color={colors.red} icon="trash-can-outline" />}
-            />
+            <DeleteAccountButton />
 
           </List.Section>
         </View>

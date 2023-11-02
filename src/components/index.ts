@@ -7,8 +7,9 @@ import { HomeButton } from "./HomeButton";
 import { Achievement } from "./Achievement";
 import { LogoutButton } from "./LogoutButton";
 import { CollectionItem } from "./CollectionItem";
+import { DeleteAccountButton } from "./DeleteAccountButton";
 
 export {
   Text, Header, TabButton, Banners, HomeButton, ExpCard, CollectionItem, Achievement, 
-  LogoutButton,
+  LogoutButton, DeleteAccountButton,
 };
