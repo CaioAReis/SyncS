@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, View } from "react-native";
-import { IconButton, List, Modal, Portal } from "react-native-paper";
+import { Button, IconButton, List, Modal, Portal } from "react-native-paper";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
@@ -48,6 +48,16 @@ export function AboutButton() {
                 leap into electronic typesetting.
               </Text>
 
+              <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "flex-end" }}>
+                <Button
+                  mode="text"
+                  textColor={colors.color1}
+                  style={{ marginRight: 10 }}
+                  onPress={() => setIsOpen(false)}
+                >
+                  Fechar
+                </Button>
+              </View>
             </View>
           </View>
         </Modal>

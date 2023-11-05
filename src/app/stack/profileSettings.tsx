@@ -22,7 +22,7 @@ export default function ProfileSettings() {
           <View style={{ flex: 1, marginHorizontal: 12 }}>
             <Text fw="SEMIB" fs={18} lh={24}>Caio Almeida</Text>
 
-            <Link href={"/home"} asChild>
+            <Link href={"stack/editProfile"} asChild>
               <TouchableRipple
                 rippleColor={colors.blue}
                 style={{ marginTop: 4, flexDirection: "row", alignItems: "center" }}

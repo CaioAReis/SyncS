@@ -10,10 +10,10 @@ export default function StackApp() {
         options={{ title: "Configurações de perfil" }}
       />
 
-      {/* <Stack.Screen
-        name="settings"
-        options={{ title: "Configurações" }}
-      /> */}
+      <Stack.Screen
+        name="editProfile"
+        options={{ title: "Editar perfil" }}
+      />
 
     </Stack>
   );
