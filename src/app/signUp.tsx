@@ -10,6 +10,7 @@ import { regexValidations } from "../utils/regexValidations";
 interface SignUpData {
   name: string,
   email: string,
+  nickname: string,
   password: string,
   confirmPass: string,
 }
@@ -21,6 +22,7 @@ export default function SignUp() {
     defaultValues: {
       name: "",
       email: "",
+      nickname: "",
       password: "",
       confirmPass: "",
     },
@@ -66,6 +68,33 @@ export default function SignUp() {
           {errors.name && (
             <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
               {errors.name.message}
+            </Text>
+          )}
+
+          <Controller
+            name="nickname"
+            control={control}
+            rules={{
+              required: "Nome é obrigatório",
+              pattern: { value: regexValidations.NAME, message: "Nome inválido" }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                value={value}
+                mode="outlined"
+                onBlur={onBlur}
+                label="Nome de usuário"
+                onChangeText={onChange}
+                outlineColor={colors.suface}
+                error={Boolean(errors.nickname)}
+                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                left={<TextInput.Icon icon="account-box-outline" color={errors.nickname ? colors.error : colors.primary9} />}
+              />
+            )}
+          />
+          {errors.nickname && (
+            <Text fs={12} fw="SEMIB" style={{ marginLeft: 10, color: colors.error }}>
+              {errors.nickname.message}
             </Text>
           )}
 
