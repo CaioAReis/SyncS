@@ -85,7 +85,7 @@ export default function Profile() {
                 icon="ship-wheel"
                 bgColor={colors.yellow11}
                 circleColor={colors.yellow}
-                iconColor={colors.background1}
+                iconColor={colors.background}
               />
 
               <ExpCard
@@ -95,7 +95,7 @@ export default function Profile() {
                 icon="sword-cross"
                 bgColor={colors.blue11}
                 circleColor={colors.blue}
-                iconColor={colors.background1}
+                iconColor={colors.background}
               />
 
               <ExpCard
@@ -105,7 +105,7 @@ export default function Profile() {
                 size={width / 6}
                 bgColor={colors.green11}
                 circleColor={colors.green}
-                iconColor={colors.background1}
+                iconColor={colors.background}
               />
             </View>
 
