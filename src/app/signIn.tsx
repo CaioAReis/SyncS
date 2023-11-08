@@ -51,11 +51,12 @@ export default function SignIn() {
                 value={value}
                 mode="outlined"
                 onBlur={onBlur}
+                autoComplete="email"
                 onChangeText={onChange}
                 keyboardType="email-address"
-                outlineColor={colors.suface}
                 error={Boolean(errors.email)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="email-outline" color={errors.email ? colors.error : colors.primary9} />}
               />
             )}
@@ -81,9 +82,9 @@ export default function SignIn() {
                 mode="outlined"
                 onBlur={onBlur}
                 onChangeText={onChange}
-                outlineColor={colors.surface}
                 error={Boolean(errors.password)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="lock-outline" color={errors.password ? colors.error : colors.primary9} />}
 
               />

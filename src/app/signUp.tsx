@@ -59,8 +59,8 @@ export default function SignUp() {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 error={Boolean(errors.name)}
-                outlineColor={colors.suface}
-                style={{ backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="account-outline" color={errors.name ? colors.error : colors.primary9} />}
               />
             )}
@@ -85,9 +85,9 @@ export default function SignUp() {
                 onBlur={onBlur}
                 label="Nome de usuário"
                 onChangeText={onChange}
-                outlineColor={colors.suface}
                 error={Boolean(errors.nickname)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="account-box-outline" color={errors.nickname ? colors.error : colors.primary9} />}
               />
             )}
@@ -111,11 +111,12 @@ export default function SignUp() {
                 value={value}
                 mode="outlined"
                 onBlur={onBlur}
+                autoComplete="email"
                 onChangeText={onChange}
                 keyboardType="email-address"
-                outlineColor={colors.suface}
                 error={Boolean(errors.email)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="email-outline" color={errors.name ? colors.error : colors.primary9} />}
               />
             )}
@@ -141,9 +142,9 @@ export default function SignUp() {
                 mode="outlined"
                 onBlur={onBlur}
                 onChangeText={onChange}
-                outlineColor={colors.suface}
                 error={Boolean(errors.password)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                outlineColor={colors.background7}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="lock-outline" color={errors.name ? colors.error : colors.primary9} />}
               />
             )}
@@ -173,9 +174,9 @@ export default function SignUp() {
                 onBlur={onBlur}
                 label="Confirmar senha"
                 onChangeText={onChange}
-                outlineColor={colors.suface}
+                outlineColor={colors.background7}
                 error={Boolean(errors.confirmPass)}
-                style={{ marginTop: 10, backgroundColor: colors.suface }}
+                style={{ marginTop: 10, backgroundColor: colors.background2 }}
                 left={<TextInput.Icon icon="lock-check-outline" color={errors.name ? colors.error : colors.primary9} />}
               />
             )}
