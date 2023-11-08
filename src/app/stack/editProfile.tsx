@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import { Header, Text } from "../../components";
-import { regexValidations } from "../../utils/regexValidations";
+import { masks, regexValidations } from "../../utils/regexValidations";
 
 interface UserData {
   name: string,
@@ -37,7 +37,7 @@ export default function EditProfile() {
       <ScrollView>
         <Header title="Editar Perfil" />
 
-        <View style={{ marginTop: 60, paddingBottom: 30, paddingHorizontal: 10, borderRadius: 10, backgroundColor: colors.background4, marginHorizontal: 10 }}>
+        <View style={{ marginTop: 60, paddingBottom: 30, paddingHorizontal: 10, borderRadius: 10, backgroundColor: colors.color12, marginHorizontal: 10 }}>
           <View style={{ alignItems: "center" }}>
             <Avatar.Image
               size={120}
@@ -62,9 +62,13 @@ export default function EditProfile() {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   error={Boolean(errors.name)}
-                  outlineColor={colors.suface}
-                  style={{ backgroundColor: colors.suface }}
-                  left={<TextInput.Icon icon="account-outline" color={errors.name ? colors.error : colors.primary9} />}
+                  outlineColor={colors.background7}
+                  left={(
+                    <TextInput.Icon
+                      icon="account-outline"
+                      color={errors.name ? colors.error : colors.primary9}
+                    />
+                  )}
                 />
               )}
             />
@@ -88,10 +92,15 @@ export default function EditProfile() {
                   onBlur={onBlur}
                   label="Nome de usuário"
                   onChangeText={onChange}
-                  outlineColor={colors.suface}
+                  style={{ marginTop: 10 }}
                   error={Boolean(errors.nickname)}
-                  style={{ marginTop: 10, backgroundColor: colors.suface }}
-                  left={<TextInput.Icon icon="account-box-outline" color={errors.nickname ? colors.error : colors.primary9} />}
+                  outlineColor={colors.background7}
+                  left={(
+                    <TextInput.Icon
+                      icon="account-box-outline"
+                      color={errors.nickname ? colors.error : colors.primary9}
+                    />
+                  )}
                 />
               )}
             />
@@ -114,12 +123,18 @@ export default function EditProfile() {
                   value={value}
                   mode="outlined"
                   onBlur={onBlur}
+                  autoComplete="email"
                   onChangeText={onChange}
+                  style={{ marginTop: 10 }}
                   keyboardType="email-address"
-                  outlineColor={colors.suface}
                   error={Boolean(errors.email)}
-                  style={{ marginTop: 10, backgroundColor: colors.suface }}
-                  left={<TextInput.Icon icon="email-outline" color={errors.name ? colors.error : colors.primary9} />}
+                  outlineColor={colors.background7}
+                  left={(
+                    <TextInput.Icon
+                      icon="email-outline"
+                      color={errors.name ? colors.error : colors.primary9}
+                    />
+                  )}
                 />
               )}
             />
@@ -134,19 +149,28 @@ export default function EditProfile() {
               control={control}
               rules={{
                 required: "Nome é obrigatório",
-                pattern: { value: regexValidations.NAME, message: "Nome inválido" }
+                pattern: { value: regexValidations.PHONE, message: "Telefone inválido" }
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   value={value}
+                  maxLength={15}
                   mode="outlined"
                   onBlur={onBlur}
                   label="Telefone"
-                  onChangeText={onChange}
-                  outlineColor={colors.suface}
+                  autoComplete="tel"
+                  keyboardType="numeric"
+                  style={{ marginTop: 10 }}
+                  placeholder="DDD + número"
                   error={Boolean(errors.phone)}
-                  style={{ marginTop: 10, backgroundColor: colors.suface }}
-                  left={<TextInput.Icon icon="phone-dial-outline" color={errors.phone ? colors.error : colors.primary9} />}
+                  outlineColor={colors.background7}
+                  onChangeText={e => onChange(masks.phone(e))}
+                  left={(
+                    <TextInput.Icon
+                      icon="phone-dial-outline"
+                      color={errors.phone ? colors.error : colors.primary9}
+                    />
+                  )}
                 />
               )}
             />
@@ -161,19 +185,27 @@ export default function EditProfile() {
               control={control}
               rules={{
                 required: "Nome é obrigatório",
-                pattern: { value: regexValidations.NAME, message: "Nome inválido" }
+                pattern: { value: regexValidations.DATE, message: "Data inválida" },
+                minLength: { value: 10, message: "Data inválida, preencha corretamente." },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  value={value}
                   mode="outlined"
                   onBlur={onBlur}
+                  maxLength={10}
+                  keyboardType="numeric"
                   onChangeText={onChange}
+                  value={masks.date(value)}
+                  style={{ marginTop: 10 }}
                   label="Data de Nascimento"
-                  outlineColor={colors.suface}
+                  outlineColor={colors.background7}
                   error={Boolean(errors.birthDate)}
-                  style={{ marginTop: 10, backgroundColor: colors.suface }}
-                  left={<TextInput.Icon icon="calendar" color={errors.birthDate ? colors.error : colors.primary9} />}
+                  left={(
+                    <TextInput.Icon
+                      icon="calendar"
+                      color={errors.birthDate ? colors.error : colors.primary9}
+                    />
+                  )}
                 />
               )}
             />
