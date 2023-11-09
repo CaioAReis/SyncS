@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import { Header, Text } from "../../components";
@@ -37,7 +37,7 @@ export default function EditProfile() {
       <ScrollView>
         <Header title="Editar Perfil" />
 
-        <View style={{ marginTop: 60, paddingBottom: 30, paddingHorizontal: 10, borderRadius: 10, backgroundColor: colors.color12, marginHorizontal: 10 }}>
+        <View style={{ ...styles.container, backgroundColor: colors.color12 }}>
           <View style={{ alignItems: "center" }}>
             <Avatar.Image
               size={120}
@@ -82,7 +82,7 @@ export default function EditProfile() {
               name="nickname"
               control={control}
               rules={{
-                required: "Nome é obrigatório",
+                required: "Nome de usuário é obrigatório",
                 pattern: { value: regexValidations.NAME, message: "Nome inválido" }
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -148,7 +148,6 @@ export default function EditProfile() {
               name="phone"
               control={control}
               rules={{
-                required: "Nome é obrigatório",
                 pattern: { value: regexValidations.PHONE, message: "Telefone inválido" }
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -184,7 +183,6 @@ export default function EditProfile() {
               name="birthDate"
               control={control}
               rules={{
-                required: "Nome é obrigatório",
                 pattern: { value: regexValidations.DATE, message: "Data inválida" },
                 minLength: { value: 10, message: "Data inválida, preencha corretamente." },
               }}
@@ -229,3 +227,15 @@ export default function EditProfile() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+
+  container: {
+    marginTop: 60,
+    borderRadius: 10,
+    paddingBottom: 30,
+    marginHorizontal: 15,
+    paddingHorizontal: 10,
+  }
+
+});
