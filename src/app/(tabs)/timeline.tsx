@@ -119,13 +119,17 @@ export default function Timeline() {
 
         //  Title timeline
         renderSectionHeader={({ section }) => (
-          <Text
-            fs={28}
-            fw="BOLD"
-            style={{ marginHorizontal: 20, marginVertical: 10 }}
-          >
-            {section?.year}
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+              fs={28}
+              fw="BOLD"
+              style={{ marginHorizontal: 20, marginVertical: 10 }}
+            >
+              {section?.year}
+            </Text>
+
+            <View style={{ height: 1, flex: 1, backgroundColor: colors.background7 }} />
+          </View>
         )}
 
         //  Card Timeline
