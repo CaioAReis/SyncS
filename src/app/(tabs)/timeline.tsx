@@ -1,14 +1,14 @@
 import { SectionList, View } from "react-native";
-import { Text } from "../../components";
+import { Text, TimelineCard } from "../../components";
 import { useAppTheme } from "../../theme";
 
-interface TimelineItem {
+export interface TimelineItem {
   _id: string,
   year: number,
   data: TimelinePeriod[],
 }
 
-interface TimelinePeriod {
+export interface TimelinePeriod {
   _id: string,
   body: string,
   title: string,
@@ -129,11 +129,14 @@ export default function Timeline() {
         )}
 
         //  Card Timeline
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.title}</Text>
-          </View>
+        renderItem={({ item, section, index }) => (
+          <TimelineCard
+            timelinePeriod={item}
+            isLast={section?.data?.length - 1 === index}
+          />
         )}
+
+        ListFooterComponent={<View style={{ marginVertical: 30 }} />}
       />
 
     </View>

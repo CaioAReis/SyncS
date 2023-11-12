@@ -13,6 +13,8 @@ export enum FontWeight {
 interface TextProps {
   children?: React.ReactNode,
 
+  color?: string,
+
   fs?: number,
   fontSize?: number,
 
@@ -32,6 +34,7 @@ interface TextProps {
 
 export function Text({
   style,
+  color,
   children,
   fs, fontSize,
   numberOfLines,
@@ -44,6 +47,7 @@ export function Text({
     <PaperText
       numberOfLines={numberOfLines}
       style={{
+        color: color,
         fontSize: fs || fontSize || 20,
         textAlign: ta || textAlign || "left",
         fontFamily: FontWeight[fw || fontWeight || "REGULAR"],
