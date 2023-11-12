@@ -1,6 +1,7 @@
 import React from "react";
 import { TextStyle } from "react-native";
 import { Text as PaperText } from "react-native-paper";
+import { useAppTheme } from "../theme";
 
 export enum FontWeight {
   LIGHT = "Nunito_300Light",
@@ -43,11 +44,13 @@ export function Text({
   lh, lineHeight,
 }: TextProps) {
 
+  const { colors } = useAppTheme();
+
   return (
     <PaperText
       numberOfLines={numberOfLines}
       style={{
-        color: color,
+        color: color || colors.color,
         fontSize: fs || fontSize || 20,
         textAlign: ta || textAlign || "left",
         fontFamily: FontWeight[fw || fontWeight || "REGULAR"],

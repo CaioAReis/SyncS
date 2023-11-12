@@ -35,7 +35,7 @@ export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
             {timelinePeriod?.title}
           </Text>
 
-          <Text color={colors.color1} fs={14} lh={18} ta="justify">
+          <Text color={colors.color6} fs={14} lh={18} ta="justify">
             {timelinePeriod?.body}
           </Text>
         </View>
@@ -49,17 +49,17 @@ const styles = StyleSheet.create({
   line: {
     top: 2,
     width: 3,
-    left: 28,
+    left: 30,
     height: "100%",
     borderRadius: 20,
     position: "absolute",
   },
 
   circle: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     borderWidth: 3,
-    borderRadius: 10,
+    borderRadius: 15,
   },
 
   content: {
