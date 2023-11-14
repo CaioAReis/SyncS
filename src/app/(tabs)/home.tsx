@@ -18,7 +18,7 @@ export default function Home() {
             </Text>
           </View>
 
-          <Avatar.Image size={70} source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }} />
+          <Avatar.Image size={70} source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }} />
         </View>
 
         <Banners

@@ -42,7 +42,7 @@ export default function EditProfile() {
             <Avatar.Image
               size={120}
               style={{ bottom: 30 }}
-              source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }}
+              source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
             />
           </View>
 

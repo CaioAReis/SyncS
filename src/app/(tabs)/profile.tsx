@@ -69,7 +69,7 @@ export default function Profile() {
             <View style={{ alignItems: "center", paddingHorizontal: 20 }}>
               <Avatar.Image
                 size={130}
-                source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }}
+                source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
               />
 
               <Text fw="BOLD" ta="center" fs={25} style={{ marginVertical: 15, width: "100%" }}>

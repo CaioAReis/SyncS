@@ -16,7 +16,7 @@ export default function ProfileSettings() {
         <View style={styles.avatarView}>
           <Avatar.Image
             size={90}
-            source={{ uri: "https://api.dicebear.com/7.x/thumbs/svg?seed=Felix" }}
+            source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
           />
 
           <View style={{ flex: 1, marginHorizontal: 12 }}>
