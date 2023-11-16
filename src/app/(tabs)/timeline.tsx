@@ -24,7 +24,11 @@ const DATA: TimelineItem[] = [
     data: [
       {
         _id: "1",
-        galery: [],
+        galery: [
+          "https://humulos.com/digimon/images/art/metalgaruru.jpg",
+          "https://humulos.com/digimon/images/art/metalgrey_am.jpg",
+          "https://humulos.com/digimon/images/art/weregaruru_s.jpg",
+        ],
         when: { day: 1, month: "Agosto" },
         title: "1º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -32,7 +36,16 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "2",
-        galery: [],
+        galery: [
+          "https://humulos.com/digimon/images/art/chaosdra.jpg",
+          "https://humulos.com/digimon/images/art/ryuda.jpg",
+          "https://humulos.com/digimon/images/art/ouryu.jpg",
+          "https://humulos.com/digimon/images/art/duke_x.jpg",
+          "https://humulos.com/digimon/images/art/galgo.jpg",
+          "https://humulos.com/digimon/images/art/cherubi_vice.jpg",
+          "https://humulos.com/digimon/images/art/tao.jpg",
+          "https://humulos.com/digimon/images/art/kaisergrey.jpg",
+        ],
         when: { day: 1, month: "Agosto" },
         title: "2º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",

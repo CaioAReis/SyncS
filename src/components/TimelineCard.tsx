@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
@@ -8,6 +8,41 @@ interface TimelineCardProps {
   isLast?: boolean,
   timelinePeriod: TimelinePeriod,
 }
+
+interface RenderImagesProps {
+  galery: string[]
+}
+
+const RenderImages = ({ galery }: RenderImagesProps) => {
+  const { colors } = useAppTheme();
+  const { width } = useWindowDimensions();
+  const images = galery?.length > 5 ? [galery[0], galery[1], galery[2], galery[3]] : galery;
+
+  return (
+    images?.length ? (
+      <View style={{ marginTop: 8, flexWrap: "wrap", flexDirection: "row", justifyContent: "space-around" }}>
+        {images?.map((image, i) => (
+          <Image
+            key={i}
+            source={{ uri: image }}
+            style={{
+              borderRadius: 8,
+              width: width / 7,
+              height: width / 7,
+              backgroundColor: colors.color1,
+            }}
+          />
+        ))}
+
+        {galery?.length > 5 ? (
+          <View style={{ alignItems: "center", justifyContent: "center", borderRadius: 8, width: width / 7, height: width / 7, backgroundColor: colors.color, }}>
+            <Text color={colors.background}>+{galery.length - images.length}</Text>
+          </View>
+        ) : null}
+      </View>
+    ) : null
+  );
+};
 
 export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
   const { colors } = useAppTheme();
@@ -38,6 +73,8 @@ export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
           <Text color={colors.color6} fs={14} lh={18} ta="justify">
             {timelinePeriod?.body}
           </Text>
+
+          <RenderImages galery={timelinePeriod.galery!} />
         </View>
       </View>
     </>
