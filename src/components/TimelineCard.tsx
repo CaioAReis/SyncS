@@ -1,12 +1,12 @@
+import { useState } from "react";
+import PagerView from "react-native-pager-view";
+import { IconButton, Modal, Portal } from "react-native-paper";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Image, Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
 import { TimelinePeriod } from "../app/(tabs)/timeline";
-import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { useState } from "react";
-import { Modal, Portal } from "react-native-paper";
-import PagerView from "react-native-pager-view";
 
 interface TimelineCardProps {
   isLast?: boolean,
@@ -15,50 +15,91 @@ interface TimelineCardProps {
 
 interface RenderImagesProps {
   galery: string[],
-  setIsOpenZoom: (value: boolean) => void,
 }
 
-const RenderImages = ({ galery, setIsOpenZoom }: RenderImagesProps) => {
+const RenderImages = ({ galery }: RenderImagesProps) => {
   const { colors } = useAppTheme();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const [initialImage, setInitialImage] = useState(0);
+  const [isOpenZoom, setIsOpenZoom] = useState(false);
   const images = galery?.length > 5 ? [galery[0], galery[1], galery[2], galery[3]] : galery;
 
-  return (
-    images?.length ? (
-      <View style={{ marginTop: 8, flexWrap: "wrap", flexDirection: "row", justifyContent: "space-around" }}>
-        {images?.map((image, i) => (
-          <Pressable
-            key={i}
-            onPress={() => setIsOpenZoom(true)}
-            style={{
-              borderRadius: 8,
-              width: width / 7,
-              height: width / 7,
-              overflow: "hidden",
-              backgroundColor: colors.color1,
-            }}
-          >
-            <Image
-              source={{ uri: image }}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </Pressable>
-        ))}
+  const sizeMiniImage = width / 7;
 
-        {galery?.length > 5 ? (
-          <View style={{ alignItems: "center", justifyContent: "center", borderRadius: 8, width: width / 7, height: width / 7, backgroundColor: colors.color, }}>
-            <Text color={colors.background}>+{galery.length - images.length}</Text>
-          </View>
-        ) : null}
-      </View>
-    ) : null
+  return (
+    <>
+      {images?.length ? (
+        <View style={styles.listView}>
+          {images?.map((image, i) => (
+            <Pressable
+              key={i}
+              onPress={() => {
+                setInitialImage(i);
+                setIsOpenZoom(true);
+              }}
+
+              style={{
+                width: sizeMiniImage,
+                height: sizeMiniImage,
+                backgroundColor: colors.color1,
+                ...styles.miniImage,
+              }}
+            >
+              <Image source={{ uri: image }} style={{ width: "100%", height: "100%" }} />
+            </Pressable>
+          ))}
+
+          {galery?.length > 5 ? (
+            <Pressable
+              onPress={() => {
+                setInitialImage(4);
+                setIsOpenZoom(true);
+              }}
+              
+              style={{
+                width: width / 7,
+                height: width / 7,
+                backgroundColor: colors.color,
+                ...styles.miniImage,
+              }}
+            >
+              <Text color={colors.background}>
+                +{galery.length - images.length}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      ) : null}
+
+      <Portal>
+        <Modal visible={isOpenZoom}>
+
+          <PagerView initialPage={initialImage} style={{ width: width, height: height }}>
+            {galery?.map((image, i) => (
+              <ImageZoom
+                key={i}
+                src={image}
+                style={{ width: width, height: height }}
+              />
+            ))}
+          </PagerView>
+
+          <IconButton
+            size={30}
+            icon="close"
+            iconColor={colors.color}
+            onPress={() => setIsOpenZoom(false)}
+            style={{ position: "absolute", top: 20, right: 20, backgroundColor: colors.red12 }}
+          />
+
+        </Modal>
+      </Portal>
+    </>
   );
 };
 
 export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
   const { colors } = useAppTheme();
-  const [isOpenZoom, setIsOpenZoom] = useState(false);
-  const { width, height } = useWindowDimensions();
 
   return (
     <>
@@ -87,29 +128,9 @@ export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
             {timelinePeriod?.body}
           </Text>
 
-          <RenderImages setIsOpenZoom={setIsOpenZoom} galery={timelinePeriod.galery!} />
+          <RenderImages galery={timelinePeriod.galery!} />
         </View>
       </View>
-
-      <Portal>
-        <Modal visible={isOpenZoom}>
-
-          <PagerView style={{ width: width, height: height, alignItems: "center", justifyContent: "center" }}>
-
-            <ImageZoom
-              style={{ width: width, height: width }}
-              src="https://humulos.com/digimon/images/art/tao.jpg"
-            />
-
-            <ImageZoom
-              style={{ width: width, height: width }}
-              src="https://humulos.com/digimon/images/art/tao.jpg"
-            />
-
-          </PagerView>
-
-        </Modal>
-      </Portal>
     </>
   );
 }
@@ -137,6 +158,20 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     borderRadius: 10,
     marginVertical: 10,
-  }
+  },
+
+  listView: {
+    marginTop: 8,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+
+  miniImage: {
+    borderRadius: 8,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
 });

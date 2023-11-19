@@ -133,7 +133,7 @@ export default function Timeline() {
 
         //  Title timeline
         renderSectionHeader={({ section }) => (
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: colors.background }}>
             <Text
               fs={28}
               fw="BOLD"
