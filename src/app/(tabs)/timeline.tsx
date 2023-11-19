@@ -1,6 +1,7 @@
 import { SectionList, View } from "react-native";
-import { Text, TimelineCard } from "../../components";
+
 import { useAppTheme } from "../../theme";
+import { Text, TimelineCard } from "../../components";
 
 export interface TimelineItem {
   _id: string,

@@ -1,8 +1,12 @@
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Image, Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
 import { TimelinePeriod } from "../app/(tabs)/timeline";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import { useState } from "react";
+import { Modal, Portal } from "react-native-paper";
+import PagerView from "react-native-pager-view";
 
 interface TimelineCardProps {
   isLast?: boolean,
@@ -10,10 +14,11 @@ interface TimelineCardProps {
 }
 
 interface RenderImagesProps {
-  galery: string[]
+  galery: string[],
+  setIsOpenZoom: (value: boolean) => void,
 }
 
-const RenderImages = ({ galery }: RenderImagesProps) => {
+const RenderImages = ({ galery, setIsOpenZoom }: RenderImagesProps) => {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const images = galery?.length > 5 ? [galery[0], galery[1], galery[2], galery[3]] : galery;
@@ -22,16 +27,22 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
     images?.length ? (
       <View style={{ marginTop: 8, flexWrap: "wrap", flexDirection: "row", justifyContent: "space-around" }}>
         {images?.map((image, i) => (
-          <Image
+          <Pressable
             key={i}
-            source={{ uri: image }}
+            onPress={() => setIsOpenZoom(true)}
             style={{
               borderRadius: 8,
               width: width / 7,
               height: width / 7,
+              overflow: "hidden",
               backgroundColor: colors.color1,
             }}
-          />
+          >
+            <Image
+              source={{ uri: image }}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </Pressable>
         ))}
 
         {galery?.length > 5 ? (
@@ -46,6 +57,8 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
 
 export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
   const { colors } = useAppTheme();
+  const [isOpenZoom, setIsOpenZoom] = useState(false);
+  const { width, height } = useWindowDimensions();
 
   return (
     <>
@@ -74,9 +87,29 @@ export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
             {timelinePeriod?.body}
           </Text>
 
-          <RenderImages galery={timelinePeriod.galery!} />
+          <RenderImages setIsOpenZoom={setIsOpenZoom} galery={timelinePeriod.galery!} />
         </View>
       </View>
+
+      <Portal>
+        <Modal visible={isOpenZoom}>
+
+          <PagerView style={{ width: width, height: height, alignItems: "center", justifyContent: "center" }}>
+
+            <ImageZoom
+              style={{ width: width, height: width }}
+              src="https://humulos.com/digimon/images/art/tao.jpg"
+            />
+
+            <ImageZoom
+              style={{ width: width, height: width }}
+              src="https://humulos.com/digimon/images/art/tao.jpg"
+            />
+
+          </PagerView>
+
+        </Modal>
+      </Portal>
     </>
   );
 }
