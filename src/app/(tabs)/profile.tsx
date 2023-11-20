@@ -25,18 +25,18 @@ const collection = [
 ];
 
 const achievements = [
-  { _id: "1", name: "A", description: "AA", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vulpix.png", quantity: 1 },
-  { _id: "2", name: "B", description: "BB", image: "https://img.pokemondb.net/sprites/sword-shield/icon/ninetales.png", quantity: 3 },
-  { _id: "3", name: "C", description: "CC", image: "https://img.pokemondb.net/sprites/sword-shield/icon/zubat.png", quantity: 1 },
-  { _id: "4", name: "D", description: "DD", image: "https://img.pokemondb.net/sprites/sword-shield/icon/golbat.png", quantity: 1 },
-  { _id: "5", name: "E", description: "EE", image: "https://img.pokemondb.net/sprites/sword-shield/icon/oddish.png", quantity: 2 },
-  { _id: "6", name: "F", description: "FF", image: "https://img.pokemondb.net/sprites/sword-shield/icon/gloom.png", quantity: 1 },
-  { _id: "7", name: "G", description: "GG", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vileplume.png", quantity: 4 },
-  { _id: "8", name: "H", description: "HH", image: "https://img.pokemondb.net/sprites/sword-shield/icon/abra.png", quantity: 1 },
+  { _id: "1", name: "Conquista A", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vulpix.png", quantity: 1 },
+  { _id: "2", name: "Conquista B", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/ninetales.png", quantity: 3 },
+  { _id: "3", name: "Conquista C", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/zubat.png", quantity: 1 },
+  { _id: "4", name: "Conquista D", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/golbat.png", quantity: 1 },
+  { _id: "5", name: "Conquista E", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/oddish.png", quantity: 2 },
+  { _id: "6", name: "Conquista F", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/gloom.png", quantity: 1 },
+  { _id: "7", name: "Conquista G", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vileplume.png", quantity: 4 },
+  { _id: "8", name: "Conquista H", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/abra.png", quantity: 1 },
 
-  { _id: "9", name: "J", description: "JJ", image: "https://img.pokemondb.net/sprites/sword-shield/icon/kadabra.png", quantity: 1 },
-  { _id: "10", name: "K", description: "KK", image: "https://img.pokemondb.net/sprites/sword-shield/icon/alakazam.png", quantity: 1 },
-  { _id: "11", name: "L", description: "LL", image: "https://img.pokemondb.net/sprites/sword-shield/icon/tentacruel.png", quantity: 1 },
+  { _id: "9", name: "Conquista J", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/kadabra.png", quantity: 1 },
+  { _id: "10", name: "Conquista K", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/alakazam.png", quantity: 1 },
+  { _id: "11", name: "Conquista L", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/tentacruel.png", quantity: 1 },
 ];
 
 export default function Profile() {
@@ -119,7 +119,7 @@ export default function Profile() {
 
               <View style={styles.achievementList}>
                 {achievements.map(item => (
-                  <Achievement key={item?._id} achievement={item} />
+                  <Achievement size={width / 7} key={item?._id} achievement={item} />
                 ))}
               </View>
             </View>
@@ -146,8 +146,7 @@ export default function Profile() {
       />
 
       <Portal>
-        <Modal visible={isOpenZoom}>
-
+        <Modal dismissableBackButton visible={isOpenZoom} onDismiss={() => setIsOpenZoom(false)}>
           <PagerView initialPage={startZoom} style={{ width: width, height: height }}>
             {collection?.map((image, i) => (
               <ImageZoom
@@ -165,7 +164,6 @@ export default function Profile() {
             onPress={() => setIsOpenZoom(false)}
             style={{ position: "absolute", top: 20, right: 20, backgroundColor: colors.red12 }}
           />
-
         </Modal>
       </Portal>
     </View>
