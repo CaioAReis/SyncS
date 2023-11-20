@@ -55,7 +55,7 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
                 setInitialImage(4);
                 setIsOpenZoom(true);
               }}
-              
+
               style={{
                 width: width / 7,
                 height: width / 7,
@@ -72,7 +72,7 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
       ) : null}
 
       <Portal>
-        <Modal visible={isOpenZoom}>
+        <Modal dismissableBackButton visible={isOpenZoom} onDismiss={() => setIsOpenZoom(false)}>
 
           <PagerView initialPage={initialImage} style={{ width: width, height: height }}>
             {galery?.map((image, i) => (

@@ -121,7 +121,6 @@ export default function Timeline() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-
       <SectionList
         sections={DATA}
         keyExtractor={item => item?._id}
