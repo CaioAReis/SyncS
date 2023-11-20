@@ -1,10 +1,13 @@
 // import PagerView from "react-native-pager-view";
-import { Avatar, IconButton } from "react-native-paper";
+import { Avatar, IconButton, Modal, Portal } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 import { router } from "expo-router";
+import { useState } from "react";
+import PagerView from "react-native-pager-view";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 
 const collection = [
   "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png",
@@ -22,27 +25,29 @@ const collection = [
 ];
 
 const achievements = [
-  { _id: "1", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vulpix.png", quantity: 1 },
-  { _id: "2", image: "https://img.pokemondb.net/sprites/sword-shield/icon/ninetales.png", quantity: 3 },
-  { _id: "3", image: "https://img.pokemondb.net/sprites/sword-shield/icon/zubat.png", quantity: 1 },
-  { _id: "4", image: "https://img.pokemondb.net/sprites/sword-shield/icon/golbat.png", quantity: 1 },
-  { _id: "5", image: "https://img.pokemondb.net/sprites/sword-shield/icon/oddish.png", quantity: 2 },
-  { _id: "6", image: "https://img.pokemondb.net/sprites/sword-shield/icon/gloom.png", quantity: 1 },
-  { _id: "7", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vileplume.png", quantity: 4 },
-  { _id: "8", image: "https://img.pokemondb.net/sprites/sword-shield/icon/abra.png", quantity: 1 },
+  { _id: "1", name: "A", description: "AA", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vulpix.png", quantity: 1 },
+  { _id: "2", name: "B", description: "BB", image: "https://img.pokemondb.net/sprites/sword-shield/icon/ninetales.png", quantity: 3 },
+  { _id: "3", name: "C", description: "CC", image: "https://img.pokemondb.net/sprites/sword-shield/icon/zubat.png", quantity: 1 },
+  { _id: "4", name: "D", description: "DD", image: "https://img.pokemondb.net/sprites/sword-shield/icon/golbat.png", quantity: 1 },
+  { _id: "5", name: "E", description: "EE", image: "https://img.pokemondb.net/sprites/sword-shield/icon/oddish.png", quantity: 2 },
+  { _id: "6", name: "F", description: "FF", image: "https://img.pokemondb.net/sprites/sword-shield/icon/gloom.png", quantity: 1 },
+  { _id: "7", name: "G", description: "GG", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vileplume.png", quantity: 4 },
+  { _id: "8", name: "H", description: "HH", image: "https://img.pokemondb.net/sprites/sword-shield/icon/abra.png", quantity: 1 },
 
-  { _id: "9", image: "https://img.pokemondb.net/sprites/sword-shield/icon/kadabra.png", quantity: 1 },
-  { _id: "10", image: "https://img.pokemondb.net/sprites/sword-shield/icon/alakazam.png", quantity: 1 },
-  { _id: "11", image: "https://img.pokemondb.net/sprites/sword-shield/icon/tentacruel.png", quantity: 1 },
+  { _id: "9", name: "J", description: "JJ", image: "https://img.pokemondb.net/sprites/sword-shield/icon/kadabra.png", quantity: 1 },
+  { _id: "10", name: "K", description: "KK", image: "https://img.pokemondb.net/sprites/sword-shield/icon/alakazam.png", quantity: 1 },
+  { _id: "11", name: "L", description: "LL", image: "https://img.pokemondb.net/sprites/sword-shield/icon/tentacruel.png", quantity: 1 },
 ];
 
 export default function Profile() {
   const { colors } = useAppTheme();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+
+  const [startZoom, setStartZoom] = useState(0);
+  const [isOpenZoom, setIsOpenZoom] = useState(false);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-
       <FlatList
         numColumns={3}
         data={collection}
@@ -128,8 +133,41 @@ export default function Profile() {
           </>
         }
 
-        renderItem={({ item }) => <CollectionItem image={item} size={width / 3.4} />}
+        renderItem={({ item, index }) => (
+          <CollectionItem
+            image={item}
+            size={width / 3.4}
+            action={() => {
+              setStartZoom(index);
+              setIsOpenZoom(true);
+            }}
+          />
+        )}
       />
+
+      <Portal>
+        <Modal visible={isOpenZoom}>
+
+          <PagerView initialPage={startZoom} style={{ width: width, height: height }}>
+            {collection?.map((image, i) => (
+              <ImageZoom
+                key={i}
+                src={image}
+                style={{ width: width, height: height }}
+              />
+            ))}
+          </PagerView>
+
+          <IconButton
+            size={30}
+            icon="close"
+            iconColor={colors.color}
+            onPress={() => setIsOpenZoom(false)}
+            style={{ position: "absolute", top: 20, right: 20, backgroundColor: colors.red12 }}
+          />
+
+        </Modal>
+      </Portal>
     </View>
   );
 }
