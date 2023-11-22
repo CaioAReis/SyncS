@@ -9,11 +9,16 @@ export interface TimelineItem {
   data: TimelinePeriod[],
 }
 
+export interface ImageGalleryProp {
+  image: string,
+  [key: string]: string,
+}
+
 export interface TimelinePeriod {
   _id: string,
   body: string,
   title: string,
-  galery?: string[],
+  galery?: ImageGalleryProp[],
   when: { day: number, month: string },
 }
 
@@ -26,9 +31,9 @@ const DATA: TimelineItem[] = [
       {
         _id: "1",
         galery: [
-          "https://humulos.com/digimon/images/art/metalgaruru.jpg",
-          "https://humulos.com/digimon/images/art/metalgrey_am.jpg",
-          "https://humulos.com/digimon/images/art/weregaruru_s.jpg",
+          { code: "001", image: "https://humulos.com/digimon/images/art/metalgaruru.jpg" },
+          { code: "002", image: "https://humulos.com/digimon/images/art/metalgrey_am.jpg" },
+          { code: "003", image: "https://humulos.com/digimon/images/art/weregaruru_s.jpg" },
         ],
         when: { day: 1, month: "Agosto" },
         title: "1º Semana Acadêmica IFS - Campus Lagarto",
@@ -38,14 +43,14 @@ const DATA: TimelineItem[] = [
       {
         _id: "2",
         galery: [
-          "https://humulos.com/digimon/images/art/chaosdra.jpg",
-          "https://humulos.com/digimon/images/art/ryuda.jpg",
-          "https://humulos.com/digimon/images/art/ouryu.jpg",
-          "https://humulos.com/digimon/images/art/duke_x.jpg",
-          "https://humulos.com/digimon/images/art/galgo.jpg",
-          "https://humulos.com/digimon/images/art/cherubi_vice.jpg",
-          "https://humulos.com/digimon/images/art/tao.jpg",
-          "https://humulos.com/digimon/images/art/kaisergrey.jpg",
+          { code: "004", image: "https://humulos.com/digimon/images/art/chaosdra.jpg" },
+          { code: "005", image: "https://humulos.com/digimon/images/art/ryuda.jpg" },
+          { code: "006", image: "https://humulos.com/digimon/images/art/ouryu.jpg" },
+          { code: "007", image: "https://humulos.com/digimon/images/art/duke_x.jpg" },
+          { code: "008", image: "https://humulos.com/digimon/images/art/galgo.jpg" },
+          { code: "009", image: "https://humulos.com/digimon/images/art/cherubi_vice.jpg" },
+          { code: "010", image: "https://humulos.com/digimon/images/art/tao.jpg" },
+          { code: "011", image: "https://humulos.com/digimon/images/art/kaisergrey.jpg" },
         ],
         when: { day: 1, month: "Agosto" },
         title: "2º Semana Acadêmica IFS - Campus Lagarto",

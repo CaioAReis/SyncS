@@ -1,27 +1,25 @@
 // import PagerView from "react-native-pager-view";
-import { Avatar, IconButton, Modal, Portal } from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
+import { router } from "expo-router";
+import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
-import { router } from "expo-router";
-import { useState } from "react";
-import PagerView from "react-native-pager-view";
-import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 
 const collection = [
-  "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/ivysaur.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/venusaur.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/charmander.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/charmeleon.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/charizard.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/squirtle.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/wartortle.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/blastoise.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/caterpie.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/metapod.png",
-  "https://img.pokemondb.net/sprites/x-y/normal/butterfree.png",
+  { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
+  { code: "002", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/ivysaur.png" },
+  { code: "003", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/venusaur.png" },
+  { code: "004", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charmander.png" },
+  { code: "005", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charmeleon.png" },
+  { code: "006", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charizard.png" },
+  { code: "007", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/squirtle.png" },
+  { code: "008", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/wartortle.png" },
+  { code: "009", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/blastoise.png" },
+  { code: "010", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/caterpie.png" },
+  { code: "011", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/metapod.png" },
+  { code: "012", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/butterfree.png" },
 ];
 
 const achievements = [
@@ -41,10 +39,8 @@ const achievements = [
 
 export default function Profile() {
   const { colors } = useAppTheme();
-  const { width, height } = useWindowDimensions();
-
-  const [startZoom, setStartZoom] = useState(0);
-  const [isOpenZoom, setIsOpenZoom] = useState(false);
+  const { width } = useWindowDimensions();
+  const { RenderGaley, startGallery } = useGallery();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -135,37 +131,14 @@ export default function Profile() {
 
         renderItem={({ item, index }) => (
           <CollectionItem
-            image={item}
+            image={item.image}
             size={width / 3.4}
-            action={() => {
-              setStartZoom(index);
-              setIsOpenZoom(true);
-            }}
+            onPress={() => startGallery({ initialPage: index })}
           />
         )}
       />
 
-      <Portal>
-        <Modal dismissableBackButton visible={isOpenZoom} onDismiss={() => setIsOpenZoom(false)}>
-          <PagerView initialPage={startZoom} style={{ width: width, height: height }}>
-            {collection?.map((image, i) => (
-              <ImageZoom
-                key={i}
-                src={image}
-                style={{ width: width, height: height }}
-              />
-            ))}
-          </PagerView>
-
-          <IconButton
-            size={30}
-            icon="close"
-            iconColor={colors.color}
-            onPress={() => setIsOpenZoom(false)}
-            style={{ position: "absolute", top: 20, right: 20, backgroundColor: colors.red12 }}
-          />
-        </Modal>
-      </Portal>
+      <RenderGaley gallery={collection} />
     </View>
   );
 }

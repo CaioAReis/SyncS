@@ -1,12 +1,9 @@
-import { useState } from "react";
-import PagerView from "react-native-pager-view";
-import { IconButton, Modal, Portal } from "react-native-paper";
-import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Image, Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "./Text";
+import { useGallery } from "../hooks";
 import { useAppTheme } from "../theme";
-import { TimelinePeriod } from "../app/(tabs)/timeline";
+import { ImageGalleryProp, TimelinePeriod } from "../app/(tabs)/timeline";
 
 interface TimelineCardProps {
   isLast?: boolean,
@@ -14,14 +11,13 @@ interface TimelineCardProps {
 }
 
 interface RenderImagesProps {
-  galery: string[],
+  galery: ImageGalleryProp[],
 }
 
 const RenderImages = ({ galery }: RenderImagesProps) => {
   const { colors } = useAppTheme();
-  const { width, height } = useWindowDimensions();
-  const [initialImage, setInitialImage] = useState(0);
-  const [isOpenZoom, setIsOpenZoom] = useState(false);
+  const { width } = useWindowDimensions();
+  const { RenderGaley, startGallery } = useGallery();
   const images = galery?.length > 5 ? [galery[0], galery[1], galery[2], galery[3]] : galery;
 
   const sizeMiniImage = width / 7;
@@ -30,14 +26,10 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
     <>
       {images?.length ? (
         <View style={styles.listView}>
-          {images?.map((image, i) => (
+          {images?.map((item, i) => (
             <Pressable
               key={i}
-              onPress={() => {
-                setInitialImage(i);
-                setIsOpenZoom(true);
-              }}
-
+              onPress={() => startGallery({ initialPage: i })}
               style={{
                 width: sizeMiniImage,
                 height: sizeMiniImage,
@@ -45,17 +37,13 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
                 ...styles.miniImage,
               }}
             >
-              <Image source={{ uri: image }} style={{ width: "100%", height: "100%" }} />
+              <Image source={{ uri: item?.image }} style={{ width: "100%", height: "100%" }} />
             </Pressable>
           ))}
 
           {galery?.length > 5 ? (
             <Pressable
-              onPress={() => {
-                setInitialImage(4);
-                setIsOpenZoom(true);
-              }}
-
+              onPress={() => startGallery({ initialPage: 4 })}
               style={{
                 width: width / 7,
                 height: width / 7,
@@ -71,29 +59,7 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
         </View>
       ) : null}
 
-      <Portal>
-        <Modal dismissableBackButton visible={isOpenZoom} onDismiss={() => setIsOpenZoom(false)}>
-
-          <PagerView initialPage={initialImage} style={{ width: width, height: height }}>
-            {galery?.map((image, i) => (
-              <ImageZoom
-                key={i}
-                src={image}
-                style={{ width: width, height: height }}
-              />
-            ))}
-          </PagerView>
-
-          <IconButton
-            size={30}
-            icon="close"
-            iconColor={colors.color}
-            onPress={() => setIsOpenZoom(false)}
-            style={{ position: "absolute", top: 20, right: 20, backgroundColor: colors.red12 }}
-          />
-
-        </Modal>
-      </Portal>
+      <RenderGaley gallery={galery} />
     </>
   );
 };

@@ -5,14 +5,14 @@ import { useAppTheme } from "../theme";
 interface CollectionItemProps {
   size: number,
   image: string,
-  action?: () => void,
+  onPress?: () => void,
 }
 
-export function CollectionItem({ image, size, action }: CollectionItemProps) {
+export function CollectionItem({ image, size, onPress }: CollectionItemProps) {
   const { colors } = useAppTheme();
 
   return (
-    <Pressable onPress={action}>
+    <Pressable onPress={onPress}>
       <Image
         source={{ uri: image }}
         style={{
