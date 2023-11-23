@@ -1,7 +1,7 @@
-import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
+import { Image, KeyboardAvoidingView, ScrollView, View } from "react-native";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
@@ -28,16 +28,16 @@ export default function SignIn() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, justifyContent: "center" }}>
-      <View>
-        <Image
-          source={require("../../assets/images/Logo.png")}
-          style={{ width: 120, height: 120, alignSelf: "center" }}
-        />
+    <KeyboardAvoidingView keyboardVerticalOffset={30} behavior="padding" style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
+        <View style={{ marginVertical: 40 }}>
+          <Image
+            source={require("../../assets/images/Logo.png")}
+            style={{ width: 120, height: 120, alignSelf: "center" }}
+          />
 
-        <Text fw="BOLD" fs={25} style={{ marginVertical: 30 }}>Faça seu Login</Text>
+          <Text fw="BOLD" fs={25} style={{ marginVertical: 30 }}>Faça seu Login</Text>
 
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <Controller
             name="email"
             control={control}
@@ -110,17 +110,17 @@ export default function SignIn() {
           >
             ENTRAR
           </Button>
-        </KeyboardAvoidingView>
 
-        <Text fs={14} ta="center">
-          {"Não possui conta? "}
-          <Link href="/signUp">
-            <Text fs={14} style={{ textDecorationLine: "underline", color: colors.blue5 }}>
-              Cadastre-se
-            </Text>
-          </Link>
-        </Text>
-      </View>
-    </View>
+          <Text fs={14} ta="center">
+            {"Não possui conta? "}
+            <Link href="/signUp">
+              <Text fs={14} style={{ textDecorationLine: "underline", color: colors.blue5 }}>
+                Cadastre-se
+              </Text>
+            </Link>
+          </Text>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

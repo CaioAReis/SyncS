@@ -56,7 +56,7 @@ export function Banners({ banners, style }: BannersProps) {
               windowWidth * (index + 1),
             ],
             extrapolate: "clamp",
-            outputRange: [10, 20, 10],
+            outputRange: [5, 10, 5],
           });
 
           return (
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   },
 
   dots: {
-    width: 10,
-    height: 10,
+    width: 5,
+    height: 5,
     borderRadius: 80,
     marginHorizontal: 4,
   },

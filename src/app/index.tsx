@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import PagerView from "react-native-pager-view";
 import { useEffect, useRef, useState } from "react";
 import { Button, IconButton } from "react-native-paper";
@@ -12,6 +12,8 @@ export default function WelcomePage() {
   const { width } = useWindowDimensions();
   const pagesRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
+
+  const imageSize = width / 1.5;
 
   const pages = [
     {
@@ -44,23 +46,37 @@ export default function WelcomePage() {
           <View style={{ flex: 1, alignItems: "center" }} key={i}>
             <Image
               source={page?.image}
-              style={{ width: width / 1.2, height: width / 1.2, marginVertical: 80 }}
+              style={{
+                marginTop: "20%",
+                width: imageSize,
+                height: imageSize,
+                marginBottom: "10%",
+              }}
             />
 
-            <Text fs={18} fw="SEMIB" ta="center">{page?.text}</Text>
+            <Text fs={16} fw="SEMIB" ta="center">{page?.text}</Text>
           </View>
         ))}
       </PagerView>
 
       {currentPage === 3 ? (
         <View style={styles.buttonsView}>
-          <Link href="/signIn" asChild>
-            <Button icon="login" mode="contained" style={{ marginBottom: 20 }}>ENTRAR</Button>
-          </Link>
+          <Button
+            icon="login"
+            mode="contained"
+            style={{ marginBottom: 20 }}
+            onPress={() => router.push("/signIn")}
+          >
+            ENTRAR
+          </Button>
 
-          <Link href="/signUp" asChild>
-            <Button icon="account-plus" style={{ marginBottom: 20 }}>CRIAR CONTA</Button>
-          </Link>
+          <Button
+            icon="account-plus"
+            style={{ marginBottom: 20 }}
+            onPress={() => router.push("/signUp")}
+          >
+            CRIAR CONTA
+          </Button>
         </View>
       ) : (
         <View style={styles.stepsView}>

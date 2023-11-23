@@ -1,7 +1,6 @@
 import { Image, Pressable } from "react-native";
 import { useAppTheme } from "../theme";
 
-
 interface CollectionItemProps {
   size: number,
   image: string,

@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
@@ -22,19 +22,18 @@ export default function ProfileSettings() {
           <View style={{ flex: 1, marginHorizontal: 12 }}>
             <Text fw="SEMIB" fs={18} lh={24}>Caio Almeida</Text>
 
-            <Link href={"stack/editProfile"} asChild>
-              <TouchableRipple
-                rippleColor={colors.blue}
-                style={{ marginTop: 4, flexDirection: "row", alignItems: "center" }}
-              >
-                <>
-                  <List.Icon color={colors.color} icon="account-edit" style={{ marginRight: 8 }} />
-                  <Text fs={16} lh={20} style={{ textDecorationLine: "underline" }}>
-                    Editar perfil
-                  </Text>
-                </>
-              </TouchableRipple>
-            </Link>
+            <TouchableRipple
+              rippleColor={colors.blue11}
+              onPress={() => router.push("stack/editProfile")}
+              style={{ marginTop: 4, flexDirection: "row", alignItems: "center" }}
+            >
+              <>
+                <List.Icon color={colors.color} icon="account-edit" style={{ marginRight: 8 }} />
+                <Text fs={16} lh={20} style={{ textDecorationLine: "underline" }}>
+                  Editar perfil
+                </Text>
+              </>
+            </TouchableRipple>
           </View>
 
           <IconButton size={25} icon="moon-waning-crescent" />
