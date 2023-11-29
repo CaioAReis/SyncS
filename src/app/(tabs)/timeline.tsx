@@ -18,7 +18,7 @@ export interface TimelinePeriod {
   _id: string,
   body: string,
   title: string,
-  galery?: ImageGalleryProp[],
+  gallery?: ImageGalleryProp[],
   when: { day: number, month: string },
 }
 
@@ -30,7 +30,7 @@ const DATA: TimelineItem[] = [
     data: [
       {
         _id: "1",
-        galery: [
+        gallery: [
           { code: "001", image: "https://humulos.com/digimon/images/art/metalgaruru.jpg" },
           { code: "002", image: "https://humulos.com/digimon/images/art/metalgrey_am.jpg" },
           { code: "003", image: "https://humulos.com/digimon/images/art/weregaruru_s.jpg" },
@@ -42,7 +42,7 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "2",
-        galery: [
+        gallery: [
           { code: "004", image: "https://humulos.com/digimon/images/art/chaosdra.jpg" },
           { code: "005", image: "https://humulos.com/digimon/images/art/ryuda.jpg" },
           { code: "006", image: "https://humulos.com/digimon/images/art/ouryu.jpg" },
@@ -59,7 +59,7 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "3",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "3º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -73,7 +73,7 @@ const DATA: TimelineItem[] = [
     data: [
       {
         _id: "1",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "1º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -81,7 +81,7 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "2",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "2º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -89,7 +89,7 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "3",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "3º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -103,7 +103,7 @@ const DATA: TimelineItem[] = [
     data: [
       {
         _id: "1",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "1º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
@@ -111,7 +111,7 @@ const DATA: TimelineItem[] = [
 
       {
         _id: "2",
-        galery: [],
+        gallery: [],
         when: { day: 1, month: "Agosto" },
         title: "2º Semana Acadêmica IFS - Campus Lagarto",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at ante eros. Maecenas efficitur arcu pulvinar dui accumsan condimentum.",
