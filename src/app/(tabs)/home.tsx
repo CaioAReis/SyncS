@@ -1,24 +1,73 @@
 import { Avatar } from "react-native-paper";
-import { ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import { Banners, HomeButton, Text } from "../../components";
 
+export interface SessionButton {
+  _id: string,
+  icon: string,
+  color: string,
+  title: string,
+  levels?: Level[],
+  description: string,
+}
+
+export interface Level {
+  _id: string,
+  _idSession: string,
+  questions: Question[],
+  level: "EASY" | "NORMAL" | "HARD",
+}
+
+export interface Question {
+  _id: string,
+  options?: [],
+  description: string,
+  multipleOptions: boolean,
+  type: "SUBJECTIVE" | "OBJECTIVE",
+}
+
 export default function Home() {
   const { colors } = useAppTheme();
 
+  const styles = StyleSheet.create({
+
+    content: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+
+    header: {
+      margin: 20,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+
+    headerTxt: {
+      flex: 1,
+      marginTop: 10,
+      lineHeight: 20,
+      color: colors.color1,
+    }
+
+  });
+
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <View style={styles.content}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flexDirection: "row", margin: 20, alignItems: "center" }}>
+        <View style={styles.header}>
           <View style={{ flex: 1 }}>
             <Text fw="MEDIUM" fs={22}>Olá, Caio</Text>
-            <Text fs={14} style={{ color: colors.color1, flex: 1, lineHeight: 20, marginTop: 10 }}>
+            <Text fs={14} style={styles.headerTxt}>
               {"Responda as perguntas \ndas categorias abaixo!"}
             </Text>
           </View>
 
-          <Avatar.Image size={70} source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }} />
+          <Avatar.Image
+            size={70}
+            source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+          />
         </View>
 
         <Banners
@@ -32,20 +81,61 @@ export default function Home() {
         <View style={{ margin: 20 }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1 }}>
-              <HomeButton icon="play-network" label="Carreira" height={180} color={colors.red} />
-              <HomeButton icon="school" label="Formação Acadêmica" height={300} color={colors.purple} />
-              <HomeButton icon="help-circle-outline" label="Dúvida dos Ingressos" height={260} color={colors.yellow} />
+              <HomeButton
+                height={180}
+                label="Carreira"
+                color={colors.red}
+                icon="briefcase-check"
+              />
+
+              <HomeButton
+                height={300}
+                icon="school"
+                color={colors.purple}
+                label="Formação Acadêmica"
+              />
+
+              <HomeButton
+                height={260}
+                color={colors.yellow}
+                icon="help-circle-outline"
+                label="Dúvida dos Ingressos"
+              />
             </View>
 
             <View style={{ width: 16 }} />
 
             <View style={{ flex: 1 }}>
-              <HomeButton icon="office-building" label="Mercado de Trabalho" height={300} color={colors.blue} />
-              <HomeButton icon="chart-timeline-variant-shimmer" label="Desenvolvimento Pessoal" height={260} color={colors.green} />
-              <HomeButton icon="tooltip-account" label="Sobre você" height={180} color={colors.gray} />
+              <HomeButton
+                height={300}
+                icon="chart-arc"
+                color={colors.blue}
+                label="Mercado de Trabalho"
+              />
+
+              <HomeButton
+                height={260}
+                icon="star-face"
+                color={colors.green}
+                label="Desenvolvimento Pessoal"
+              />
+
+              <HomeButton
+                height={180}
+                label="Sobre você"
+                icon="gesture-tap"
+                color={colors.gray}
+              />
             </View>
           </View>
-          <HomeButton icon="arrow-decision-outline" label="Recomende" horizontal height={110} color={colors.pink} />
+
+          <HomeButton
+            horizontal
+            height={110}
+            label="Recomende"
+            color={colors.pink}
+            icon="comment-check"
+          />
         </View>
 
       </ScrollView>
