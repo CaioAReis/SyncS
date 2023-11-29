@@ -56,7 +56,7 @@ export function Banners({ banners, style }: BannersProps) {
               windowWidth * (index + 1),
             ],
             extrapolate: "clamp",
-            outputRange: [5, 10, 5],
+            outputRange: [5, 15, 5],
           });
 
           return (

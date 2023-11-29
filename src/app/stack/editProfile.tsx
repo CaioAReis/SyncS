@@ -33,20 +33,24 @@ export default function EditProfile() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView>
-        <Header title="Editar Perfil" />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={30}
+      behavior={Platform.select({ ios: "padding" })}
+    >
+      <View style={{ flex: 1, backgroundColor: colors.background }}>
+        <ScrollView>
+          <Header title="Editar Perfil" />
 
-        <View style={{ ...styles.container, backgroundColor: colors.color12 }}>
-          <View style={{ alignItems: "center" }}>
-            <Avatar.Image
-              size={120}
-              style={{ bottom: 30 }}
-              source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
-            />
-          </View>
+          <View style={{ ...styles.container, backgroundColor: colors.color12 }}>
+            <View style={{ alignItems: "center" }}>
+              <Avatar.Image
+                size={120}
+                style={{ bottom: 30 }}
+                source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+              />
+            </View>
 
-          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <Controller
               name="name"
               control={control}
@@ -212,19 +216,19 @@ export default function EditProfile() {
                 {errors.birthDate.message}
               </Text>
             )}
-          </KeyboardAvoidingView>
-        </View>
+          </View>
 
-        <Button
-          mode="contained"
-          icon="account-plus"
-          onPress={handleSubmit(onSubmit)}
-          style={{ marginVertical: 40, marginHorizontal: 20 }}
-        >
-          SALVAR ALTERAÇÕES
-        </Button>
-      </ScrollView>
-    </View>
+          <Button
+            mode="contained"
+            icon="account-plus"
+            onPress={handleSubmit(onSubmit)}
+            style={{ marginVertical: 40, marginHorizontal: 20 }}
+          >
+            SALVAR ALTERAÇÕES
+          </Button>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 

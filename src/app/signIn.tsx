@@ -1,7 +1,7 @@
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
-import { Image, KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
@@ -28,7 +28,11 @@ export default function SignIn() {
   };
 
   return (
-    <KeyboardAvoidingView keyboardVerticalOffset={30} behavior="padding" style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={30}
+      behavior={Platform.select({ ios: "padding" })}
+    >
       <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
         <View style={{ marginVertical: 40 }}>
           <Image

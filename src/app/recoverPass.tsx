@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import PagerView from "react-native-pager-view";
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import { KeyboardAvoidingView, ScrollView, View, useWindowDimensions } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View, useWindowDimensions } from "react-native";
 
 import { useAppTheme } from "../theme";
 import { Header, Text } from "../components";
@@ -28,7 +28,11 @@ export default function RecoverPass() {
   };
 
   return (
-    <KeyboardAvoidingView keyboardVerticalOffset={30} behavior="padding" style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={30}
+      behavior={Platform.select({ ios: "padding" })}
+    >
       <ScrollView style={{ flex: 1 }}>
         <View style={{ width: width, height: height }}>
           <Header title="Recuperar senha" />
