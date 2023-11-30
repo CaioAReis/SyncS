@@ -1,11 +1,15 @@
 import { Link, router } from "expo-router";
+import { setDoc, doc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
+import { useState } from "react";
 
 interface SignUpData {
   name: string,
@@ -17,6 +21,7 @@ interface SignUpData {
 
 export default function SignUp() {
   const { colors } = useAppTheme();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit, getValues, formState: { errors } } = useForm<SignUpData>({
     defaultValues: {
@@ -29,15 +34,49 @@ export default function SignUp() {
   });
 
   const onSubmit = (data: SignUpData) => {
-    console.warn(data);
-    router.push("/home");
+    setIsLoading(true);
+    createUserWithEmailAndPassword(auth, data?.email, data?.password)
+      .then(async (userCredential) => {
+        const userSignUped = userCredential.user;
+
+        await setDoc(doc(db, "users", userSignUped.uid), {
+          phone: "",
+          birthDate: "",
+          name: data.name,
+          accountStatus: "",
+          email: data.email,
+          nickname: data.nickname,
+          picture: `https://api.dicebear.com/7.x/thumbs/png?seed=${data.nickname}&eyes=variant4W16`,
+
+          collection: [],
+          achievements: [],
+
+          wisdomLevel: 0,
+          experienceLevel: 0,
+          professionalismLevel: 0,
+
+          //  PESQUISAR COMO FAZER O TIMESTAMP NO FIREBASE
+          createdAt: "",
+          updatedAt: "",
+        }).then(() => {
+
+          //  APLICAR O TOAST PARA AVISAR QUE A CONTA FOI CRIADA
+
+          router.push("/home");
+        }).finally(() => setIsLoading(false));
+
+
+      })
+      .catch((error) => {
+        console.error(error.code, error.message);
+      });
+
   };
 
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={30}
-      // behavior="padding"
       style={{ flex: 1 }}
+      keyboardVerticalOffset={30}
       behavior={Platform.select({ ios: "padding" })}
     >
       <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
@@ -195,6 +234,8 @@ export default function SignUp() {
           <Button
             mode="contained"
             icon="account-plus"
+            loading={isLoading}
+            disabled={isLoading}
             style={{ marginVertical: 40 }}
             onPress={handleSubmit(onSubmit)}
           >
