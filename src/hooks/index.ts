@@ -1,3 +1,4 @@
+import { useToast } from "./useToast";
 import { useGallery } from "./useGallery";
 
-export { useGallery };
+export { useGallery, useToast };
