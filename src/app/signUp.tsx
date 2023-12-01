@@ -1,15 +1,17 @@
+import { useState } from "react";
 import { Link, router } from "expo-router";
-import { setDoc, doc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
+import { setDoc, doc, Timestamp } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
+import { useToast } from "../hooks";
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
-import { useState } from "react";
 
 interface SignUpData {
   name: string,
@@ -20,6 +22,7 @@ interface SignUpData {
 }
 
 export default function SignUp() {
+  const { onToggleToast, Toast } = useToast();
   const { colors } = useAppTheme();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,7 +42,7 @@ export default function SignUp() {
       .then(async (userCredential) => {
         const userSignUped = userCredential.user;
 
-        await setDoc(doc(db, "users", userSignUped.uid), {
+        const userBody = {
           phone: "",
           birthDate: "",
           name: data.name,
@@ -55,22 +58,27 @@ export default function SignUp() {
           experienceLevel: 0,
           professionalismLevel: 0,
 
-          //  PESQUISAR COMO FAZER O TIMESTAMP NO FIREBASE
-          createdAt: "",
-          updatedAt: "",
-        }).then(() => {
+          createdAt: Timestamp.fromDate(new Date()),
+          updatedAt: Timestamp.fromDate(new Date()),
+        };
 
-          //  APLICAR O TOAST PARA AVISAR QUE A CONTA FOI CRIADA
+        await setDoc(doc(db, "users", userSignUped.uid), userBody)
+          .then(() => {
 
-          router.push("/home");
-        }).finally(() => setIsLoading(false));
+            const jsonUser = JSON.stringify(userBody);
+            AsyncStorage.setItem("syncs_user", jsonUser)
+              .then(() => {
+                onToggleToast({
+                  type: "success",
+                  message: "Sua conta foi criada com sucesso!",
+                });
 
-
+                router.push("/home");
+              })
+              .catch((error) => console.error("Error no storage", error));
+          }).finally(() => setIsLoading(false));
       })
-      .catch((error) => {
-        console.error(error.code, error.message);
-      });
-
+      .catch((error) => console.error(error.code, error.message));
   };
 
   return (
@@ -251,6 +259,8 @@ export default function SignUp() {
             </Link>
           </Text>
         </View>
+
+        <Toast />
       </ScrollView>
     </KeyboardAvoidingView>
   );

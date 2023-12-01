@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Avatar } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppTheme } from "../../theme";
 import { Banners, HomeButton, Text } from "../../components";
@@ -30,6 +32,14 @@ export interface Question {
 
 export default function Home() {
   const { colors } = useAppTheme();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await AsyncStorage.getItem("syncs_user");
+      console.warn(user);
+    };
+    getUser();
+  }, []);
 
   const styles = StyleSheet.create({
 
