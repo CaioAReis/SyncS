@@ -1,10 +1,16 @@
+import { useState } from "react";
 import { Link, router } from "expo-router";
+import { doc, getDoc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
+import { useToast } from "../hooks";
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
 
 interface SignInData {
@@ -14,6 +20,8 @@ interface SignInData {
 
 export default function SignIn() {
   const { colors } = useAppTheme();
+  const { Toast, onToggleToast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
@@ -23,8 +31,41 @@ export default function SignIn() {
   });
 
   const onSubmit = (data: SignInData) => {
-    console.warn(data);
-    router.push("/home");
+    setIsLoading(true);
+    signInWithEmailAndPassword(auth, data?.email, data?.password)
+      .then(async (userCredential) => {
+        const userSigned = userCredential.user;
+
+        const userRef = doc(db, "users", userSigned?.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+
+          const jsonUser = JSON.stringify(userSnap.data());
+          AsyncStorage.setItem("syncs_user", jsonUser)
+            .then(() => router.push("/home"))
+            .catch((error) => console.error("Error no storage", error));
+
+        } else {
+
+          onToggleToast({
+            type: "error",
+            message: "Usuário não enncontrado!",
+          });
+
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+
+        onToggleToast({
+          type: "error",
+          message: "Email ou senha inválido. Tente novamente!",
+        });
+
+      }).finally(() => setIsLoading(false));
   };
 
   return (
@@ -109,6 +150,8 @@ export default function SignIn() {
           <Button
             icon="login"
             mode="contained"
+            loading={isLoading}
+            disabled={isLoading}
             style={{ marginVertical: 40 }}
             onPress={handleSubmit(onSubmit)}
           >
@@ -124,6 +167,8 @@ export default function SignIn() {
             </Link>
           </Text>
         </View>
+
+        <Toast />
       </ScrollView>
     </KeyboardAvoidingView>
   );
