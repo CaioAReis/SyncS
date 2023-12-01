@@ -11,14 +11,14 @@ interface TimelineCardProps {
 }
 
 interface RenderImagesProps {
-  galery: ImageGalleryProp[],
+  gallery: ImageGalleryProp[],
 }
 
-const RenderImages = ({ galery }: RenderImagesProps) => {
+const RenderImages = ({ gallery }: RenderImagesProps) => {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const images = galery?.length > 5 ? [galery[0], galery[1], galery[2], galery[3]] : galery;
+  const images = gallery?.length > 5 ? [gallery[0], gallery[1], gallery[2], gallery[3]] : gallery;
 
   const sizeMiniImage = width / 7;
 
@@ -41,7 +41,7 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
             </Pressable>
           ))}
 
-          {galery?.length > 5 ? (
+          {gallery?.length > 5 ? (
             <Pressable
               onPress={() => startGallery({ initialPage: 4 })}
               style={{
@@ -52,14 +52,14 @@ const RenderImages = ({ galery }: RenderImagesProps) => {
               }}
             >
               <Text color={colors.background}>
-                +{galery.length - images.length}
+                +{gallery.length - images.length}
               </Text>
             </Pressable>
           ) : null}
         </View>
       ) : null}
 
-      <RenderGaley gallery={galery} />
+      <RenderGaley gallery={gallery} />
     </>
   );
 };
@@ -94,7 +94,7 @@ export function TimelineCard({ timelinePeriod, isLast }: TimelineCardProps) {
             {timelinePeriod?.body}
           </Text>
 
-          <RenderImages galery={timelinePeriod.galery!} />
+          <RenderImages gallery={timelinePeriod.gallery!} />
         </View>
       </View>
     </>
