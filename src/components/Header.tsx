@@ -1,13 +1,10 @@
-import { Text } from "./Text";
 import { View } from "react-native";
 import { router } from "expo-router";
-import { useAppTheme } from "../theme";
 import { IconButton } from "react-native-paper";
 
-interface HeaderProps {
-  title?: string,
-  goBack?: () => void,
-}
+import { Text } from "./Text";
+import { useAppTheme } from "../theme";
+import { HeaderProps } from "../types";
 
 export function Header({ title, goBack }: HeaderProps) {
   const { colors } = useAppTheme();

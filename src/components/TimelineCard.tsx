@@ -3,16 +3,7 @@ import { Image, Pressable, StyleSheet, View, useWindowDimensions } from "react-n
 import { Text } from "./Text";
 import { useGallery } from "../hooks";
 import { useAppTheme } from "../theme";
-import { ImageGalleryProp, TimelinePeriod } from "../app/(tabs)/timeline";
-
-interface TimelineCardProps {
-  isLast?: boolean,
-  timelinePeriod: TimelinePeriod,
-}
-
-interface RenderImagesProps {
-  gallery: ImageGalleryProp[],
-}
+import { RenderImagesProps, TimelineCardProps } from "../types";
 
 const RenderImages = ({ gallery }: RenderImagesProps) => {
   const { colors } = useAppTheme();

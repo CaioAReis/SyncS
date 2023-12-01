@@ -1,26 +1,8 @@
 import { SectionList, View } from "react-native";
 
 import { useAppTheme } from "../../theme";
+import { TimelineItem } from "../../types";
 import { Text, TimelineCard } from "../../components";
-
-export interface TimelineItem {
-  _id: string,
-  year: number,
-  data: TimelinePeriod[],
-}
-
-export interface ImageGalleryProp {
-  image: string,
-  [key: string]: string,
-}
-
-export interface TimelinePeriod {
-  _id: string,
-  body: string,
-  title: string,
-  gallery?: ImageGalleryProp[],
-  when: { day: number, month: string },
-}
 
 const DATA: TimelineItem[] = [
 

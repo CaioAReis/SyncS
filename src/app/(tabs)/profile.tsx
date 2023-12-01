@@ -1,8 +1,11 @@
 // import PagerView from "react-native-pager-view";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import { Avatar, IconButton } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
-import { router } from "expo-router";
+import { User } from "../../types";
 import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
@@ -42,6 +45,20 @@ export default function Profile() {
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
 
+  const [session, setSession] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getSession = async () => {
+      // ESTUDAR CONTEXT PARA USER
+      const user = await AsyncStorage.getItem("syncs_user")
+        .then(result => {
+          if (result) return JSON.parse(result);
+        });
+      setSession(user);
+    };
+    getSession();
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <FlatList
@@ -70,43 +87,43 @@ export default function Profile() {
             <View style={{ alignItems: "center", paddingHorizontal: 20 }}>
               <Avatar.Image
                 size={130}
-                source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+                source={{ uri: session?.picture }}
               />
 
               <Text fw="BOLD" ta="center" fs={25} style={{ marginVertical: 15, width: "100%" }}>
-                Caio AReis
+                {session?.name}
               </Text>
             </View>
 
             <View style={styles.levels}>
               <ExpCard
-                expLevel={14}
                 expType="EXP."
                 size={width / 6}
                 icon="ship-wheel"
                 bgColor={colors.yellow11}
                 circleColor={colors.yellow}
                 iconColor={colors.background}
+                expLevel={session?.experienceLevel ?? 0}
               />
 
               <ExpCard
-                expLevel={11}
                 expType="PRO."
                 size={width / 6}
                 icon="sword-cross"
                 bgColor={colors.blue11}
                 circleColor={colors.blue}
                 iconColor={colors.background}
+                expLevel={session?.professionalismLevel ?? 0}
               />
 
               <ExpCard
-                expLevel={3}
                 icon="brain"
                 expType="SAB."
                 size={width / 6}
                 bgColor={colors.green11}
                 circleColor={colors.green}
                 iconColor={colors.background}
+                expLevel={session?.wisdomLevel ?? 0}
               />
             </View>
 

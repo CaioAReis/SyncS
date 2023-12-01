@@ -4,19 +4,7 @@ import { Button, IconButton, Modal, Portal } from "react-native-paper";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
-
-interface AchievementBase {
-  _id: string,
-  name: string,
-  image: string,
-  quantity: number,
-  description: string,
-}
-
-interface AchievementProps {
-  size?: number,
-  achievement: AchievementBase,
-}
+import { AchievementProps } from "../types";
 
 export function Achievement({ achievement, size }: AchievementProps) {
   const { colors } = useAppTheme();

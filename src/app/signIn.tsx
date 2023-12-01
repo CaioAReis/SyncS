@@ -9,14 +9,10 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-n
 
 import { useToast } from "../hooks";
 import { Text } from "../components";
+import { SignInData } from "../types";
 import { useAppTheme } from "../theme";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
-
-interface SignInData {
-  email: string,
-  password: string,
-}
 
 export default function SignIn() {
   const { colors } = useAppTheme();

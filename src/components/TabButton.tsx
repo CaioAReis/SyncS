@@ -1,14 +1,8 @@
-import { useAppTheme } from "../theme";
-import { Text } from "./Text";
 import { Avatar, TouchableRipple } from "react-native-paper";
 
-interface TabButtonProps {
-  bg: string,
-  icon: string,
-  label: string,
-  color: string,
-  focused: boolean,
-}
+import { Text } from "./Text";
+import { useAppTheme } from "../theme";
+import { TabButtonProps } from "../types";
 
 export function TabButton({ focused, label, icon, color, bg }: TabButtonProps) {
 

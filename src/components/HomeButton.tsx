@@ -3,14 +3,7 @@ import { Avatar, TouchableRipple } from "react-native-paper";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
-
-interface HomeButtonProps {
-  icon: string,
-  color: string,
-  label: string,
-  height: number,
-  horizontal?: boolean,
-}
+import { HomeButtonProps } from "../types";
 
 export function HomeButton({ label, icon, color, height, horizontal = false }: HomeButtonProps) {
   const { colors } = useAppTheme();

@@ -1,23 +1,15 @@
 import { useRef, useState } from "react";
-import { useAppTheme } from "../theme";
 import { TouchableRipple } from "react-native-paper";
-import { Animated, Image, ScrollView, StyleSheet, View, ViewProps, useWindowDimensions } from "react-native";
+import { Animated, Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
-interface Banner {
-  thumb: string,
-  action: () => void,
-}
-
-interface BannersProps {
-  style?: ViewProps,
-  banners: Banner[],
-}
+import { useAppTheme } from "../theme";
+import { BannersProps } from "../types";
 
 export function Banners({ banners, style }: BannersProps) {
   const { colors } = useAppTheme();
   const { width: windowWidth } = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
-  const [ currentBanner, setCurrentBanner ] = useState(0);
+  const [currentBanner, setCurrentBanner] = useState(0);
 
   return (
     <View style={{ ...style }}>
@@ -28,7 +20,7 @@ export function Banners({ banners, style }: BannersProps) {
         style={{ height: 90, overflow: "hidden" }}
         onScroll={
           Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }], 
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: false }
           )
         }

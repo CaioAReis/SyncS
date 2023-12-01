@@ -2,17 +2,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 
+import { UserData } from "../../types";
 import { useAppTheme } from "../../theme";
 import { Header, Text } from "../../components";
 import { masks, regexValidations } from "../../utils/regexValidations";
-
-interface UserData {
-  name: string,
-  email: string,
-  phone: string,
-  nickname: string,
-  birthDate: string,
-}
 
 export default function EditProfile() {
   const { colors } = useAppTheme();

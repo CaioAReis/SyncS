@@ -1,11 +1,7 @@
 import { Image, Pressable } from "react-native";
-import { useAppTheme } from "../theme";
 
-interface CollectionItemProps {
-  size: number,
-  image: string,
-  onPress?: () => void,
-}
+import { useAppTheme } from "../theme";
+import { CollectionItemProps } from "../types";
 
 export function CollectionItem({ image, size, onPress }: CollectionItemProps) {
   const { colors } = useAppTheme();

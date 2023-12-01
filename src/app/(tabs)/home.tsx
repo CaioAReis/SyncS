@@ -1,44 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Avatar } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { User } from "../../types";
 import { useAppTheme } from "../../theme";
 import { Banners, HomeButton, Text } from "../../components";
 
-export interface SessionButton {
-  _id: string,
-  icon: string,
-  color: string,
-  title: string,
-  levels?: Level[],
-  description: string,
-}
-
-export interface Level {
-  _id: string,
-  _idSession: string,
-  questions: Question[],
-  level: "EASY" | "NORMAL" | "HARD",
-}
-
-export interface Question {
-  _id: string,
-  options?: [],
-  description: string,
-  multipleOptions: boolean,
-  type: "SUBJECTIVE" | "OBJECTIVE",
-}
-
 export default function Home() {
   const { colors } = useAppTheme();
+  const [session, setSession] = useState<User | null>(null);
 
   useEffect(() => {
-    const getUser = async () => {
-      const user = await AsyncStorage.getItem("syncs_user");
-      console.warn(user);
+    const getSession = async () => {
+      // ESTUDAR CONTEXT PARA USER
+      const user = await AsyncStorage.getItem("syncs_user")
+        .then(result => {
+          if (result) return JSON.parse(result);
+        });
+      setSession(user);
     };
-    getUser();
+    getSession();
   }, []);
 
   const styles = StyleSheet.create({
@@ -68,7 +50,7 @@ export default function Home() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
-            <Text fw="MEDIUM" fs={22}>Olá, Caio</Text>
+            <Text fw="MEDIUM" fs={22}>Olá, {session?.nickname}</Text>
             <Text fs={14} style={styles.headerTxt}>
               {"Responda as perguntas \ndas categorias abaixo!"}
             </Text>
@@ -76,7 +58,7 @@ export default function Home() {
 
           <Avatar.Image
             size={70}
-            source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+            source={{ uri: session?.picture }}
           />
         </View>
 

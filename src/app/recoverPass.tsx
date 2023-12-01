@@ -6,12 +6,9 @@ import { Avatar, Button, TextInput } from "react-native-paper";
 import { KeyboardAvoidingView, Platform, ScrollView, View, useWindowDimensions } from "react-native";
 
 import { useAppTheme } from "../theme";
+import { RecoverData } from "../types";
 import { Header, Text } from "../components";
 import { regexValidations } from "../utils/regexValidations";
-
-interface RecoverData {
-  email: string,
-}
 
 export default function RecoverPass() {
   const { colors } = useAppTheme();

@@ -6,6 +6,7 @@ import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WelcomePage() {
   const { colors } = useAppTheme();
@@ -37,7 +38,17 @@ export default function WelcomePage() {
     },
   ];
 
-  useEffect(() => pagesRef?.current?.setPage(currentPage), [currentPage]);
+  const checkSession = async () => {
+    await AsyncStorage.getItem("syncs_user")
+      .then(result => {
+        if (result) router.push("/home");
+      });
+  };
+
+  useEffect(() => {
+    checkSession();
+    pagesRef?.current?.setPage(currentPage);
+  }, [currentPage]);
 
   return (
     <View style={{ flex: 1 }}>

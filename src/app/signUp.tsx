@@ -10,16 +10,9 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-n
 import { useToast } from "../hooks";
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
+import { SignUpData } from "../types";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
-
-interface SignUpData {
-  name: string,
-  email: string,
-  nickname: string,
-  password: string,
-  confirmPass: string,
-}
 
 export default function SignUp() {
   const { onToggleToast, Toast } = useToast();

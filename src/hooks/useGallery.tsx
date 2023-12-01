@@ -3,16 +3,7 @@ import PagerView from "react-native-pager-view";
 import { Modal, Portal } from "react-native-paper";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Pressable, View, useWindowDimensions } from "react-native";
-
-interface AnyObjectWithPropImage {
-  image: string,
-  [key: string]: string,
-}
-
-interface RenderGalleryProps {
-  initialPage?: number,
-  gallery?: Pick<AnyObjectWithPropImage, "image">[],
-}
+import { RenderGalleryProps } from "../types";
 
 export function useGallery() {
   const [isOpen, setIsOpen] = useState(false);

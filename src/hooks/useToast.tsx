@@ -4,13 +4,7 @@ import { List, Portal, Snackbar } from "react-native-paper";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
-
-interface ToastProps {
-  icon?: string,
-  message: string,
-  duration?: number,
-  type?: "normal" | "success" | "warn" | "error",
-}
+import { ToastProps } from "../types";
 
 export function useToast() {
   const { colors } = useAppTheme();
