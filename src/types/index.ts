@@ -1,18 +1,12 @@
 import { TextStyle, ViewProps } from "react-native";
 
-interface RecoverData {
-  email: string,
-}
+interface RecoverData extends User {}
 
-interface SignInData {
-  email: string,
+interface SignInData extends User {
   password: string,
 }
 
-interface SignUpData {
-  name: string,
-  email: string,
-  nickname: string,
+interface SignUpData extends User {
   password: string,
   confirmPass: string,
 }
@@ -66,25 +60,12 @@ interface TimelineItem {
   data: TimelinePeriod[],
 }
 
-interface ImageGalleryProp {
-  image: string,
-  [key: string]: string,
-}
-
 interface TimelinePeriod {
   _id: string,
   body: string,
   title: string,
-  gallery?: ImageGalleryProp[],
+  gallery?: AnyObjectWithPropImage[],
   when: { day: number, month: string },
-}
-
-interface UserData {
-  name: string,
-  email: string,
-  phone: string,
-  nickname: string,
-  birthDate: string,
 }
 
 interface AchievementBase {
@@ -176,12 +157,12 @@ interface TimelineCardProps {
 }
 
 interface RenderImagesProps {
-  gallery: ImageGalleryProp[],
+  gallery: AnyObjectWithPropImage[],
 }
 
 interface AnyObjectWithPropImage {
   image: string,
-  [key: string]: string,
+  [key: string]: unknown,
 }
 
 interface RenderGalleryProps {
@@ -200,7 +181,6 @@ export {
   User,
   Level,
   Banner,
-  UserData,
   Question,
   TextProps,
   ToastProps,
@@ -216,7 +196,6 @@ export {
   TabButtonProps,
   HomeButtonProps,
   AchievementBase,
-  ImageGalleryProp,
   AchievementProps,
   TimelineCardProps,
   RenderImagesProps,

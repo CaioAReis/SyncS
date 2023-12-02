@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 
-import { UserData } from "../../types";
+import { User } from "../../types";
 import { useAppTheme } from "../../theme";
 import { Header, Text } from "../../components";
 import { masks, regexValidations } from "../../utils/regexValidations";
@@ -10,7 +10,7 @@ import { masks, regexValidations } from "../../utils/regexValidations";
 export default function EditProfile() {
   const { colors } = useAppTheme();
 
-  const { control, handleSubmit, formState: { errors } } = useForm<UserData>({
+  const { control, handleSubmit, formState: { errors } } = useForm<Partial<User>>({
     defaultValues: {
       name: "",
       email: "",
@@ -20,7 +20,7 @@ export default function EditProfile() {
     },
   });
 
-  const onSubmit = (data: UserData) => {
+  const onSubmit = (data: Partial<User>) => {
     console.warn(data);
     // router.push("/home");
   };
@@ -190,9 +190,9 @@ export default function EditProfile() {
                   maxLength={10}
                   keyboardType="numeric"
                   onChangeText={onChange}
-                  value={masks.date(value)}
                   style={{ marginTop: 10 }}
                   label="Data de Nascimento"
+                  value={masks.date(value ?? "")}
                   outlineColor={colors.background7}
                   error={Boolean(errors.birthDate)}
                   left={(
