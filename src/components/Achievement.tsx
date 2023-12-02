@@ -4,9 +4,9 @@ import { Button, IconButton, Modal, Portal } from "react-native-paper";
 
 import { Text } from "./Text";
 import { useAppTheme } from "../theme";
-import { AchievementProps } from "../types";
+import { AchievementBase } from "../types";
 
-export function Achievement({ achievement, size }: AchievementProps) {
+export function Achievement({ achievement, size }: AchievementBase) {
   const { colors } = useAppTheme();
   const [isOpen, setIsOpen] = useState(false);
 

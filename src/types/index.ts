@@ -1,6 +1,6 @@
 import { TextStyle, ViewProps } from "react-native";
 
-interface RecoverData extends User {}
+interface RecoverData extends User { }
 
 interface SignInData extends User {
   password: string,
@@ -44,8 +44,8 @@ interface User {
   birthDate: string,
   accountStatus: string,
 
-  collection: [],
-  achievements: [],
+  collection: FigureProps[],
+  achievements: AchievementProps[],
 
   wisdomLevel: number,
   experienceLevel: number,
@@ -69,16 +69,8 @@ interface TimelinePeriod {
 }
 
 interface AchievementBase {
-  _id: string,
-  name: string,
-  image: string,
-  quantity: number,
-  description: string,
-}
-
-interface AchievementProps {
   size?: number,
-  achievement: AchievementBase,
+  achievement: AchievementProps,
 }
 
 interface Banner {
@@ -177,6 +169,21 @@ interface ToastProps {
   type?: "normal" | "success" | "warn" | "error",
 }
 
+interface AchievementProps {
+  _id: string,
+  name: string,
+  image: string,
+  quantity: number,
+  description: string,
+}
+
+interface FigureProps {
+  code: string,
+  name: string,
+  image: string,
+}
+
+
 export {
   User,
   Level,
@@ -186,6 +193,7 @@ export {
   ToastProps,
   SignUpData,
   SignInData,
+  FigureProps,
   RecoverData,
   HeaderProps,
   ExpCardProps,
@@ -194,8 +202,8 @@ export {
   SessionButton,
   TimelinePeriod,
   TabButtonProps,
-  HomeButtonProps,
   AchievementBase,
+  HomeButtonProps,
   AchievementProps,
   TimelineCardProps,
   RenderImagesProps,
