@@ -1,14 +1,13 @@
 // import PagerView from "react-native-pager-view";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Avatar, IconButton } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
-import { User } from "../../types";
 import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
+import AppContext from "../../services/AppContext";
 
 // const collection = [
 //   { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
@@ -43,21 +42,8 @@ import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
+  const { session } = useContext(AppContext);
   const { RenderGaley, startGallery } = useGallery();
-
-  const [session, setSession] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getSession = async () => {
-      // ESTUDAR CONTEXT PARA USER e THEME
-      const user = await AsyncStorage.getItem("syncs_user")
-        .then(result => {
-          if (result) return JSON.parse(result);
-        });
-      setSession(user);
-    };
-    getSession();
-  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -67,6 +53,11 @@ export default function Profile() {
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={styles.columnStyle}
         ListFooterComponent={<View style={{ height: 80 }} />}
+        ListEmptyComponent={
+          <View style={{ borderColor: colors.color10, alignItems: "center", borderStyle: "dashed", borderRadius: 10, borderWidth: 1, marginHorizontal: 20, paddingVertical: 100 }}>
+            <Text fs={16} ta="center">{"Você ainda não possui \nFIGURAS em sua coleção"}</Text>
+          </View>
+        }
         ListHeaderComponent={
           <>
             <View style={styles.headerView}>
@@ -130,11 +121,17 @@ export default function Profile() {
             <View style={{ marginTop: 25 }}>
               <Text fw="BOLD" fs={16} style={{ marginHorizontal: 20 }}>CONQUISTAS</Text>
 
-              <View style={styles.achievementList}>
-                {session?.achievements.map(item => (
-                  <Achievement size={width / 7} key={item?._id} achievement={item} />
-                ))}
-              </View>
+              {session?.achievements?.length ? (
+                <View style={styles.achievementList}>
+                  {session?.achievements.map(item => (
+                    <Achievement size={width / 7} key={item?._id} achievement={item} />
+                  ))}
+                </View>
+              ) : (
+                <View style={{ borderColor: colors.color10, borderStyle: "dashed", borderRadius: 10, alignItems: "center", borderWidth: 1, marginTop: 15, marginHorizontal: 20, paddingVertical: 20 }}>
+                  <Text fs={16} ta="center">Você ainda não possui conquistas</Text>
+                </View>
+              )}
             </View>
 
             <Text

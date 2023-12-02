@@ -1,17 +1,18 @@
 import { router } from "expo-router";
 import PagerView from "react-native-pager-view";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, IconButton } from "react-native-paper";
 import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppContext from "../services/AppContext";
 
 export default function WelcomePage() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const pagesRef = useRef<PagerView>(null);
+  const { session } = useContext(AppContext);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const imageSize = width / 1.5;
@@ -38,15 +39,9 @@ export default function WelcomePage() {
     },
   ];
 
-  const checkSession = async () => {
-    await AsyncStorage.getItem("syncs_user")
-      .then(result => {
-        if (result) router.push("/home");
-      });
-  };
-
   useEffect(() => {
-    checkSession();
+    if (session) return router.push("/home");
+
     pagesRef?.current?.setPage(currentPage);
   }, [currentPage]);
 

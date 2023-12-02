@@ -13,10 +13,17 @@ import {
   Nunito_600SemiBold,
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
+import AppContext from "../services/AppContext";
+import { useEffect, useState } from "react";
+import { User } from "../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
-  const colorScheme = useColorScheme();
   // const colorScheme = "dark";
+  const colorScheme = useColorScheme();
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(null);
+  const [session, setSession] = useState<User | null>(null);
 
   const appTheme = theme[colorScheme!];
 
@@ -28,22 +35,48 @@ export default function App() {
     Nunito_700Bold,
   });
 
+  useEffect(() => {
+    const getSession = async () => {
+      // ESTUDAR CONTEXT PARA USER
+      const user = await AsyncStorage.getItem("syncs_user")
+        .then(result => {
+          if (result) return JSON.parse(result);
+        });
+      setSession(user);
+    };
+    getSession();
+  }, []);
+
   if (!fontsLoaded && !fontError) return null;
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: appTheme?.colors?.background }}>
-        <PaperProvider theme={appTheme}>
+      <AppContext.Provider
+        value={{
+          session: session,
+          setSession: setSession,
 
-          <Slot />
+          isLoading: isLoading,
+          setIsLoading: setIsLoading,
 
-        </PaperProvider>
+          theme: currentTheme,
+          setTheme: setCurrentTheme,
+        }}
+      >
+        <SafeAreaView style={{ flex: 1, backgroundColor: appTheme?.colors?.background }}>
 
-        <StatusBar
-          backgroundColor={appTheme?.colors?.background}
-          style={colorScheme === "dark" ? "light" : "dark"}
-        />
-      </SafeAreaView>
+          <PaperProvider theme={appTheme}>
+
+            <Slot />
+
+          </PaperProvider>
+
+          <StatusBar
+            backgroundColor={appTheme?.colors?.background}
+            style={colorScheme === "dark" ? "light" : "dark"}
+          />
+        </SafeAreaView>
+      </AppContext.Provider>
     </SafeAreaProvider>
   );
 }

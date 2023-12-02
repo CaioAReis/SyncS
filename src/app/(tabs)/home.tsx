@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Avatar } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -6,10 +6,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "../../types";
 import { useAppTheme } from "../../theme";
 import { Banners, HomeButton, Text } from "../../components";
+import AppContext from "../../services/AppContext";
 
 export default function Home() {
   const { colors } = useAppTheme();
+  const { theme } = useContext(AppContext);
   const [session, setSession] = useState<User | null>(null);
+
+  console.warn(theme);
 
   useEffect(() => {
     const getSession = async () => {
