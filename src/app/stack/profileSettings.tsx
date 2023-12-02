@@ -1,12 +1,29 @@
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
+import { User } from "../../types";
 import { useAppTheme } from "../../theme";
 import { AboutButton, DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
+
+  const [session, setSession] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getSession = async () => {
+      // ESTUDAR CONTEXT PARA USER e THEME
+      const user = await AsyncStorage.getItem("syncs_user")
+        .then(result => {
+          if (result) return JSON.parse(result);
+        });
+      setSession(user);
+    };
+    getSession();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -16,11 +33,11 @@ export default function ProfileSettings() {
         <View style={styles.avatarView}>
           <Avatar.Image
             size={90}
-            source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+            source={{ uri: session?.picture }}
           />
 
           <View style={{ flex: 1, marginHorizontal: 12 }}>
-            <Text fw="SEMIB" fs={18} lh={24}>Caio Almeida</Text>
+            <Text fw="SEMIB" fs={18} lh={24}>{session?.name}</Text>
 
             <TouchableRipple
               rippleColor={colors.blue11}

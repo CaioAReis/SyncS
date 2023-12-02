@@ -5,14 +5,14 @@ import { Button, IconButton, List, Modal, Portal } from "react-native-paper";
 import { Text } from "./Text";
 import { router } from "expo-router";
 import { useAppTheme } from "../theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function LogoutButton() {
   const { colors } = useAppTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const onLogout = () => {
-    //  Limpar cache
-    router.push("/signIn");
+    AsyncStorage.clear().then(() => router.push("/signIn"));
   };
 
   return (
@@ -32,7 +32,7 @@ export function LogoutButton() {
           <View style={{ padding: 15, width: "75%", borderRadius: 10, alignSelf: "center", backgroundColor: colors.background }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <Text fw="MEDIUM">Sair da conta?</Text>
-              <IconButton icon="close" onPress={() => setIsOpen(false)}/>
+              <IconButton icon="close" onPress={() => setIsOpen(false)} />
             </View>
 
             <Text fs={16} style={{ color: colors.color1 }}>

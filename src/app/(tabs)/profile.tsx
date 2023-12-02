@@ -49,7 +49,7 @@ export default function Profile() {
 
   useEffect(() => {
     const getSession = async () => {
-      // ESTUDAR CONTEXT PARA USER
+      // ESTUDAR CONTEXT PARA USER e THEME
       const user = await AsyncStorage.getItem("syncs_user")
         .then(result => {
           if (result) return JSON.parse(result);

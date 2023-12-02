@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, IconButton, List, Modal, Portal } from "react-native-paper";
 
 import { Text } from "./Text";
 import { router } from "expo-router";
 import { useAppTheme } from "../theme";
+import { auth } from "../services/firebaseConfig";
 
 export function DeleteAccountButton() {
   const { colors } = useAppTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const onDeleteAccount = () => {
-    //  Limpar cache
-
-    //  APAGAR CONTA DO USUÁRIO
-
-    router.push("/signIn");
+    auth.currentUser?.delete().then(() => {
+      AsyncStorage.clear().then(() => router.push("/signIn"));
+    });
   };
 
   return (
