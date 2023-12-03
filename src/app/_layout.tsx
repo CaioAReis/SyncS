@@ -1,10 +1,11 @@
 import { Slot } from "expo-router";
+import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
 import { PaperProvider } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-import { theme } from "../theme";
 import {
   useFonts,
   Nunito_300Light,
@@ -13,19 +14,16 @@ import {
   Nunito_600SemiBold,
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
-import AppContext from "../services/AppContext";
-import { useEffect, useState } from "react";
+
 import { User } from "../types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { theme } from "../theme";
+import AppContext from "../services/AppContext";
 
 export default function App() {
-  // const colorScheme = "dark";
   const colorScheme = useColorScheme();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState(null);
+  const [currentTheme, setCurrentTheme] = useState("");
   const [session, setSession] = useState<User | null>(null);
-
-  const appTheme = theme[colorScheme!];
 
   const [fontsLoaded, fontError] = useFonts({
     Nunito_300Light,
@@ -35,19 +33,27 @@ export default function App() {
     Nunito_700Bold,
   });
 
+  const getSession = async () => {
+    const user = await AsyncStorage.getItem("syncs_user")
+      .then(result => {
+        if (result) return JSON.parse(result);
+      });
+    setSession(user);
+  };
+
+  const getThemeSaved = async () => {
+    const theme = await AsyncStorage.getItem("syncs_theme").then(result => result);
+    setCurrentTheme(theme || colorScheme!);
+  };
+
   useEffect(() => {
-    const getSession = async () => {
-      // ESTUDAR CONTEXT PARA USER
-      const user = await AsyncStorage.getItem("syncs_user")
-        .then(result => {
-          if (result) return JSON.parse(result);
-        });
-      setSession(user);
-    };
     getSession();
+    getThemeSaved();
   }, []);
 
   if (!fontsLoaded && !fontError) return null;
+
+  const appTheme = theme[currentTheme || colorScheme!];
 
   return (
     <SafeAreaProvider>
@@ -65,7 +71,7 @@ export default function App() {
       >
         <SafeAreaView style={{ flex: 1, backgroundColor: appTheme?.colors?.background }}>
 
-          <PaperProvider theme={appTheme}>
+          <PaperProvider theme={appTheme!}>
 
             <Slot />
 
@@ -73,7 +79,7 @@ export default function App() {
 
           <StatusBar
             backgroundColor={appTheme?.colors?.background}
-            style={colorScheme === "dark" ? "light" : "dark"}
+            style={(currentTheme || colorScheme!) === "dark" ? "light" : "dark"}
           />
         </SafeAreaView>
       </AppContext.Provider>

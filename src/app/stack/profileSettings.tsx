@@ -1,29 +1,21 @@
+import { useContext } from "react";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
 
-import { User } from "../../types";
 import { useAppTheme } from "../../theme";
+import AppContext from "../../services/AppContext";
 import { AboutButton, DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
+  const { session, theme, setTheme } = useContext(AppContext);
 
-  const [session, setSession] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getSession = async () => {
-      // ESTUDAR CONTEXT PARA USER e THEME
-      const user = await AsyncStorage.getItem("syncs_user")
-        .then(result => {
-          if (result) return JSON.parse(result);
-        });
-      setSession(user);
-    };
-    getSession();
-  }, []);
+  const themeOptions: { [index: string]: any } = { // eslint-disable-line @typescript-eslint/no-explicit-any
+    dark: { icon: "shimmer", color: colors.yellow },
+    light: { icon: "white-balance-sunny", color: colors.blue },
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -53,7 +45,17 @@ export default function ProfileSettings() {
             </TouchableRipple>
           </View>
 
-          <IconButton size={25} icon="moon-waning-crescent" />
+          <IconButton
+            size={25}
+            icon={themeOptions[theme]?.icon}
+            iconColor={themeOptions[theme]?.color}
+            onPress={() => {
+              if (theme === "light") {
+                return AsyncStorage.setItem("syncs_theme", "dark").then(() => setTheme("dark"));
+              }
+              AsyncStorage.setItem("syncs_theme", "light").then(() => setTheme("light"));
+            }}
+          />
         </View>
 
         <View style={{ marginHorizontal: 20 }}>

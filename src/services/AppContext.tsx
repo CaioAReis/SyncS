@@ -8,8 +8,8 @@ interface ContextData {
   session: User | null,
   setSession: Dispatch<React.SetStateAction<User | null>>,
 
-  theme: string | null,
-  setTheme: Dispatch<React.SetStateAction<null>>,
+  theme: string,
+  setTheme: React.Dispatch<React.SetStateAction<string>>,
 }
 
 const AppContext = createContext<ContextData>({} as ContextData);

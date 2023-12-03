@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import PagerView from "react-native-pager-view";
-import { useContext, useEffect, useRef, useState } from "react";
 import { Button, IconButton } from "react-native-paper";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { Text } from "../components";
@@ -41,7 +41,6 @@ export default function WelcomePage() {
 
   useEffect(() => {
     if (session) return router.push("/home");
-
     pagesRef?.current?.setPage(currentPage);
   }, [currentPage]);
 

@@ -6,8 +6,8 @@ import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
-import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 import AppContext from "../../services/AppContext";
+import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 
 // const collection = [
 //   { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
