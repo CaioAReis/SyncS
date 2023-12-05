@@ -15,9 +15,11 @@ export function TabButton({ focused, label, icon, color, bg }: TabButtonProps) {
         width: "100%",
         borderRadius: 80,
         marginVertical: 3,
+        borderColor: color,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        borderWidth: focused ? .7 : 0,
         backgroundColor: focused ? bg : "transparent",
       }}
     ><>
