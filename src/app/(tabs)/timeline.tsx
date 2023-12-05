@@ -1,24 +1,27 @@
-import { useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { Image, SectionList, View, useWindowDimensions } from "react-native";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 
 import { useAppTheme } from "../../theme";
 import { TimelineItem } from "../../types";
 import { db } from "../../services/firebaseConfig";
+import AppContext from "../../services/AppContext";
 import { Text, TimelineCard } from "../../components";
 
 export default function Timeline() {
   const { colors } = useAppTheme();
+  const { setIsLoading } = useContext(AppContext);
   // const [lastPeiod, setLastPeriod] = useState();
   const { width, height } = useWindowDimensions();
   const [timeline, setTimeline] = useState<TimelineItem[]>([]);
 
   const getTimeline = async () => {
+    setIsLoading(true);
     const firstPage = query(collection(db, "timeline"), orderBy("year", "desc"), limit(2));
     await getDocs(firstPage).then(result => {
       setTimeline(result.docs.map(doc => doc.data() as TimelineItem));
       // setLastPeriod(result.docs[result.docs.length - 1]);
-    });
+    }).finally(() => setIsLoading(false));
   };
 
   // const getNextTimeline = async () => {

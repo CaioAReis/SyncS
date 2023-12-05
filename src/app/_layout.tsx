@@ -2,7 +2,7 @@ import { Slot } from "expo-router";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
-import { PaperProvider } from "react-native-paper";
+import { ActivityIndicator, Modal, PaperProvider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -74,7 +74,10 @@ export default function App() {
           <PaperProvider theme={appTheme!}>
 
             <Slot />
-
+            
+            <Modal visible={isLoading} dismissable={false} onDismiss={() => setIsLoading(false)}>
+              <ActivityIndicator size="large" color={appTheme?.colors?.primary} />
+            </Modal>
           </PaperProvider>
 
           <StatusBar
