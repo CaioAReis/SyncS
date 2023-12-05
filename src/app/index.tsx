@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import PagerView from "react-native-pager-view";
 import { Button, IconButton } from "react-native-paper";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -40,9 +40,11 @@ export default function WelcomePage() {
   ];
 
   useEffect(() => {
-    if (session) return router.push("/home");
+    // if (session) return router.push("/home");
     pagesRef?.current?.setPage(currentPage);
   }, [currentPage]);
+
+  if (session) return <Redirect href={"/home"} />;
 
   return (
     <View style={{ flex: 1 }}>
