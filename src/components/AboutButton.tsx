@@ -40,12 +40,11 @@ export function AboutButton() {
                 <Text fs={12} style={{ marginTop: 10 }}>Versão: {"1.0.0"}</Text>
               </View>
 
-              <Text fs={14} style={{ color: colors.color1 }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a
-                type specimen book. It has survived not only five centuries, but also the
-                leap into electronic typesetting.
+              <Text fs={14} style={{ textAlign: "justify", color: colors.color1 }}>
+                SyncSphere é uma plataforma gamificada com o objetivo de estreitar o 
+                relacionamento entre a instituição e seus egressos do Instituto 
+                Federal de Sergipe, permitindo que suas vivências contribuam 
+                para o aprimoramento contínuo do currículo acadêmico do instituto.
               </Text>
 
               <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "flex-end" }}>
