@@ -15,6 +15,11 @@ export default function StackApp() {
         options={{ title: "Editar perfil" }}
       />
 
+      <Stack.Screen
+        name="startQuestions"
+        options={{ title: "Perguntas" }}
+      />
+
     </Stack>
   );
 }

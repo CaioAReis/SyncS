@@ -103,6 +103,7 @@ interface ExpCardProps {
 
 interface HeaderProps {
   title?: string,
+  color?: string,
   goBack?: () => void,
 }
 
@@ -111,6 +112,7 @@ interface HomeButtonProps {
   color: string,
   label: string,
   height: number,
+  description: string,
   horizontal?: boolean,
 }
 
@@ -184,11 +186,20 @@ interface FigureProps {
   image: string,
 }
 
+interface Module {
+  id: string,
+  icon: string,
+  color: string,
+  label: string,
+  description: string,
+}
+
 
 export {
   User,
   Level,
   Banner,
+  Module,
   Question,
   TextProps,
   ToastProps,
