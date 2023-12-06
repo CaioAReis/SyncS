@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Link, router } from "expo-router";
 import { doc, getDoc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
@@ -7,17 +7,16 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { useToast } from "../hooks";
 import { Text } from "../components";
-import { SignInData } from "../types";
+import { SignInData, User } from "../types";
 import { useAppTheme } from "../theme";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
+import AppContext from "../services/AppContext";
 
 export default function SignIn() {
   const { colors } = useAppTheme();
-  const { Toast, onToggleToast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading, setSession } = useContext(AppContext);
 
   const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
@@ -37,17 +36,20 @@ export default function SignIn() {
 
         if (userSnap.exists()) {
 
-          const jsonUser = JSON.stringify(userSnap.data());
-          AsyncStorage.setItem("syncs_user", jsonUser)
-            .then(() => router.push("/home"))
+          const jsonUser = JSON.stringify({ id: userSnap.id, ...userSnap.data() });
+          await AsyncStorage.setItem("syncs_user", jsonUser)
+            .then(() => {
+              setSession({ id: userSnap.id, ...userSnap.data() } as User);
+              router.push("/home");
+            })
             .catch((error) => console.error("Error no storage", error));
 
         } else {
 
-          onToggleToast({
-            type: "error",
-            message: "Usuário não enncontrado!",
-          });
+          // onToggleToast({
+          //   type: "error",
+          //   message: "Usuário não enncontrado!",
+          // });
 
         }
       })
@@ -56,10 +58,10 @@ export default function SignIn() {
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
 
-        onToggleToast({
-          type: "error",
-          message: "Email ou senha inválido. Tente novamente!",
-        });
+        // onToggleToast({
+        //   type: "error",
+        //   message: "Email ou senha inválido. Tente novamente!",
+        // });
 
       }).finally(() => setIsLoading(false));
   };
@@ -164,7 +166,6 @@ export default function SignIn() {
           </Text>
         </View>
 
-        <Toast />
       </ScrollView>
     </KeyboardAvoidingView>
   );

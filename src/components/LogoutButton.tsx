@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { View } from "react-native";
 import { Button, IconButton, List, Modal, Portal } from "react-native-paper";
 
@@ -6,13 +6,18 @@ import { Text } from "./Text";
 import { router } from "expo-router";
 import { useAppTheme } from "../theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppContext from "../services/AppContext";
 
 export function LogoutButton() {
   const { colors } = useAppTheme();
+  const { setSession } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onLogout = () => {
-    AsyncStorage.clear().then(() => router.push("/signIn"));
+  const onLogout = async () => {
+    await AsyncStorage.clear().then(() => {
+      setSession(null);
+      router.push("/signIn");
+    });
   };
 
   return (

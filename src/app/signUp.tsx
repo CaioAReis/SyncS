@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Link, router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
@@ -7,17 +7,17 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { useToast } from "../hooks";
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
 import { SignUpData } from "../types";
+import AppContext from "../services/AppContext";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
 
 export default function SignUp() {
-  const { onToggleToast, Toast } = useToast();
   const { colors } = useAppTheme();
-  const [isLoading, setIsLoading] = useState(false);
+  const { setSession } = useContext(AppContext);
+  const { isLoading, setIsLoading } = useContext(AppContext);
 
   const { control, handleSubmit, getValues, formState: { errors } } = useForm<SignUpData>({
     defaultValues: {
@@ -56,16 +56,16 @@ export default function SignUp() {
         };
 
         await setDoc(doc(db, "users", userSignUped.uid), userBody)
-          .then(() => {
+          .then(async () => {
 
-            const jsonUser = JSON.stringify(userBody);
-            AsyncStorage.setItem("syncs_user", jsonUser)
+            const jsonUser = JSON.stringify({ id: userSignUped.uid, ...userBody });
+            await AsyncStorage.setItem("syncs_user", jsonUser)
               .then(() => {
-                onToggleToast({
-                  type: "success",
-                  message: "Sua conta foi criada com sucesso!",
-                });
-
+                // onToggleToast({
+                //   type: "success",
+                //   message: "Sua conta foi criada com sucesso!",
+                // });
+                setSession({ id: userSignUped!.uid, ...userBody });
                 router.push("/home");
               })
               .catch((error) => console.error("Error no storage", error));
@@ -252,8 +252,6 @@ export default function SignUp() {
             </Link>
           </Text>
         </View>
-
-        <Toast />
       </ScrollView>
     </KeyboardAvoidingView>
   );
