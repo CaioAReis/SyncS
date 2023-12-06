@@ -40,7 +40,6 @@ export default function WelcomePage() {
   ];
 
   useEffect(() => {
-    // if (session) return router.push("/home");
     pagesRef?.current?.setPage(currentPage);
   }, [currentPage]);
 
