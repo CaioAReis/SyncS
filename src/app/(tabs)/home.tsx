@@ -1,27 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Avatar } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { User } from "../../types";
 import { useAppTheme } from "../../theme";
+import AppContext from "../../services/AppContext";
 import { Banners, HomeButton, Text } from "../../components";
 
 export default function Home() {
   const { colors } = useAppTheme();
-  const [session, setSession] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getSession = async () => {
-      // ESTUDAR CONTEXT PARA USER
-      const user = await AsyncStorage.getItem("syncs_user")
-        .then(result => {
-          if (result) return JSON.parse(result);
-        });
-      setSession(user);
-    };
-    getSession();
-  }, []);
+  const { session } = useContext(AppContext);
 
   const styles = StyleSheet.create({
 
@@ -78,6 +65,7 @@ export default function Home() {
                 label="Carreira"
                 color={colors.red}
                 icon="briefcase-check"
+                description="Serão abordadas suas principais conquistas, os desafios enfrentados no mercado de trabalho e como o curso os preparou para atuar no setor."
               />
 
               <HomeButton
@@ -85,6 +73,7 @@ export default function Home() {
                 icon="school"
                 color={colors.purple}
                 label="Formação Acadêmica"
+                description="Serão levantados os pontos fortes do curso, sugestões para o aprimoramento curricular e a importância da formação contínua após a graduação."
               />
 
               <HomeButton
@@ -92,6 +81,7 @@ export default function Home() {
                 color={colors.yellow}
                 icon="help-circle-outline"
                 label="Dúvida dos Ingressos"
+                description="Serão apresentados dúvidas frequentes dos estudantes do Curso de Bacharelado em Sistema de Informação."
               />
             </View>
 
@@ -103,6 +93,7 @@ export default function Home() {
                 icon="chart-arc"
                 color={colors.blue}
                 label="Mercado de Trabalho"
+                description="Serão discutidas as áreas de atuação, responsabilidades em seus cargos e conselhos valiosos para aqueles que desejam ingressar nesse mercado."
               />
 
               <HomeButton
@@ -110,6 +101,7 @@ export default function Home() {
                 icon="star-face"
                 color={colors.green}
                 label="Desenvolvimento Pessoal"
+                description=" Serão discutidas estratégias para o desenvolvimento soft skills e os principais aprendizados não acadêmicos após a graduação."
               />
 
               <HomeButton
@@ -117,6 +109,7 @@ export default function Home() {
                 label="Sobre você"
                 icon="gesture-tap"
                 color={colors.gray}
+                description="Vamos conhecê-lo(a) melhor. Compartilhe um pouco da sua trajetória, interesses e ambições. Queremos entender suas motivações e experiências pessoais."
               />
             </View>
           </View>
@@ -127,6 +120,7 @@ export default function Home() {
             label="Recomende"
             color={colors.pink}
             icon="comment-check"
+            description=" Recomende cursos, trabalhos, projetos, estágios ou qualquer outra oportunidade que tenha enriquecido sua jornada profissional. Suas sugestões ajudarão a direcionar futuros profissionais da área na busca por oportunidades de crescimento."
           />
         </View>
 

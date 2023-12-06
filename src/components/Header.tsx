@@ -6,7 +6,7 @@ import { Text } from "./Text";
 import { useAppTheme } from "../theme";
 import { HeaderProps } from "../types";
 
-export function Header({ title, goBack }: HeaderProps) {
+export function Header({ title, goBack, color }: HeaderProps) {
   const { colors } = useAppTheme();
 
   return (
@@ -22,15 +22,22 @@ export function Header({ title, goBack }: HeaderProps) {
         size={25}
         icon="arrow-left"
         style={{ margin: 0 }}
-        iconColor={colors.color}
+        iconColor={color ?? colors.color}
         onPress={() => goBack ? goBack() : router.back()}
       />
 
-      <Text numberOfLines={2} ta="center" style={{ flex: 1 }} fw="SEMIB" fs={14}>
+      <Text
+        fs={14}
+        fw="SEMIB"
+        ta="center"
+        numberOfLines={2}
+        style={{ flex: 1 }}
+        color={color ?? colors.color}
+      >
         {title?.toUpperCase()}
       </Text>
 
-      <View style={{ width: 40 }} />
+      <View style={{ width: 45 }} />
     </View>
   );
 }
