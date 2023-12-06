@@ -1,28 +1,53 @@
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { User } from "../../types";
 import { useAppTheme } from "../../theme";
 import { Header, Text } from "../../components";
+import { db } from "../../services/firebaseConfig";
+import AppContext from "../../services/AppContext";
+import { doc, updateDoc } from "firebase/firestore";
 import { masks, regexValidations } from "../../utils/regexValidations";
+import { router } from "expo-router";
 
 export default function EditProfile() {
   const { colors } = useAppTheme();
+  const { session, setSession } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm<Partial<User>>({
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      nickname: "",
-      birthDate: "",
+      name: session?.name,
+      email: session?.email,
+      phone: session?.phone,
+      picture: session?.picture,
+      nickname: session?.nickname,
+      birthDate: session?.birthDate,
     },
   });
 
-  const onSubmit = (data: Partial<User>) => {
-    console.warn(data);
-    // router.push("/home");
+  const onSubmit = async (data: Partial<User>) => {
+    setIsLoading(true);
+    //  UPAR IMAGEM E PEGAR LINK PARA ATUALIZAÇÃO DO CAMPO Picture.
+
+    const userRef = doc(db, "users", session!.id);
+    await updateDoc(userRef, { ...data }).then(() => {
+
+      const jsonUser = JSON.stringify({ ...session, ...data });
+      AsyncStorage.setItem("syncs_user", jsonUser)
+        .then(() => {
+          setSession({ ...session!, ...data });
+          alert("Dados atualizados com Sucesso!");
+          router.back();
+        });
+
+    })
+      .catch(e => console.error(e))
+      .finally(() => setIsLoading(false));
+
   };
 
   return (
@@ -40,7 +65,7 @@ export default function EditProfile() {
               <Avatar.Image
                 size={120}
                 style={{ bottom: 30 }}
-                source={{ uri: "https://api.dicebear.com/7.x/bottts-neutral/png?seed=Aneka" }}
+                source={{ uri: session?.picture }}
               />
             </View>
 
@@ -214,6 +239,8 @@ export default function EditProfile() {
           <Button
             mode="contained"
             icon="account-plus"
+            loading={isLoading}
+            disabled={isLoading}
             onPress={handleSubmit(onSubmit)}
             style={{ marginVertical: 40, marginHorizontal: 20 }}
           >
@@ -221,6 +248,7 @@ export default function EditProfile() {
           </Button>
         </ScrollView>
       </View>
+
     </KeyboardAvoidingView>
   );
 }
