@@ -17,6 +17,11 @@ export default function StackApp() {
 
       <Stack.Screen
         name="startQuestions"
+        options={{ title: "Loob" }}
+      />
+
+      <Stack.Screen
+        name="sectionResolving"
         options={{ title: "Perguntas" }}
       />
 

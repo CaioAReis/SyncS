@@ -27,11 +27,15 @@ interface Level {
   level: "EASY" | "NORMAL" | "HARD",
 }
 
+interface Option {
+  value: string,
+  option: string,
+}
+
 interface Question {
-  _id: string,
-  options?: [],
+  options?: Option[],
   description: string,
-  multipleOptions: boolean,
+  multipleOptions?: boolean,
   type: "SUBJECTIVE" | "OBJECTIVE",
 }
 
@@ -105,6 +109,24 @@ interface HeaderProps {
   title?: string,
   color?: string,
   goBack?: () => void,
+}
+
+interface Section {
+  xpType: number,
+  experience: number,
+
+  answeredBy: string[],
+  questions: Question[],
+  
+  // computedAnswers: []
+  level: "EASY" | "NORMAL" | "HARD",
+  segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",
+}
+
+interface SectionResolvingProps {
+  icon: string,
+  color: string,
+  section: string,
 }
 
 interface HomeButtonProps {
@@ -199,6 +221,7 @@ export {
   User,
   Level,
   Banner,
+  Section,
   Module,
   Question,
   TextProps,
@@ -221,5 +244,6 @@ export {
   RenderImagesProps,
   RenderGalleryProps,
   CollectionItemProps,
+  SectionResolvingProps,
   AnyObjectWithPropImage,
 };

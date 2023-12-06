@@ -1,11 +1,36 @@
 import { View } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { Avatar, Button } from "react-native-paper";
-
-import { Module } from "../../types";
-import { useAppTheme } from "../../theme";
-import { Header, Text } from "../../components";
 import { useEffect } from "react";
+import { Avatar, Button } from "react-native-paper";
+import { router, useLocalSearchParams } from "expo-router";
+
+import { useAppTheme } from "../../theme";
+import { Module, Section } from "../../types";
+import { Header, Text } from "../../components";
+
+const section: Section = {
+  xpType: 0,
+  segment: "carrer",
+  level: "EASY",
+  answeredBy: [],
+  experience: 200,
+  questions: [
+    {
+      type: "SUBJECTIVE",
+      description: "Qual melhor anime na sua opnião?",
+    },
+
+    {
+      type: "OBJECTIVE",
+      description: "Qual melhor protagonista?",
+      options: [
+        { option: "A", value: "Naruto" },
+        { option: "B", value: "Luffy" },
+        { option: "C", value: "Goku" },
+        { option: "D", value: "Gon" },
+      ]
+    }
+  ],
+};
 
 export default function StartQuestions() {
   const { colors } = useAppTheme();
@@ -52,7 +77,14 @@ export default function StartQuestions() {
 
         <View style={{ alignItems: "center", marginTop: "15%", width: "80%" }}>
           <Text fw="MEDIUM" fs={16} color={colors.background}>0 / 2</Text>
-          <Button mode="contained" style={{ width: "100%" }}>
+          <Button
+            mode="contained"
+            style={{ width: "100%" }}
+            onPress={() => router.push({
+              pathname: "/stack/sectionResolving",
+              params: { section: JSON.stringify(section), color, icon },
+            })}
+          >
             COMEÇAR
           </Button>
         </View>
