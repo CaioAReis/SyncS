@@ -27,13 +27,8 @@ interface Level {
   level: "EASY" | "NORMAL" | "HARD",
 }
 
-interface Option {
-  value: string,
-  option: string,
-}
-
 interface Question {
-  options?: Option[],
+  options?: string[],
   description: string,
   multipleOptions?: boolean,
   type: "SUBJECTIVE" | "OBJECTIVE",
@@ -115,8 +110,10 @@ interface Section {
   xpType: number,
   experience: number,
 
-  answeredBy: string[],
-  questions: Question[],
+  answeredBy?: string[],
+  questions?: Question[],
+
+  answered?: string[][],
   
   // computedAnswers: []
   level: "EASY" | "NORMAL" | "HARD",

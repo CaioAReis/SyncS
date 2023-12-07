@@ -9,10 +9,15 @@ import { Header, Text } from "../../components";
 
 const section: Section = {
   xpType: 0,
-  segment: "carrer",
   level: "EASY",
-  answeredBy: [],
   experience: 200,
+  segment: "carrer",
+  answeredBy: ["1", "2", "3"],
+  answered: [
+    ["Blá blá blá", "Blá blá blá", "Blá blá blá",],
+    ["Naruto", "Goku", "Gon"],
+  ],
+
   questions: [
     {
       type: "SUBJECTIVE",
@@ -22,12 +27,7 @@ const section: Section = {
     {
       type: "OBJECTIVE",
       description: "Qual melhor protagonista?",
-      options: [
-        { option: "A", value: "Naruto" },
-        { option: "B", value: "Luffy" },
-        { option: "C", value: "Goku" },
-        { option: "D", value: "Gon" },
-      ]
+      options: ["Naruto", "Luffy", "Goku", "Gon"]
     }
   ],
 };
