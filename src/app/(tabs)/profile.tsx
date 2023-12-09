@@ -1,6 +1,6 @@
 // import PagerView from "react-native-pager-view";
-import { router } from "expo-router";
 import { useContext } from "react";
+import { router } from "expo-router";
 import { Avatar, IconButton } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 
@@ -42,8 +42,8 @@ import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
 export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
-  const { session } = useContext(AppContext);
   const { RenderGaley, startGallery } = useGallery();
+  const { session, checkLevel } = useContext(AppContext);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -94,7 +94,7 @@ export default function Profile() {
                 bgColor={colors.yellow11}
                 circleColor={colors.yellow}
                 iconColor={colors.background}
-                expLevel={session?.experienceLevel ?? 0}
+                expLevel={checkLevel({ levelType: session?.experienceLevel ?? 0 })}
               />
 
               <ExpCard
@@ -104,7 +104,7 @@ export default function Profile() {
                 bgColor={colors.blue11}
                 circleColor={colors.blue}
                 iconColor={colors.background}
-                expLevel={session?.professionalismLevel ?? 0}
+                expLevel={checkLevel({ levelType: session?.professionalismLevel ?? 0 })}
               />
 
               <ExpCard
@@ -114,7 +114,7 @@ export default function Profile() {
                 bgColor={colors.green11}
                 circleColor={colors.green}
                 iconColor={colors.background}
-                expLevel={session?.wisdomLevel ?? 0}
+                expLevel={checkLevel({ levelType: session?.wisdomLevel ?? 0 })}
               />
             </View>
 

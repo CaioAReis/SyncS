@@ -1,5 +1,6 @@
 import { Dispatch, createContext } from "react";
-import { User } from "../types";
+
+import { Earnings, User } from "../types";
 
 interface ContextData {
   isLoading: boolean,
@@ -10,6 +11,10 @@ interface ContextData {
 
   theme: string,
   setTheme: React.Dispatch<React.SetStateAction<string>>,
+
+  setEarnings: Dispatch<React.SetStateAction<Earnings | null>>
+
+  checkLevel: ({ levelType }: { levelType: number }) => number;
 }
 
 const AppContext = createContext<ContextData>({} as ContextData);

@@ -34,6 +34,12 @@ interface Question {
   type: "SUBJECTIVE" | "OBJECTIVE",
 }
 
+interface Earnings {
+  image: string,
+  title?: string,
+  type: "FIGURE" | "ACHIEVEMENT"
+}
+
 interface User {
   id: string,
   name: string,
@@ -114,7 +120,7 @@ interface Section {
   questions?: Question[],
 
   answered?: string[][],
-  
+
   // computedAnswers: []
   level: "EASY" | "NORMAL" | "HARD",
   segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",
@@ -220,6 +226,7 @@ export {
   Banner,
   Section,
   Module,
+  Earnings,
   Question,
   TextProps,
   ToastProps,
