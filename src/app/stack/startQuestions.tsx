@@ -13,7 +13,7 @@ const section: Section = {
   experience: 200,
   segment: "carrer",
   answeredBy: ["1", "2", "3"],
-  answered: [
+  answers: [
     ["Blá blá blá", "Blá blá blá", "Blá blá blá",],
     ["Naruto", "Goku", "Gon"],
   ],

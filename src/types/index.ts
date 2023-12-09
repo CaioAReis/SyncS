@@ -119,7 +119,7 @@ interface Section {
   answeredBy?: string[],
   questions?: Question[],
 
-  answered?: string[][],
+  answers?: string[][],
 
   // computedAnswers: []
   level: "EASY" | "NORMAL" | "HARD",

@@ -1,10 +1,10 @@
 import { Slot } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
+import { useCallback, useEffect, useState } from "react";
 import { Image, View, useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ActivityIndicator, Button, Modal, PaperProvider } from "react-native-paper";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator, Button, Modal, PaperProvider } from "react-native-paper";
 
 import {
   useFonts,
