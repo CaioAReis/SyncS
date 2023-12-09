@@ -45,7 +45,7 @@ export default function SignIn() {
             .catch((error) => console.error("Error no storage", error));
 
         } else {
-
+          alert("Usuário não encontrado!");
           // onToggleToast({
           //   type: "error",
           //   message: "Usuário não enncontrado!",
@@ -58,6 +58,7 @@ export default function SignIn() {
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
 
+        alert("Email ou senha inválido. Tente novamente!");
         // onToggleToast({
         //   type: "error",
         //   message: "Email ou senha inválido. Tente novamente!",

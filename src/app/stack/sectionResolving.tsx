@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
+import { Controller, useForm } from "react-hook-form";
 import { router, useLocalSearchParams } from "expo-router";
-import { Avatar, Button, IconButton, ProgressBar, TextInput } from "react-native-paper";
+import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Avatar, Button, IconButton, ProgressBar, TextInput, TouchableRipple } from "react-native-paper";
 
 import { Text } from "../../components";
 import { useAppTheme } from "../../theme";
 import { Section, SectionResolvingProps } from "../../types";
 
+const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 /*
 
 const response = [
@@ -18,16 +20,79 @@ const response = [
 
 */
 
-const optionLabels = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N" ];
+interface SelectableProps {
+  i: number,
+  option: string,
+  selected: boolean,
+  onPress: () => void,
+}
+
+const Selectable = ({ option, i, selected, onPress }: SelectableProps) => {
+  const { colors } = useAppTheme();
+
+  return (
+    <View style={{ overflow: "hidden", borderRadius: 100, }}>
+      <TouchableRipple
+        onPress={onPress}
+        rippleColor={colors.light11}
+        style={{
+          ...styles.optionView,
+          borderColor: selected ? colors.light4 : colors.dark4,
+          backgroundColor: selected ? colors.light11 : "transparent"
+        }}
+      >
+        <>
+          <Avatar.Text
+            size={50}
+            label={optionLabels[i]}
+            labelStyle={{ color: selected ? colors.dark : colors.light }}
+            style={{ backgroundColor: selected ? colors.light : colors.dark4 }}
+          />
+
+          <Text
+            fs={16}
+            fw="SEMIB"
+            color={selected ? colors.dark : colors.light}
+            style={{ flex: 1, marginLeft: 12, marginRight: 20 }}
+          >
+            {option}
+          </Text>
+        </>
+      </TouchableRipple>
+    </View>
+  );
+};
+
+interface QuestionOBJ {
+  [key: number]: string,
+}
 
 export default function SectionResolving() {
   const { colors } = useAppTheme();
+  const { width } = useWindowDimensions();
   const __pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
 
   const mainSection: Section = JSON.parse(section!);
+  const qtdQuestions = mainSection?.questions?.length;
+
+  const { control, handleSubmit, formState: { errors } } = useForm<QuestionOBJ>({
+    defaultValues: Object.assign({}, new Array(qtdQuestions)),
+  });
+
+  const onSubmit = (data: QuestionOBJ) => {
+
+    if (currentPage !== qtdQuestions! - 1) return __pagerRef.current?.setPage(currentPage + 1);
+    
+    if (currentPage === qtdQuestions) return alert("IR PRA HOME!");
+    
+    //  ENVIAR RESPOSTAS
+    console.warn(data);
+
+    // __pagerRef.current?.setPage(currentPage + 1);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: color }}>
@@ -60,67 +125,130 @@ export default function SectionResolving() {
         style={{ flex: 1 }}
         onPageScroll={e => {
           setCurrentPage(e.nativeEvent.position);
-          setPercentSection(e.nativeEvent.position / mainSection?.questions!.length || 0);
+          setPercentSection(e.nativeEvent.position / mainSection?.questions!.length);
         }}
       >
         {mainSection?.questions?.map((question, i) => (
-          <View key={i} style={{ flex: 1, paddingHorizontal: 20 }}>
-
+          <View key={i} style={{ width: width, flex: 1, paddingHorizontal: 20 }}>
             <Text color={colors.light1} fs={16} ta="center">{question?.description}</Text>
 
             {question?.type === "SUBJECTIVE" ? (
-
-              <View style={{ marginTop: 40 }}>
-                <TextInput
-                  textColor={colors.light1}
-                  placeholder="Sua resposta"
-                  placeholderTextColor={colors.light4}
-                  style={{ backgroundColor: colors.dark12 }}
-                />
-              </View>
-
+              currentPage === i ? (
+                <>
+                  <Controller
+                    name={String(i)}
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <View style={{ marginTop: 40 }}>
+                        <TextInput
+                          value={value}
+                          onBlur={onBlur}
+                          onChangeText={onChange}
+                          textColor={colors.dark3}
+                          placeholder="Sua resposta"
+                          placeholderTextColor={colors.dark6}
+                          style={{ backgroundColor: colors.light11 }}
+                        />
+                      </View>
+                    )}
+                  />
+                  {errors[i] && (
+                    <View style={{ ...styles.errorView, borderColor: colors.red6, backgroundColor: colors.red2 }}>
+                      <Avatar.Icon
+                        size={22}
+                        icon="close"
+                        color={colors.light}
+                        style={{ margin: 0, backgroundColor: colors.red6 }}
+                      />
+                      <Text color={colors.red6} fs={14} lh={18} fw="BOLD" style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
+                        Para continuar responda a pergunta
+                      </Text>
+                    </View>
+                  )}
+                </>
+              ) : null
             ) : (
-
-              <View style={{ marginTop: 30 }}>
-                {question?.options?.map((option, i) => (
-                  <View
-                    key={i}
-                    style={{
-                      ...styles.optionView,
-                      borderColor: colors.light4,
-                      backgroundColor: colors.dark12,
-                    }}
-                  >
-
-                    <Avatar.Text
-                      size={50}
-                      label={optionLabels[i]}
-                      labelStyle={{ color: color }}
-                      style={{ backgroundColor: colors.light, marginRight: 12 }}
-                    />
-
-                    <Text
-                      fs={16}
-                      fw="MEDIUM"
-                      style={{ flex: 1 }}
-                      color={colors.light}
-                    >
-                      {option}
-                    </Text>
-
-                  </View>
-                ))}
-              </View>
-
+              currentPage === i ? (
+                <ScrollView>
+                  <Controller
+                    name={String(i)}
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <View style={{ marginTop: 30 }}>
+                        {question?.options?.map((option, i) => (
+                          <Selectable
+                            i={i}
+                            key={i}
+                            option={option}
+                            selected={option === value}
+                            onPress={() => onChange(option)}
+                          />
+                        ))}
+                      </View>
+                    )}
+                  />
+                  {errors[i] && (
+                    <View style={{ ...styles.errorView, borderColor: colors.red6, backgroundColor: colors.red2 }}>
+                      <Avatar.Icon
+                        size={22}
+                        icon="close"
+                        color={colors.light}
+                        style={{ margin: 0, backgroundColor: colors.red6 }}
+                      />
+                      <Text color={colors.red6} fs={14} lh={18} fw="BOLD" style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
+                        Para continuar selecione uma opção
+                      </Text>
+                    </View>
+                  )}
+                </ScrollView>
+              ) : null
             )}
           </View>
         ))}
+
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Text fs={30} fw="BOLD">Parabéns!</Text>
+
+          <Image
+            source={require("../../../assets/images/Success.png")}
+            style={{ marginTop: 15, width: width / 1.5, height: width / 1.5 }}
+          />
+
+          <Text
+            fs={16}
+            fw="BOLD"
+            ta="center"
+            style={{ marginVertical: 20, marginHorizontal: 30 }}
+          >
+            Ótimo! Você concluiu esta bateria de perguntas, veja suas reconpensas e aguarde por novas!
+          </Text>
+
+          <View style={styles.xpView}>
+            <Avatar.Icon
+              size={45}
+              icon="ship-wheel"
+              style={{ backgroundColor: colors.dark4 }}
+            />
+            <Text fw="BOLD" ta="center" style={{ flex: 1 }}>+50 pontos</Text>
+          </View>
+
+          <View style={styles.xpView}>
+            <Avatar.Icon
+              size={45}
+              icon="brain"
+              style={{ backgroundColor: colors.dark4 }}
+            />
+            <Text fw="BOLD" ta="center" style={{ flex: 1 }}>+300 pontos</Text>
+          </View>
+        </View>
       </PagerView>
 
       <Button
         mode="contained"
+        onPress={handleSubmit(onSubmit)}
         style={{ marginHorizontal: 20, marginBottom: 20 }}
-        onPress={() => __pagerRef.current?.setPage(currentPage + 1)}
       >
         CONTINUAR
       </Button>
@@ -139,9 +267,27 @@ const styles = StyleSheet.create({
   },
 
   optionView: {
-    borderWidth: .7,
+    borderWidth: 1,
     borderRadius: 80,
     marginVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  errorView: {
+    borderWidth: 2,
+    borderRadius: 10,
+    paddingVertical: 8,
+    marginVertical: 20,
+    marginHorizontal: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10,
+  },
+
+  xpView: {
+    width: "60%",
+    marginVertical: 5,
     flexDirection: "row",
     alignItems: "center",
   }
