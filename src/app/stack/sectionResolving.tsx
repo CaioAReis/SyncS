@@ -67,6 +67,8 @@ interface QuestionOBJ {
   [key: number]: string,
 }
 
+const xpTypes = ["ship-wheel", "sword-cross", "brain"];
+
 export default function SectionResolving() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
@@ -85,9 +87,9 @@ export default function SectionResolving() {
   const onSubmit = (data: QuestionOBJ) => {
 
     if (currentPage !== qtdQuestions! - 1) return __pagerRef.current?.setPage(currentPage + 1);
-    
+
     if (currentPage === qtdQuestions) return alert("IR PRA HOME!");
-    
+
     //  ENVIAR RESPOSTAS
     console.warn(data);
 
@@ -228,20 +230,24 @@ export default function SectionResolving() {
           <View style={styles.xpView}>
             <Avatar.Icon
               size={45}
-              icon="ship-wheel"
+              icon={xpTypes[0]}
               style={{ backgroundColor: colors.dark4 }}
             />
-            <Text fw="BOLD" ta="center" style={{ flex: 1 }}>+50 pontos</Text>
+            <Text fw="BOLD" ta="center" style={{ flex: 1 }}>
+              +{(mainSection?.experience * 0.10) + (mainSection?.xpType ? 0 : mainSection?.experience)} pontos
+            </Text>
           </View>
 
-          <View style={styles.xpView}>
-            <Avatar.Icon
-              size={45}
-              icon="brain"
-              style={{ backgroundColor: colors.dark4 }}
-            />
-            <Text fw="BOLD" ta="center" style={{ flex: 1 }}>+300 pontos</Text>
-          </View>
+          {mainSection?.xpType !== 0 && (
+            <View style={styles.xpView}>
+              <Avatar.Icon
+                size={45}
+                icon={xpTypes[mainSection.xpType]}
+                style={{ backgroundColor: colors.dark4 }}
+              />
+              <Text fw="BOLD" ta="center" style={{ flex: 1 }}>+{mainSection?.experience} pontos</Text>
+            </View>
+          )}
         </View>
       </PagerView>
 
