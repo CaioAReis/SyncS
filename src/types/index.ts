@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { TextStyle, ViewProps } from "react-native";
 
 interface RecoverData extends User { }
@@ -119,9 +120,11 @@ interface Section {
   answeredBy?: string[],
   questions?: Question[],
 
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+
   answers?: string[][],
 
-  // computedAnswers: []
   level: "EASY" | "NORMAL" | "HARD",
   segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",
 }
@@ -139,6 +142,7 @@ interface HomeButtonProps {
   height: number,
   description: string,
   horizontal?: boolean,
+  segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",
 }
 
 interface TabButtonProps {
@@ -217,6 +221,7 @@ interface Module {
   color: string,
   label: string,
   description: string,
+  segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",
 }
 
 

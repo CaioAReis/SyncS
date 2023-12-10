@@ -6,7 +6,7 @@ import { Text } from "./Text";
 import { useAppTheme } from "../theme";
 import { HomeButtonProps } from "../types";
 
-export function HomeButton({ label, icon, description, color, height, horizontal = false }: HomeButtonProps) {
+export function HomeButton({ label, icon, description, color, height, segment, horizontal = false }: HomeButtonProps) {
   const { colors } = useAppTheme();
 
   return (
@@ -14,7 +14,7 @@ export function HomeButton({ label, icon, description, color, height, horizontal
       style={{ height: height, backgroundColor: color, ...styles.button }}
       onPress={() => router.push({
         pathname: "/stack/startQuestions",
-        params: { label: label, icon: icon, color: color, description: description, id: "1" }
+        params: { label: label, icon: icon, color: color, description: description, segment: segment }
       })}
     >
       <>

@@ -62,6 +62,7 @@ export default function Home() {
             <View style={{ flex: 1 }}>
               <HomeButton
                 height={180}
+                segment="carrer"
                 label="Carreira"
                 color={colors.red}
                 icon="briefcase-check"
@@ -71,6 +72,7 @@ export default function Home() {
               <HomeButton
                 height={300}
                 icon="school"
+                segment="academic"
                 color={colors.purple}
                 label="Formação Acadêmica"
                 description="Serão levantados os pontos fortes do curso, sugestões para o aprimoramento curricular e a importância da formação contínua após a graduação."
@@ -78,6 +80,7 @@ export default function Home() {
 
               <HomeButton
                 height={260}
+                segment="doubts"
                 color={colors.yellow}
                 icon="help-circle-outline"
                 label="Dúvida dos Ingressos"
@@ -90,6 +93,7 @@ export default function Home() {
             <View style={{ flex: 1 }}>
               <HomeButton
                 height={300}
+                segment="job"
                 icon="chart-arc"
                 color={colors.blue}
                 label="Mercado de Trabalho"
@@ -99,6 +103,7 @@ export default function Home() {
               <HomeButton
                 height={260}
                 icon="star-face"
+                segment="evolution"
                 color={colors.green}
                 label="Desenvolvimento Pessoal"
                 description=" Serão discutidas estratégias para o desenvolvimento soft skills e os principais aprendizados não acadêmicos após a graduação."
@@ -106,6 +111,7 @@ export default function Home() {
 
               <HomeButton
                 height={180}
+                segment="user"
                 label="Sobre você"
                 icon="gesture-tap"
                 color={colors.gray}
@@ -120,7 +126,8 @@ export default function Home() {
             label="Recomende"
             color={colors.pink}
             icon="comment-check"
-            description=" Recomende cursos, trabalhos, projetos, estágios ou qualquer outra oportunidade que tenha enriquecido sua jornada profissional. Suas sugestões ajudarão a direcionar futuros profissionais da área na busca por oportunidades de crescimento."
+            segment="recommendation"
+            description="Recomende cursos, trabalhos, projetos, estágios ou qualquer outra oportunidade que tenha enriquecido sua jornada profissional. Suas sugestões ajudarão a direcionar futuros profissionais da área na busca por oportunidades de crescimento."
           />
         </View>
 

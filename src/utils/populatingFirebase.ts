@@ -1,4 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
 import { Section } from "../types";
 
@@ -14,6 +14,8 @@ async function createSection() {
     answeredBy: [],
     experience: 100,
     segment: "doubts",
+    createdAt: Timestamp.fromDate(new Date()),
+    updatedAt: Timestamp.fromDate(new Date()),
     questions: [
 
       {
@@ -35,7 +37,9 @@ async function createSection() {
     ],
   };
 
-  await addDoc(collection(db, "sections"), body).then(() => alert("Sessão de perguntas Criada com Sucesso!"));
+  await addDoc(collection(db, "sections"), body)
+    .then(() => alert("Sessão de perguntas Criada com Sucesso!"))
+    .catch(() => alert("Deu error!"));
 }
 
 
