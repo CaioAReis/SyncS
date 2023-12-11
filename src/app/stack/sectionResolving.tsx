@@ -136,13 +136,15 @@ export default function SectionResolving() {
   return (
     <View style={{ flex: 1, backgroundColor: color }}>
       <View style={styles.header}>
-        <IconButton
-          size={25}
-          icon="arrow-left"
-          style={{ margin: 0 }}
-          iconColor={colors.light1}
-          onPress={() => currentPage > 0 ? __pagerRef.current?.setPage(currentPage - 1) : router.back()}
-        />
+        {currentPage === qtdQuestions ? <View style={{ width: 46, height: 41 }} /> : (
+          <IconButton
+            size={25}
+            icon="arrow-left"
+            style={{ margin: 0 }}
+            iconColor={colors.light1}
+            onPress={() => currentPage > 0 ? __pagerRef.current?.setPage(currentPage - 1) : router.back()}
+          />
+        )}
 
         <ProgressBar
           progress={percentSection}
@@ -150,7 +152,7 @@ export default function SectionResolving() {
           style={{ backgroundColor: colors.dark10, borderRadius: 20, height: 6, width: 200 }}
         />
 
-        <View style={{ width: 45 }} />
+        <View style={{ width: 46 }} />
       </View>
 
       <Avatar.Icon
@@ -162,6 +164,7 @@ export default function SectionResolving() {
       <PagerView
         ref={__pagerRef}
         style={{ flex: 1 }}
+        scrollEnabled={false}
         onPageScroll={e => {
           setCurrentPage(e.nativeEvent.position);
           setPercentSection(e.nativeEvent.position / mainSection?.questions!.length);

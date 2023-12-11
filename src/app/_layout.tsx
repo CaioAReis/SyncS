@@ -51,7 +51,7 @@ export default function App() {
   const checkLevel = useCallback(({ levelType }: { levelType: number }) => {
 
     const levelsBase = [
-      levelType > 0,
+      levelType < 0,
       levelType < 50,
       levelType < 120,
       levelType < 200,
