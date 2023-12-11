@@ -114,6 +114,8 @@ interface HeaderProps {
 }
 
 interface Section {
+  id: string,
+  user: string,
   xpType: number,
   experience: number,
 
@@ -124,6 +126,7 @@ interface Section {
   updatedAt: Timestamp,
 
   answers?: string[][],
+
 
   level: "EASY" | "NORMAL" | "HARD",
   segment: "carrer" | "job" | "academic" | "evolution" | "doubts" | "user" | "recommendation" | "several",

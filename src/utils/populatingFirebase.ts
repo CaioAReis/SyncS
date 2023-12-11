@@ -7,7 +7,7 @@ async function createSection() {
 
   // const xpTypes = ["ship-wheel", "sword-cross", "brain"];
 
-  const body: Section = {
+  const body: Partial<Section> = {
     xpType: 2,
     answers: [],
     level: "EASY",

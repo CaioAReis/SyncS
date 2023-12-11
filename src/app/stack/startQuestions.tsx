@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { useContext, useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { useAppTheme } from "../../theme";
 import { Module, Section } from "../../types";
@@ -52,23 +52,20 @@ export default function StartQuestions() {
     const q = query(
       collection(db, "sections"),
       where("segment", "==", segment),
-      orderBy("createdAt.seconds")
     );
 
     await getDocs(q).then(result => {
       setSection(result.docs.map(doc => {
 
-        if (doc.data()?.answeredBy?.includes(session?.id)) {
+        if (doc.data()?.answers?.some((item: Section) => item?.user === session?.id)) {
           setResolvedCount(prev => prev + 1);
         }
 
-        return doc.data() as Section;
+        return { id: doc.id, ...doc.data() } as Section;
       }));
     })
       .catch(error => console.error("Ocorreu um erro: " + error))
       .finally(() => setIsLoading(false));
-
-
   };
 
   useEffect(() => {
@@ -77,11 +74,8 @@ export default function StartQuestions() {
     setIsLoading(true);
     getList();
 
-    //  E SALVAR NO CACHE
-
   }, []);
 
-  console.warn(sections[0].createdAt);
   return (
     <View style={{ flex: 1, backgroundColor: color }}>
       <Header color={colors.background} />

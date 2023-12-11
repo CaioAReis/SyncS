@@ -1,24 +1,19 @@
-import { useRef, useState } from "react";
 import PagerView from "react-native-pager-view";
+import { useContext, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { router, useLocalSearchParams } from "expo-router";
+import { arrayUnion, doc, increment, updateDoc } from "firebase/firestore";
 import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Avatar, Button, IconButton, ProgressBar, TextInput, TouchableRipple } from "react-native-paper";
 
 import { Text } from "../../components";
 import { useAppTheme } from "../../theme";
-import { Section, SectionResolvingProps } from "../../types";
+import { db } from "../../services/firebaseConfig";
+import AppContext from "../../services/AppContext";
+import { Section, SectionResolvingProps, User } from "../../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-/*
-
-const response = [
-  "Blá blá blá",    -> SUBJECTIVE
-  "A",              -> OBJECTIVE
-  ...
-];
-
-*/
 
 interface SelectableProps {
   i: number,
@@ -50,7 +45,7 @@ const Selectable = ({ option, i, selected, onPress }: SelectableProps) => {
           />
 
           <Text
-            fs={16}
+            fs={14}
             fw="SEMIB"
             color={selected ? colors.dark : colors.light}
             style={{ flex: 1, marginLeft: 12, marginRight: 20 }}
@@ -75,6 +70,7 @@ export default function SectionResolving() {
   const __pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
+  const { session, setSession, setIsLoading } = useContext(AppContext);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
 
   const mainSection: Section = JSON.parse(section!);
@@ -84,16 +80,57 @@ export default function SectionResolving() {
     defaultValues: Object.assign({}, new Array(qtdQuestions)),
   });
 
-  const onSubmit = (data: QuestionOBJ) => {
+  const onSubmit = async (data: QuestionOBJ) => {
+    if (currentPage === qtdQuestions) return router.push("/home");
 
-    if (currentPage !== qtdQuestions! - 1) return __pagerRef.current?.setPage(currentPage + 1);
+    if (currentPage === qtdQuestions! - 1) {
+      setIsLoading(true);
 
-    if (currentPage === qtdQuestions) return alert("IR PRA HOME!");
+      // ENVIANDO AS RESPOSTAS
+      const sectionRef = doc(db, "sections", mainSection.id);
+      await updateDoc(sectionRef, { answers: arrayUnion({ ...data, user: session?.id }) })
+        .then(async () => {
 
-    //  ENVIAR RESPOSTAS
-    console.warn(data);
+          const userRef = doc(db, "users", session!.id);
 
-    // __pagerRef.current?.setPage(currentPage + 1);
+          const levelBase = {
+            wisdomLevel: mainSection?.xpType === 2 ? mainSection?.experience : 0,
+            professionalismLevel: mainSection?.xpType === 1 ? mainSection?.experience : 0,
+            experienceLevel: (mainSection?.experience * 0.10) + (mainSection?.xpType ? 0 : mainSection?.experience),
+          };
+
+          // ATUALIZANDO COM AS EXPERIÊNCIAS RECEBIDAS
+          await updateDoc(
+            userRef,
+            {
+              wisdomLevel: increment(levelBase.wisdomLevel),
+              experienceLevel: increment(levelBase.experienceLevel),
+              professionalismLevel: increment(levelBase.professionalismLevel),
+            }
+          );
+
+          const userBody = {
+            ...session,
+            wisdomLevel: session!.wisdomLevel + levelBase.wisdomLevel,
+            experienceLevel: session!.experienceLevel + levelBase.experienceLevel,
+            professionalismLevel: session!.professionalismLevel + levelBase.professionalismLevel,
+          };
+
+          // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
+          await AsyncStorage.setItem("syncs_user", JSON.stringify(userBody))
+            .then(() => {
+              setSession(userBody as User);
+              return __pagerRef.current?.setPage(currentPage + 1);
+            })
+            .catch((error) => console.error("Error no storage", error));
+
+          // Randomizar se vai ganhar algo ou não!!
+        })
+        .catch(e => console.error(e))
+        .finally(() => setIsLoading(false));
+    }
+
+    return __pagerRef.current?.setPage(currentPage + 1);
   };
 
   return (
@@ -184,8 +221,8 @@ export default function SectionResolving() {
                             i={i}
                             key={i}
                             option={option}
-                            selected={option === value}
-                            onPress={() => onChange(option)}
+                            selected={optionLabels[i] === value}
+                            onPress={() => onChange(optionLabels[i])}
                           />
                         ))}
                       </View>
@@ -224,7 +261,7 @@ export default function SectionResolving() {
             ta="center"
             style={{ marginVertical: 20, marginHorizontal: 30 }}
           >
-            Ótimo! Você concluiu esta bateria de perguntas, veja suas reconpensas e aguarde por novas!
+            Ótimo! Você concluiu esta bateria de perguntas, veja suas reconpensas e aguarde por novos desafios!
           </Text>
 
           <View style={styles.xpView}>

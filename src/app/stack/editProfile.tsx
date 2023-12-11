@@ -31,7 +31,6 @@ export default function EditProfile() {
 
   const onSubmit = async (data: Partial<User>) => {
     setIsLoading(true);
-    //  UPAR IMAGEM E PEGAR LINK PARA ATUALIZAÇÃO DO CAMPO Picture.
 
     const userRef = doc(db, "users", session!.id);
     await updateDoc(userRef, { ...data }).then(() => {
