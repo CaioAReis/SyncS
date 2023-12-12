@@ -11,7 +11,6 @@ import { Text, TimelineCard } from "../../components";
 export default function Timeline() {
   const { colors } = useAppTheme();
   const { setIsLoading } = useContext(AppContext);
-  // const [lastPeiod, setLastPeriod] = useState();
   const { width, height } = useWindowDimensions();
   const [timeline, setTimeline] = useState<TimelineItem[]>([]);
 
@@ -20,17 +19,8 @@ export default function Timeline() {
     const firstPage = query(collection(db, "timeline"), orderBy("year", "desc"), limit(2));
     await getDocs(firstPage).then(result => {
       setTimeline(result.docs.map(doc => doc.data() as TimelineItem));
-      // setLastPeriod(result.docs[result.docs.length - 1]);
     }).finally(() => setIsLoading(false));
   };
-
-  // const getNextTimeline = async () => {
-  //   const nextPage = query(collection(db, "timeline"), orderBy("year", "desc"), startAfter(lastVisible), limit(2));
-  //   await getDocs(nextPage).then(result => {
-  //     setTimeline(result.docs.map(doc => doc.data() as TimelineItem));
-  //     setLastPeriod(result.docs[result.docs.length - 1]);
-  //   });
-  // };
 
   useLayoutEffect(() => {
     getTimeline();

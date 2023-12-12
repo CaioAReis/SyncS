@@ -1,8 +1,9 @@
+import { router } from "expo-router";
 import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 
 import { User } from "../../types";
 import { useAppTheme } from "../../theme";
@@ -11,7 +12,6 @@ import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { masks, regexValidations } from "../../utils/regexValidations";
-import { router } from "expo-router";
 
 export default function EditProfile() {
   const { colors } = useAppTheme();

@@ -91,7 +91,7 @@ export default function SectionResolving() {
       await updateDoc(sectionRef, { answers: arrayUnion({ ...data, user: session?.id }) })
         .then(async () => {
 
-          const userRef = doc(db, "users", session!.id);
+          const userRef = doc(db, "users", session!.id!);
 
           const levelBase = {
             wisdomLevel: mainSection?.xpType === 2 ? mainSection?.experience : 0,
@@ -117,20 +117,20 @@ export default function SectionResolving() {
 
           const userBody: Partial<User> = {
             ...session,
-            wisdomLevel: session!.wisdomLevel + levelBase.wisdomLevel,
-            experienceLevel: session!.experienceLevel + levelBase.experienceLevel,
-            professionalismLevel: session!.professionalismLevel + levelBase.professionalismLevel,
+            wisdomLevel: session!.wisdomLevel! + levelBase.wisdomLevel,
+            experienceLevel: session!.experienceLevel! + levelBase.experienceLevel,
+            professionalismLevel: session!.professionalismLevel! + levelBase.professionalismLevel,
 
             solvedModules: {
               ...session!.solvedModules,
-              total: session!.solvedModules.total + 1,
-              [mainSection?.segment]: session!.solvedModules[mainSection?.segment] + 1,
+              total: session!.solvedModules!.total + 1,
+              [mainSection?.segment]: session!.solvedModules![mainSection?.segment] + 1,
             },
 
             solvedQuestions: {
               ...session!.solvedQuestions,
-              total: session!.solvedQuestions.total + qtdQuestions!,
-              [mainSection?.segment]: session!.solvedQuestions[mainSection?.segment] + qtdQuestions!,
+              total: session!.solvedQuestions!.total + qtdQuestions!,
+              [mainSection?.segment]: session!.solvedQuestions![mainSection?.segment] + qtdQuestions!,
             }
           };
 

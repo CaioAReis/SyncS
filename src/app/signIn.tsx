@@ -46,11 +46,6 @@ export default function SignIn() {
 
         } else {
           alert("Usuário não encontrado!");
-          // onToggleToast({
-          //   type: "error",
-          //   message: "Usuário não enncontrado!",
-          // });
-
         }
       })
       .catch((error) => {

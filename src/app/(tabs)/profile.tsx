@@ -45,9 +45,6 @@ export default function Profile() {
   const { RenderGaley, startGallery } = useGallery();
   const { session, checkLevel } = useContext(AppContext);
 
-  console.warn(session);
-  
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <FlatList

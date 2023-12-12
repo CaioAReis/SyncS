@@ -82,7 +82,10 @@ interface User {
     recommendation: number,
   },
 
-  [key: string]: unknown,
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+
+  // [key: string]: unknown,
 }
 
 interface TimelineItem {

@@ -10,43 +10,12 @@ import { Header, Text } from "../../components";
 import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
 
-// const section: Section = {
-//   xpType: 0,
-//   level: "EASY",
-//   experience: 200,
-//   segment: "carrer",
-//   answeredBy: ["1", "2", "3"],
-//   answers: [
-//     ["Blá blá blá", "Blá blá blá", "Blá blá blá",],
-//     ["Naruto", "Goku", "Gon"],
-//   ],
-
-//   questions: [
-//     {
-//       type: "SUBJECTIVE",
-//       description: "Qual melhor anime na sua opnião?",
-//     },
-
-//     {
-//       type: "OBJECTIVE",
-//       description: "Qual melhor protagonista?",
-//       options: ["Naruto", "Luffy", "Goku", "Gon"]
-//     }
-//   ],
-// };
-
 export default function StartQuestions() {
   const { colors } = useAppTheme();
-  const { session, setIsLoading } = useContext(AppContext);
   const [sections, setSection] = useState<Section[]>([]);
+  const { session, isLoading, setIsLoading } = useContext(AppContext);
   const [resolvedCount, setResolvedCount] = useState<number>(0);
   const { color, description, label, icon, segment } = useLocalSearchParams<Partial<Module>>();
-
-  /*
-    Cada módulo de perguntas vai possuir uma lista de Seções.
-    Cada Seção terá sua lista de perguntas e guardará os IDs dos usuários que já responderam;
-    Quando fizer a busca por Seções trazer apenas as que o usuário não respondeu. 
-  */
 
   const getList = async () => {
     const q = query(
@@ -102,10 +71,16 @@ export default function StartQuestions() {
         </Text>
 
         <View style={{ alignItems: "center", marginTop: "15%", width: "80%" }}>
-          <Text fw="MEDIUM" fs={16} color={colors.background}>{resolvedCount} / {sections?.length}</Text>
+          {!isLoading && (
+            <Text fw="MEDIUM" fs={14} style={{ marginBottom: 6 }} color={colors.background}>
+              {resolvedCount} / {sections?.length}
+            </Text>
+          )}
+
           <Button
             mode="contained"
             style={{ width: "100%" }}
+            disabled={resolvedCount >= sections?.length}
             onPress={() => router.push({
               pathname: "/stack/sectionResolving",
               params: { section: JSON.stringify(sections[resolvedCount]), color, icon },
@@ -113,6 +88,12 @@ export default function StartQuestions() {
           >
             COMEÇAR
           </Button>
+
+          {!isLoading && resolvedCount >= sections?.length && (
+            <Text ta="center" fs={14} lh={16} style={{ marginTop: 30 }}>
+              Você concluiu todas as seções deste módulo. Aguarde por novas perguntas.
+            </Text>
+          )}
         </View>
       </View>
 

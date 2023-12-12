@@ -39,9 +39,9 @@ export default function SignUp() {
           phone: "",
           birthDate: "",
           accountStatus: "",
-          name: data.name || "",
-          email: data.email || "",
-          nickname: data.nickname || "",
+          name: data.name,
+          email: data.email,
+          nickname: data.nickname,
           picture: `https://api.dicebear.com/7.x/thumbs/png?seed=${data.nickname}&eyes=variant4W16`,
 
           collection: [],
@@ -86,7 +86,7 @@ export default function SignUp() {
             await AsyncStorage.setItem("syncs_user", jsonUser)
               .then(() => {
                 alert("Conta Criada com sucesso");
-                setSession({ id: userSignUped!.uid, ...userBody });
+                setSession({ id: userSignUped.uid, ...userBody } as User);
                 router.push("/home");
               })
               .catch((error) => console.error("Error no storage", error));
