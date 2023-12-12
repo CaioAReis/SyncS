@@ -9,7 +9,7 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-n
 
 import { Text } from "../components";
 import { useAppTheme } from "../theme";
-import { SignUpData } from "../types";
+import { SignUpData, User } from "../types";
 import AppContext from "../services/AppContext";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
@@ -35,13 +35,13 @@ export default function SignUp() {
       .then(async (userCredential) => {
         const userSignUped = userCredential.user;
 
-        const userBody = {
+        const userBody: Partial<User> = {
           phone: "",
           birthDate: "",
-          name: data.name,
           accountStatus: "",
-          email: data.email,
-          nickname: data.nickname,
+          name: data.name || "",
+          email: data.email || "",
+          nickname: data.nickname || "",
           picture: `https://api.dicebear.com/7.x/thumbs/png?seed=${data.nickname}&eyes=variant4W16`,
 
           collection: [],
@@ -50,6 +50,30 @@ export default function SignUp() {
           wisdomLevel: 0,
           experienceLevel: 0,
           professionalismLevel: 0,
+
+          solvedModules: {
+            job: 0,
+            user: 0,
+            total: 0,
+            doubts: 0,
+            carrer: 0,
+            several: 0,
+            academic: 0,
+            evolution: 0,
+            recommendation: 0,
+          },
+
+          solvedQuestions: {
+            job: 0,
+            user: 0,
+            total: 0,
+            carrer: 0,
+            doubts: 0,
+            several: 0,
+            academic: 0,
+            evolution: 0,
+            recommendation: 0,
+          },
 
           createdAt: Timestamp.fromDate(new Date()),
           updatedAt: Timestamp.fromDate(new Date()),
@@ -61,10 +85,7 @@ export default function SignUp() {
             const jsonUser = JSON.stringify({ id: userSignUped.uid, ...userBody });
             await AsyncStorage.setItem("syncs_user", jsonUser)
               .then(() => {
-                // onToggleToast({
-                //   type: "success",
-                //   message: "Sua conta foi criada com sucesso!",
-                // });
+                alert("Conta Criada com sucesso");
                 setSession({ id: userSignUped!.uid, ...userBody });
                 router.push("/home");
               })

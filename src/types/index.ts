@@ -58,6 +58,30 @@ interface User {
   experienceLevel: number,
   professionalismLevel: number,
 
+  solvedModules: {
+    job: number,
+    user: number,
+    total: number,
+    doubts: number,
+    carrer: number,
+    several: number,
+    academic: number,
+    evolution: number,
+    recommendation: number,
+  },
+
+  solvedQuestions: {
+    job: number,
+    user: number,
+    total: number,
+    carrer: number,
+    doubts: number,
+    several: number,
+    academic: number,
+    evolution: number,
+    recommendation: number,
+  },
+
   [key: string]: unknown,
 }
 

@@ -7,7 +7,7 @@ interface ContextData {
   setIsLoading: Dispatch<React.SetStateAction<boolean>>,
 
   session: User | null,
-  setSession: Dispatch<React.SetStateAction<User | null>>,
+  setSession: Dispatch<React.SetStateAction<Partial<User> | null>>,
 
   theme: string,
   setTheme: React.Dispatch<React.SetStateAction<string>>,

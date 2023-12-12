@@ -59,7 +59,7 @@ const Selectable = ({ option, i, selected, onPress }: SelectableProps) => {
 };
 
 interface QuestionOBJ {
-  [key: number]: string,
+  [key: string]: string,
 }
 
 const xpTypes = ["ship-wheel", "sword-cross", "brain"];
@@ -77,7 +77,7 @@ export default function SectionResolving() {
   const qtdQuestions = mainSection?.questions?.length;
 
   const { control, handleSubmit, formState: { errors } } = useForm<QuestionOBJ>({
-    defaultValues: Object.assign({}, new Array(qtdQuestions)),
+    defaultValues: Object.assign<QuestionOBJ, QuestionOBJ[]>({}, new Array(qtdQuestions)),
   });
 
   const onSubmit = async (data: QuestionOBJ) => {
@@ -106,14 +106,32 @@ export default function SectionResolving() {
               wisdomLevel: increment(levelBase.wisdomLevel),
               experienceLevel: increment(levelBase.experienceLevel),
               professionalismLevel: increment(levelBase.professionalismLevel),
+
+              "solvedModules.total": increment(1),
+              [`solvedModules.${mainSection?.segment}`]: increment(1),
+
+              "solvedQuestions.total": increment(qtdQuestions!),
+              [`solvedQuestions.${mainSection?.segment}`]: increment(qtdQuestions!),
             }
           );
 
-          const userBody = {
+          const userBody: Partial<User> = {
             ...session,
             wisdomLevel: session!.wisdomLevel + levelBase.wisdomLevel,
             experienceLevel: session!.experienceLevel + levelBase.experienceLevel,
             professionalismLevel: session!.professionalismLevel + levelBase.professionalismLevel,
+
+            solvedModules: {
+              ...session!.solvedModules,
+              total: session!.solvedModules.total + 1,
+              [mainSection?.segment]: session!.solvedModules[mainSection?.segment] + 1,
+            },
+
+            solvedQuestions: {
+              ...session!.solvedQuestions,
+              total: session!.solvedQuestions.total + qtdQuestions!,
+              [mainSection?.segment]: session!.solvedQuestions[mainSection?.segment] + qtdQuestions!,
+            }
           };
 
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
