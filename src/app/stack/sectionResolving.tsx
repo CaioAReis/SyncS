@@ -64,6 +64,43 @@ interface QuestionOBJ {
 
 const xpTypes = ["ship-wheel", "sword-cross", "brain"];
 
+const checkAchievement = (user: User) => {
+  const { setEarnings } = useContext(AppContext);
+
+  console.warn(user);
+
+  if (user.solvedModules.total > 1) {
+    /*  VERIFICAÇÃO DAS QUANTIDADES DE PERGUNTAS RESOLVIDAS - RECOMPENSAS DE PERGUNTAS
+          CONSUISTA DE 50 PERGUNTAS RESOLVIDAS
+          CONSUISTA DE 100 PERGUNTAS RESOLVIDAS
+          CONSQUISTA DE 50 PERGUNTAS RESOLVIDAS DE CADA MÓDULO
+    */
+
+    /*  VERIFICAÇÃO DAS QUANTIDADES DE MÓDULOS RESOLVIDOS - RECOMPENSAS DE MÓDULOS
+          CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
+          CONQUISTA DE 10 MÓDULOS RESOLVIDOS
+          CONQUISTA DE RESOLVER TODOS OS MÓDULOS UMA VEZ
+          CONQUISTA DE RESOLVER CADA MÓDULO 5x
+    */
+
+    /*  VERIFICAÇÃO DOS NÍVEIS - RECOMPENSAS DE NÍVEL
+          CONQUISTA DE NÍVEL DE SABEDORIA 10
+          CONQUISTA DE NÍVEL DE EXPERIÊNCIA 10
+          CONQUISTA DE NÍVEL DE PROFISSIONALISMO 10
+    
+          CONQUISTA DE NÍVEL DE SABEDORIA 20
+          CONQUISTA DE NÍVEL DE EXPERIÊNCIA 20
+          CONQUISTA DE NÍVEL DE PROFISSIONALISMO 20
+    
+          CONQUISTA DE NÍVEL DE SABEDORIA 30
+          CONQUISTA DE NÍVEL DE EXPERIÊNCIA 30
+          CONQUISTA DE NÍVEL DE PROFISSIONALISMO 30
+    */
+
+    //  INICIANTE PROMISSOR
+  } else return setEarnings({ image: "", type: "ACHIEVEMENT", title: "Iniciante Promissor" });
+};
+
 export default function SectionResolving() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
@@ -133,6 +170,9 @@ export default function SectionResolving() {
               [mainSection?.segment]: session!.solvedQuestions![mainSection?.segment] + qtdQuestions!,
             }
           };
+
+          // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
+          // checkAchievement(userBody);
 
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
           await AsyncStorage.setItem("syncs_user", JSON.stringify(userBody))
