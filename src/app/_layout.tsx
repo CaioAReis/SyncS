@@ -24,8 +24,8 @@ export default function App() {
   const colorScheme = useColorScheme();
   const [isLoading, setIsLoading] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("");
-  const [session, setSession] = useState<User | null>(null);
   const [earnings, setEarnings] = useState<Earnings | null>(null);
+  const [session, setSession] = useState<User | null>(null);
 
   const [fontsLoaded, fontError] = useFonts({
     Nunito_300Light,
@@ -122,7 +122,9 @@ export default function App() {
             <Slot />
 
             <Modal visible={isLoading} dismissable={false} onDismiss={() => setIsLoading(false)}>
-              <ActivityIndicator size="large" color={appTheme?.colors?.primary} />
+              <View style={{ borderRadius: 12, backgroundColor: appTheme?.colors?.background, alignSelf: "center", padding: 40 }}>
+                <ActivityIndicator size="large" color={appTheme?.colors?.primary} />
+              </View>
             </Modal>
 
             <Modal visible={Boolean(earnings)} onDismiss={() => setEarnings(null)}>
