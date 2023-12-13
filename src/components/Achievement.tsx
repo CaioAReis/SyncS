@@ -13,7 +13,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
   return (
     <>
       <Pressable
-        key={achievement?._id}
+        key={achievement?.id}
         onPress={() => setIsOpen(true)}
         style={{
           width: size || 60,
@@ -22,7 +22,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
           ...styles.content,
         }}
       >
-        <Image source={{ uri: achievement?.image }} style={{ flex: 1 }} />
+        <Image source={{ uri: achievement?.image }} style={{ flex: 1, borderRadius: 15 }} />
 
         {achievement.quantity > 1 && (
           <View style={{ backgroundColor: colors.color, ...styles.quantityContent }}>
@@ -47,7 +47,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
             <View>
               <View style={{ alignItems: "center", marginBottom: 10 }}>
                 <Image
-                  style={{ width: 120, height: 120 }}
+                  style={{ width: 120, height: 120, borderRadius: 15 }}
                   source={{ uri: achievement?.image }}
                 />
 

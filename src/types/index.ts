@@ -232,7 +232,7 @@ interface ToastProps {
 }
 
 interface AchievementProps {
-  _id: string,
+  id: string,
   name: string,
   image: string,
   quantity: number,

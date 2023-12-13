@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { router } from "expo-router";
-import { Image, Platform, ScrollView, StyleSheet, View } from "react-native";
-import { Avatar, IconButton, List, Switch, TouchableRipple } from "react-native-paper";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Avatar, IconButton, List, TouchableRipple } from "react-native-paper";
 
 import { useAppTheme } from "../../theme";
 import AppContext from "../../services/AppContext";
 import { AboutButton, DeleteAccountButton, Header, LogoutButton, Text } from "../../components";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileSettings() {
   const { colors } = useAppTheme();
@@ -63,7 +63,7 @@ export default function ProfileSettings() {
           <List.Section style={{ marginBottom: 60 }}>
             <List.Subheader>Definições</List.Subheader>
 
-            <List.Item
+            {/* <List.Item
               title="Receber notificações"
               onPress={() => { }}
               rippleColor={colors.blue11}
@@ -79,9 +79,9 @@ export default function ProfileSettings() {
                 />
               )}
 
-            />
+            /> */}
 
-            <List.Item
+            {/* <List.Item
               onPress={() => { }}
               title="Compartilhar"
               style={{ marginBottom: 10 }}
@@ -98,7 +98,7 @@ export default function ProfileSettings() {
                   }
                 />
               )}
-            />
+            /> */}
 
             <AboutButton />
 
