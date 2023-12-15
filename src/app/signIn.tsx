@@ -35,7 +35,7 @@ export default function SignIn() {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-
+          //  BUSCAR A LISTA DE COLEÇÃO E DE CONQUISTAS E SALVAR NOS CAMPOS DO USUÁRIO
           const jsonUser = JSON.stringify({ id: userSnap.id, ...userSnap.data() });
           await AsyncStorage.setItem("syncs_user", jsonUser)
             .then(() => {

@@ -1,5 +1,5 @@
 // import PagerView from "react-native-pager-view";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { router } from "expo-router";
 import { Avatar, IconButton } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
@@ -8,6 +8,9 @@ import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import AppContext from "../../services/AppContext";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebaseConfig";
+import { User } from "../../types";
 
 // const collection = [
 //   { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
@@ -43,7 +46,27 @@ export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const { session, checkLevel } = useContext(AppContext);
+  const { session, setSession, checkLevel } = useContext(AppContext);
+
+  // console.warn(session);
+
+  useEffect(() => {
+    async function getAc() {
+      await getDocs(collection(db, `users/${session?.id}/achievements`))
+        .then(r => {
+          console.warn("buscou");
+          setSession({
+            ...session, achievements: r.docs.map(doc => {
+              return { id: doc.id, ...doc.data() };
+            })
+          } as User);
+        });
+    }
+
+    getAc();
+
+  }, []);
+
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -60,12 +83,12 @@ export default function Profile() {
         }
         ListHeaderComponent={
           <>
-            <View style={styles.headerView}>
-              <IconButton
+            <View style={[styles.headerView, { justifyContent: "flex-end" }]}>
+              {/* <IconButton
                 size={30}
                 icon="share-outline"
                 iconColor={colors.color1}
-              />
+              /> */}
 
               <IconButton
                 size={30}
@@ -124,7 +147,7 @@ export default function Profile() {
               {session?.achievements?.length ? (
                 <View style={styles.achievementList}>
                   {session?.achievements.map(item => (
-                    <Achievement size={width / 7} key={item?._id} achievement={item} />
+                    <Achievement size={width / 7} key={item?.id} achievement={item} />
                   ))}
                 </View>
               ) : (

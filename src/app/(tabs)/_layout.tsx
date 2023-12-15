@@ -18,7 +18,7 @@ export default function TabsApp() {
         tabBarStyle: {
           elevation: 0,
           paddingHorizontal: 6,
-          borderColor: colors.background,
+          borderColor: colors.background5,
           backgroundColor: colors.background,
         },
 

@@ -2,9 +2,9 @@ import PagerView from "react-native-pager-view";
 import { useContext, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { router, useLocalSearchParams } from "expo-router";
-import { arrayUnion, doc, increment, updateDoc } from "firebase/firestore";
 import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Avatar, Button, IconButton, ProgressBar, TextInput, TouchableRipple } from "react-native-paper";
+import { arrayUnion, collection, doc, documentId, getDocs, increment, query, updateDoc, where } from "firebase/firestore";
 
 import { Text } from "../../components";
 import { useAppTheme } from "../../theme";
@@ -64,54 +64,85 @@ interface QuestionOBJ {
 
 const xpTypes = ["ship-wheel", "sword-cross", "brain"];
 
-// const checkAchievement = async (user: User) => {
-//   const { setEarnings } = useContext(AppContext);
+const checkAchievement = async (user: Partial<User>, checkLevel: ({ levelType }: { levelType: number }) => number) => {
+  const achievementIDs = [];
 
-//   //  AQUI VEM AQUELE CREATE COM O ID DO USUÁRIO NA SUBCOLLECTION DE CONQUISTAS
+  //  CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
+  if (user.solvedModules!.total > 1) achievementIDs.push("wXCt4WjiVLVzkS3uw9nC");
 
-//   // wXCt4WjiVLVzkS3uw9nC
+  //   VERIFICAÇÃO DAS QUANTIDADES DE PERGUNTAS RESOLVIDAS - RECOMPENSAS DE PERGUNTAS
+  //  CONSUISTA DE 50 PERGUNTAS RESOLVIDAS
+  if (user.solvedQuestions!.total >= 50) achievementIDs.push("jpP4iYnoxOwvm5SwLyAu");
+  //  CONSUISTA DE 100 PERGUNTAS RESOLVIDAS
+  if (user.solvedQuestions!.total >= 100) achievementIDs.push("ZOALdX2Bc9VxpSzy1CqS");
+  //  CONSUISTA DE 50 PERGUNTAS ACADÊMICAS RESOLVIDAS
+  if (user.solvedQuestions!.academic >= 50) achievementIDs.push("EYxkYp5Cab2SlGTIbCnR");
+  //  CONSUISTA DE 50 PERGUNTAS CARREIRA RESOLVIDAS
+  if (user.solvedQuestions!.carrer >= 50) achievementIDs.push("xbO69htTS5WCMkxnYe4U");
+  //  CONSUISTA DE 50 DÚVIDAS RESOLVIDAS
+  if (user.solvedQuestions!.doubts >= 50) achievementIDs.push("E02j0OuV99DVTd2sktbG");
+  //  CONSUISTA DE 50 PERGUNTAS DE EVOLUÇÃO RESOLVIDAS
+  if (user.solvedQuestions!.evolution >= 50) achievementIDs.push("kP3FFinlPXH3oDpQETpc");
+  //  CONSUISTA DE 50 PERGUNTAS MERCADO RESOLVIDAS
+  if (user.solvedQuestions!.job >= 50) achievementIDs.push("eW3jJ9gGABYVwIFJlBvC");
+  //  CONSUISTA DE 50 RECOMENDAÇÕES RESOLVIDAS
+  if (user.solvedQuestions!.recommendation >= 50) achievementIDs.push("qx4xO9zP0PPe7TOj99ic");
+  //  CONSUISTA DE 50 PERGUNTAS USÁRIO RESOLVIDAS
+  if (user.solvedQuestions!.user >= 50) achievementIDs.push("TDvSvuvlsh1KUmE8vwJ3");
 
-//   const achievementRef = doc(db, "achievements", "wXCt4WjiVLVzkS3uw9nC");
-//   const achievementSnap = await getDoc(achievementRef);
+  //  VERIFICAÇÃO DAS QUANTIDADES DE MÓDULOS RESOLVIDOS - RECOMPENSAS DE MÓDULOS
+  //  CONQUISTA DE 10 MÓDULOS RESOLVIDOS
+  if (user.solvedModules!.total >= 10) achievementIDs.push("8u7YRrogjgFcGaYBCiYz");
+  //  CONQUISTA DE 20 MÓDULOS RESOLVIDOS
+  if (user.solvedModules!.total >= 20) achievementIDs.push("AgSane3A8Bro1qCFhzSz");
+  //  CONQUISTA DE RESOLVER TODOS OS MÓDULOS UMA VEZ
+  if (
+    user.solvedModules!.user > 0 &&
+    user.solvedModules!.job > 0 &&
+    user.solvedModules!.carrer > 0 &&
+    user.solvedModules!.doubts > 0 &&
+    user.solvedModules!.academic > 0 &&
+    user.solvedModules!.evolution > 0 &&
+    user.solvedModules!.recommendation > 0
+  ) achievementIDs.push("loAXc5SlwuyhWzZv0RkX");
 
-//   if (achievementSnap.exists()) {
-//     return { id: achievementSnap.id, ...achievementSnap.data() };
-//   }
+  //  VERIFICAÇÃO DOS NÍVEIS - RECOMPENSAS DE NÍVEL
+  //  CONQUISTA DE NÍVEL DE SABEDORIA 10
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 10) achievementIDs.push("rwZZqwlO7O9FzJ92O9n0");
+  //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 10
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 10) achievementIDs.push("MiHohz5yMM4UwE5ubeNd");
+  //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 10
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 10) achievementIDs.push("ITNi35Z7wTtee82SHeFO");
 
-//   return;
+  //  CONQUISTA DE NÍVEL DE SABEDORIA 20
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 20) achievementIDs.push("3QL5VODqRBqshbRvGbGQ");
+  //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 20
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 20) achievementIDs.push("kJdz4SsajrdbGsTnH6uJ");
+  //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 20
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 20) achievementIDs.push("ITvq9xpIsw86phQM6BZ6");
 
-//   if (user.solvedModules.total > 1) {
-//     /*  VERIFICAÇÃO DAS QUANTIDADES DE PERGUNTAS RESOLVIDAS - RECOMPENSAS DE PERGUNTAS
-//           CONSUISTA DE 50 PERGUNTAS RESOLVIDAS
-//           CONSUISTA DE 100 PERGUNTAS RESOLVIDAS
-//           CONSQUISTA DE 50 PERGUNTAS RESOLVIDAS DE CADA MÓDULO
-//     */
+  //  CONQUISTA DE NÍVEL DE SABEDORIA 30
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 30) achievementIDs.push("h9f1GXofJ8o6GoMkmdBL");
+  //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 30
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 30) achievementIDs.push("LQfEzClIKShs59mz6gmp");
+  //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 30
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 30) achievementIDs.push("IXlo9YNPQxb0EkpdxNP4");
 
-//     /*  VERIFICAÇÃO DAS QUANTIDADES DE MÓDULOS RESOLVIDOS - RECOMPENSAS DE MÓDULOS
-//           CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
-//           CONQUISTA DE 10 MÓDULOS RESOLVIDOS
-//           CONQUISTA DE 20 MÓDULOS RESOLVIDOS
-//           CONQUISTA DE RESOLVER TODOS OS MÓDULOS UMA VEZ
-//           CONQUISTA DE RESOLVER CADA MÓDULO 5x
-//     */
+  //  BUSCAR AS CONQUISTAS EXISTENTS NO ARRAY
+  const achievementRef = collection(db, "achievements");
+  const q = query(achievementRef, where(documentId(), "in", achievementIDs));
+  await getDocs(q)
+    .then(result => {
+      console.warn(result.docs.map(item => ({ id: item.id, ...item.data() })));
+    })
+    .catch(e => console.error("Ocorreu um erro: " + e));
 
-//     /*  VERIFICAÇÃO DOS NÍVEIS - RECOMPENSAS DE NÍVEL
-//           CONQUISTA DE NÍVEL DE SABEDORIA 10
-//           CONQUISTA DE NÍVEL DE EXPERIÊNCIA 10
-//           CONQUISTA DE NÍVEL DE PROFISSIONALISMO 10
-    
-//           CONQUISTA DE NÍVEL DE SABEDORIA 20
-//           CONQUISTA DE NÍVEL DE EXPERIÊNCIA 20
-//           CONQUISTA DE NÍVEL DE PROFISSIONALISMO 20
-    
-//           CONQUISTA DE NÍVEL DE SABEDORIA 30
-//           CONQUISTA DE NÍVEL DE EXPERIÊNCIA 30
-//           CONQUISTA DE NÍVEL DE PROFISSIONALISMO 30
-//     */
+  // console.warn(achievementList);
 
-//     //  INICIANTE PROMISSOR
-//   } else return setEarnings({ image: "", type: "ACHIEVEMENT", title: "Iniciante Promissor" });
-// };
+  //  SALVAR AS CONQUISTAS DESBLOQUEADAS
+
+  return;
+};
 
 export default function SectionResolving() {
   const { colors } = useAppTheme();
@@ -119,7 +150,7 @@ export default function SectionResolving() {
   const __pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
-  const { session, setSession, setIsLoading } = useContext(AppContext);
+  const { session, setSession, checkLevel, setIsLoading } = useContext(AppContext);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
 
   const mainSection: Section = JSON.parse(section!);
@@ -184,7 +215,7 @@ export default function SectionResolving() {
           };
 
           // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
-          // checkAchievement(userBody);
+          checkAchievement(userBody, checkLevel);
 
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
           await AsyncStorage.setItem("syncs_user", JSON.stringify(userBody))
@@ -234,7 +265,7 @@ export default function SectionResolving() {
       <PagerView
         ref={__pagerRef}
         style={{ flex: 1 }}
-        scrollEnabled={false}
+        // scrollEnabled={false}
         onPageScroll={e => {
           setCurrentPage(e.nativeEvent.position);
           setPercentSection(e.nativeEvent.position / mainSection?.questions!.length);
