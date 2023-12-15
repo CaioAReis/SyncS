@@ -51,8 +51,8 @@ interface User {
   birthDate: string,
   accountStatus: string,
 
+  achievements: string[],
   collection: FigureProps[],
-  achievements: AchievementProps[],
 
   wisdomLevel: number,
   experienceLevel: number,
@@ -104,7 +104,7 @@ interface TimelinePeriod {
 
 interface AchievementBase {
   size?: number,
-  achievement: AchievementProps,
+  achievement: Partial<AchievementProps>,
 }
 
 interface Banner {

@@ -24,12 +24,15 @@ export function Achievement({ achievement, size }: AchievementBase) {
       >
         <Image source={{ uri: achievement?.image }} style={{ flex: 1, borderRadius: 15 }} />
 
-        {achievement.quantity > 1 && (
-          <View style={{ backgroundColor: colors.color, ...styles.quantityContent }}>
-            <Text fs={12} fw="BOLD" style={{ color: colors.background }}>
-              {achievement?.quantity}x
-            </Text>
-          </View>
+        {achievement.quantity && (
+          achievement.quantity > 1 && (
+            <View style={{ backgroundColor: colors.color, ...styles.quantityContent }}>
+              <Text fs={12} fw="BOLD" style={{ color: colors.background }}>
+                {achievement?.quantity}x
+              </Text>
+            </View>
+
+          )
         )}
       </Pressable>
 
@@ -53,17 +56,19 @@ export function Achievement({ achievement, size }: AchievementBase) {
 
                 <Text fw="BOLD" fs={16} style={{ marginTop: 10 }}>{achievement?.name}</Text>
 
-                {achievement.quantity > 1 && (
-                  <View style={{
-                    backgroundColor: colors.color,
-                    ...styles.quantityContent,
-                    bottom: 30, left: "30%",
-                  }}
-                  >
-                    <Text fs={12} fw="BOLD" style={{ color: colors.background }}>
-                      {achievement?.quantity}x
-                    </Text>
-                  </View>
+                {achievement.quantity && (
+                  achievement.quantity > 1 && (
+                    <View style={{
+                      backgroundColor: colors.color,
+                      ...styles.quantityContent,
+                      bottom: 30, left: "30%",
+                    }}
+                    >
+                      <Text fs={12} fw="BOLD" style={{ color: colors.background }}>
+                        {achievement?.quantity}x
+                      </Text>
+                    </View>
+                  )
                 )}
               </View>
 

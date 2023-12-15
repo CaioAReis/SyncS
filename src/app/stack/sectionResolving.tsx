@@ -10,7 +10,7 @@ import { Text } from "../../components";
 import { useAppTheme } from "../../theme";
 import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
-import { Section, SectionResolvingProps, User } from "../../types";
+import { AchievementProps, Section, SectionResolvingProps, User } from "../../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
@@ -64,7 +64,10 @@ interface QuestionOBJ {
 
 const xpTypes = ["ship-wheel", "sword-cross", "brain"];
 
-const checkAchievement = async (user: Partial<User>, checkLevel: ({ levelType }: { levelType: number }) => number) => {
+const checkAchievement = async (
+  user: Partial<User>,
+  checkLevel: ({ levelType }: { levelType: number }) => number
+): Promise<[string[], Partial<AchievementProps>[]]> => {
   const achievementIDs = [];
 
   //  CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
@@ -128,20 +131,18 @@ const checkAchievement = async (user: Partial<User>, checkLevel: ({ levelType }:
   //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 30
   if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 30) achievementIDs.push("IXlo9YNPQxb0EkpdxNP4");
 
+  if (achievementIDs.length === 0) return [[], []];
   //  BUSCAR AS CONQUISTAS EXISTENTS NO ARRAY
   const achievementRef = collection(db, "achievements");
   const q = query(achievementRef, where(documentId(), "in", achievementIDs));
-  await getDocs(q)
-    .then(result => {
-      console.warn(result.docs.map(item => ({ id: item.id, ...item.data() })));
-    })
-    .catch(e => console.error("Ocorreu um erro: " + e));
+  const achievementList: Partial<AchievementProps>[] = await getDocs(q)
+    .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
+    .catch(e => {
+      console.error("Ocorreu um erro: " + e);
+      return [];
+    });
 
-  // console.warn(achievementList);
-
-  //  SALVAR AS CONQUISTAS DESBLOQUEADAS
-
-  return;
+  return [achievementIDs, achievementList];
 };
 
 export default function SectionResolving() {
@@ -150,7 +151,7 @@ export default function SectionResolving() {
   const __pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
-  const { session, setSession, checkLevel, setIsLoading } = useContext(AppContext);
+  const { session, setSession, checkLevel, setAchievements, setIsLoading } = useContext(AppContext);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
 
   const mainSection: Section = JSON.parse(section!);
@@ -179,6 +180,13 @@ export default function SectionResolving() {
             experienceLevel: (mainSection?.experience * 0.10) + (mainSection?.xpType ? 0 : mainSection?.experience),
           };
 
+          // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
+          const [achievementIDs, achievementList] = await checkAchievement(session as Partial<User>, checkLevel);
+
+          if (achievementList.length) setAchievements(prev => [...prev, ...achievementList]);
+
+          // RANDOMIZAR SE VAI GANHAR FIRUGA OU NÃO
+
           // ATUALIZANDO COM AS EXPERIÊNCIAS RECEBIDAS
           await updateDoc(
             userRef,
@@ -192,6 +200,8 @@ export default function SectionResolving() {
 
               "solvedQuestions.total": increment(qtdQuestions!),
               [`solvedQuestions.${mainSection?.segment}`]: increment(qtdQuestions!),
+
+              achievements: [...session!.achievements, ...achievementIDs],
             }
           );
 
@@ -206,26 +216,23 @@ export default function SectionResolving() {
               total: session!.solvedModules!.total + 1,
               [mainSection?.segment]: session!.solvedModules![mainSection?.segment] + 1,
             },
-
+            
             solvedQuestions: {
               ...session!.solvedQuestions,
               total: session!.solvedQuestions!.total + qtdQuestions!,
               [mainSection?.segment]: session!.solvedQuestions![mainSection?.segment] + qtdQuestions!,
-            }
+            },
+
+            achievements: [ ...session!.achievements, ...achievementIDs ],
           };
 
-          // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
-          checkAchievement(userBody, checkLevel);
-
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
-          await AsyncStorage.setItem("syncs_user", JSON.stringify(userBody))
+          await AsyncStorage.setItem("syncs_user", JSON.stringify({ ...userBody, achievements: [...userBody.achievements!, ...achievementIDs] }))
             .then(() => {
               setSession(userBody as User);
               return __pagerRef.current?.setPage(currentPage + 1);
             })
             .catch((error) => console.error("Error no storage", error));
-
-          // Randomizar se vai ganhar algo ou não!!
         })
         .catch(e => console.error(e))
         .finally(() => setIsLoading(false));

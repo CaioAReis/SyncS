@@ -17,15 +17,16 @@ import {
 
 import { theme } from "../theme";
 import { Text } from "../components";
-import { Earnings, User } from "../types";
+import { AchievementProps, Earnings, User } from "../types";
 import AppContext from "../services/AppContext";
 
 export default function App() {
   const colorScheme = useColorScheme();
   const [isLoading, setIsLoading] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("");
-  const [earnings, setEarnings] = useState<Earnings | null>(null);
   const [session, setSession] = useState<User | null>(null);
+  const [earnings, setEarnings] = useState<Earnings | null>(null);
+  const [achievements, setAchievements] = useState<Partial<AchievementProps>[]>([]);
 
   const [fontsLoaded, fontError] = useFonts({
     Nunito_300Light,
@@ -103,6 +104,9 @@ export default function App() {
         value={{
           session: session,
           setSession: setSession,
+
+          achievements: achievements,
+          setAchievements: setAchievements,
 
           isLoading: isLoading,
           setIsLoading: setIsLoading,

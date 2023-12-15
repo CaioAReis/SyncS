@@ -1,5 +1,5 @@
 // import PagerView from "react-native-pager-view";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { router } from "expo-router";
 import { Avatar, IconButton } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
@@ -8,9 +8,6 @@ import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import AppContext from "../../services/AppContext";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../services/firebaseConfig";
-import { User } from "../../types";
 
 // const collection = [
 //   { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
@@ -27,46 +24,11 @@ import { User } from "../../types";
 //   { code: "012", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/butterfree.png" },
 // ];
 
-// const achievements = [
-//   { _id: "1", name: "Conquista A", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vulpix.png", quantity: 1 },
-//   { _id: "2", name: "Conquista B", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/ninetales.png", quantity: 3 },
-//   { _id: "3", name: "Conquista C", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/zubat.png", quantity: 1 },
-//   { _id: "4", name: "Conquista D", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/golbat.png", quantity: 1 },
-//   { _id: "5", name: "Conquista E", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/oddish.png", quantity: 2 },
-//   { _id: "6", name: "Conquista F", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/gloom.png", quantity: 1 },
-//   { _id: "7", name: "Conquista G", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/vileplume.png", quantity: 4 },
-//   { _id: "8", name: "Conquista H", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/abra.png", quantity: 1 },
-
-//   { _id: "9", name: "Conquista J", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/kadabra.png", quantity: 1 },
-//   { _id: "10", name: "Conquista K", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/alakazam.png", quantity: 1 },
-//   { _id: "11", name: "Conquista L", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", image: "https://img.pokemondb.net/sprites/sword-shield/icon/tentacruel.png", quantity: 1 },
-// ];
-
 export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const { session, setSession, checkLevel } = useContext(AppContext);
-
-  // console.warn(session);
-
-  useEffect(() => {
-    async function getAc() {
-      await getDocs(collection(db, `users/${session?.id}/achievements`))
-        .then(r => {
-          console.warn("buscou");
-          setSession({
-            ...session, achievements: r.docs.map(doc => {
-              return { id: doc.id, ...doc.data() };
-            })
-          } as User);
-        });
-    }
-
-    getAc();
-
-  }, []);
-
+  const { session, achievements, checkLevel } = useContext(AppContext);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -144,9 +106,9 @@ export default function Profile() {
             <View style={{ marginTop: 25 }}>
               <Text fw="BOLD" fs={16} style={{ marginHorizontal: 20 }}>CONQUISTAS</Text>
 
-              {session?.achievements?.length ? (
+              {achievements?.length ? (
                 <View style={styles.achievementList}>
-                  {session?.achievements.map(item => (
+                  {achievements.map(item => (
                     <Achievement size={width / 7} key={item?.id} achievement={item} />
                   ))}
                 </View>
