@@ -36,7 +36,6 @@ interface Question {
 }
 
 interface Earnings {
-  image: string,
   title?: string,
   type: "FIGURE" | "ACHIEVEMENT"
 }

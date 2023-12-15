@@ -13,8 +13,8 @@ import AppContext from "../../services/AppContext";
 export default function StartQuestions() {
   const { colors } = useAppTheme();
   const [sections, setSection] = useState<Section[]>([]);
-  const { session, isLoading, setIsLoading } = useContext(AppContext);
   const [resolvedCount, setResolvedCount] = useState<number>(0);
+  const { session, isLoading, setIsLoading } = useContext(AppContext);
   const { color, description, label, icon, segment } = useLocalSearchParams<Partial<Module>>();
 
   const getList = async () => {

@@ -2,6 +2,7 @@ import PagerView from "react-native-pager-view";
 import { useContext, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { router, useLocalSearchParams } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Avatar, Button, IconButton, ProgressBar, TextInput, TouchableRipple } from "react-native-paper";
 import { arrayUnion, collection, doc, documentId, getDocs, increment, query, updateDoc, where } from "firebase/firestore";
@@ -11,7 +12,6 @@ import { useAppTheme } from "../../theme";
 import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
 import { AchievementProps, Section, SectionResolvingProps, User } from "../../types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
@@ -151,8 +151,8 @@ export default function SectionResolving() {
   const __pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
-  const { session, setSession, checkLevel, setAchievements, setIsLoading } = useContext(AppContext);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
+  const { session, setSession, checkLevel, setAchievements, setEarnings, setIsLoading } = useContext(AppContext);
 
   const mainSection: Section = JSON.parse(section!);
   const qtdQuestions = mainSection?.questions?.length;
@@ -183,11 +183,18 @@ export default function SectionResolving() {
           // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
           const [achievementIDs, achievementList] = await checkAchievement(session as Partial<User>, checkLevel);
 
-          if (achievementList.length) setAchievements(prev => [...prev, ...achievementList]);
-
           // RANDOMIZAR SE VAI GANHAR FIRUGA OU NÃO
 
-          // ATUALIZANDO COM AS EXPERIÊNCIAS RECEBIDAS
+          if (achievementList.length) {
+            setAchievements(prev => [...new Set([...prev, ...achievementList])]);
+
+            setEarnings({
+              type: "ACHIEVEMENT",
+              title: "Você Desbloqueou algumas conquistas! Verifique seu perfil!",
+            });
+          }
+
+          // ATUALIZANDO COM AS MUDANÇAS
           await updateDoc(
             userRef,
             {
@@ -201,7 +208,7 @@ export default function SectionResolving() {
               "solvedQuestions.total": increment(qtdQuestions!),
               [`solvedQuestions.${mainSection?.segment}`]: increment(qtdQuestions!),
 
-              achievements: [...session!.achievements, ...achievementIDs],
+              achievements: [...new Set([...session!.achievements, ...achievementIDs])],
             }
           );
 
@@ -216,14 +223,14 @@ export default function SectionResolving() {
               total: session!.solvedModules!.total + 1,
               [mainSection?.segment]: session!.solvedModules![mainSection?.segment] + 1,
             },
-            
+
             solvedQuestions: {
               ...session!.solvedQuestions,
               total: session!.solvedQuestions!.total + qtdQuestions!,
               [mainSection?.segment]: session!.solvedQuestions![mainSection?.segment] + qtdQuestions!,
             },
 
-            achievements: [ ...session!.achievements, ...achievementIDs ],
+            achievements: [...new Set([...session!.achievements, ...achievementIDs])],
           };
 
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO

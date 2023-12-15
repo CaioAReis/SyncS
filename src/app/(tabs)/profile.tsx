@@ -28,7 +28,7 @@ export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const { session, achievements, checkLevel } = useContext(AppContext);
+  const { session, achievements, checkLevel } = useContext(AppContext);  
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>

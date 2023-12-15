@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, router } from "expo-router";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, documentId, getDoc, getDocs, query, where } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { Text } from "../components";
-import { SignInData, User } from "../types";
+import { AchievementProps, SignInData, User } from "../types";
 import { useAppTheme } from "../theme";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
@@ -16,7 +16,7 @@ import AppContext from "../services/AppContext";
 
 export default function SignIn() {
   const { colors } = useAppTheme();
-  const { isLoading, setIsLoading, setSession } = useContext(AppContext);
+  const { isLoading, setIsLoading, setAchievements, setSession } = useContext(AppContext);
 
   const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
@@ -36,6 +36,20 @@ export default function SignIn() {
 
         if (userSnap.exists()) {
           //  BUSCAR A LISTA DE COLEÇÃO E DE CONQUISTAS E SALVAR NOS CAMPOS DO USUÁRIO
+
+          if (userSnap.data().achievements.length) {
+            const achievementRef = collection(db, "achievements");
+            const q = query(achievementRef, where(documentId(), "in", userSnap.data().achievements));
+            const achievementList: Partial<AchievementProps>[] = await getDocs(q)
+              .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
+              .catch(e => {
+                console.error("Ocorreu um erro: " + e);
+                return [];
+              });
+
+            setAchievements(achievementList);
+          }
+
           const jsonUser = JSON.stringify({ id: userSnap.id, ...userSnap.data() });
           await AsyncStorage.setItem("syncs_user", jsonUser)
             .then(() => {

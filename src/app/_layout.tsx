@@ -136,16 +136,11 @@ export default function App() {
                 <Text ta="center" fw="BOLD">Parabéns!</Text>
 
                 <View>
-                  <Text ta="center" fs={18} style={{ marginTop: 2, marginBottom: 25 }}>
-                    {earnings?.type === "ACHIEVEMENT" && "Nova conquista desbloqueada!"}
-                    {earnings?.type === "FIGURE" && "Uma nova figura foi desbloqueada!"}
-                  </Text>
-
-                  <View style={{ alignItems: "center", paddingHorizontal: 20 }}>
+                  <View style={{ marginTop: 20, alignItems: "center", paddingHorizontal: 20 }}>
                     <Text fw="BOLD" ta="center" fs={14}>{earnings?.title}</Text>
                     <Image
-                      source={{ uri: earnings?.image }}
-                      style={{ marginVertical: 10, borderRadius: 10, width: 90, height: 90 }}
+                      source={require("../../assets/images/Earnings.png")}
+                      style={{ marginVertical: 10, borderRadius: 10, width: 200, height: 200 }}
                     />
                   </View>
                 </View>
