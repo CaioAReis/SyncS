@@ -71,33 +71,33 @@ const checkAchievement = async (
   const achievementIDs = [];
 
   //  CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
-  if (user.solvedModules!.total > 1) achievementIDs.push("wXCt4WjiVLVzkS3uw9nC");
+  if (user.solvedModules!.total > 1 && !user.achievements?.includes("wXCt4WjiVLVzkS3uw9nC")) achievementIDs.push("wXCt4WjiVLVzkS3uw9nC");
 
   //   VERIFICAÇÃO DAS QUANTIDADES DE PERGUNTAS RESOLVIDAS - RECOMPENSAS DE PERGUNTAS
   //  CONSUISTA DE 50 PERGUNTAS RESOLVIDAS
-  if (user.solvedQuestions!.total >= 50) achievementIDs.push("jpP4iYnoxOwvm5SwLyAu");
+  if (user.solvedQuestions!.total >= 50 && !user.achievements?.includes("jpP4iYnoxOwvm5SwLyAu")) achievementIDs.push("jpP4iYnoxOwvm5SwLyAu");
   //  CONSUISTA DE 100 PERGUNTAS RESOLVIDAS
-  if (user.solvedQuestions!.total >= 100) achievementIDs.push("ZOALdX2Bc9VxpSzy1CqS");
+  if (user.solvedQuestions!.total >= 100 && !user.achievements?.includes("ZOALdX2Bc9VxpSzy1CqS")) achievementIDs.push("ZOALdX2Bc9VxpSzy1CqS");
   //  CONSUISTA DE 50 PERGUNTAS ACADÊMICAS RESOLVIDAS
-  if (user.solvedQuestions!.academic >= 50) achievementIDs.push("EYxkYp5Cab2SlGTIbCnR");
+  if (user.solvedQuestions!.academic >= 50 && !user.achievements?.includes("EYxkYp5Cab2SlGTIbCnR")) achievementIDs.push("EYxkYp5Cab2SlGTIbCnR");
   //  CONSUISTA DE 50 PERGUNTAS CARREIRA RESOLVIDAS
-  if (user.solvedQuestions!.carrer >= 50) achievementIDs.push("xbO69htTS5WCMkxnYe4U");
+  if (user.solvedQuestions!.carrer >= 50 && !user.achievements?.includes("xbO69htTS5WCMkxnYe4U")) achievementIDs.push("xbO69htTS5WCMkxnYe4U");
   //  CONSUISTA DE 50 DÚVIDAS RESOLVIDAS
-  if (user.solvedQuestions!.doubts >= 50) achievementIDs.push("E02j0OuV99DVTd2sktbG");
+  if (user.solvedQuestions!.doubts >= 50 && !user.achievements?.includes("E02j0OuV99DVTd2sktbG")) achievementIDs.push("E02j0OuV99DVTd2sktbG");
   //  CONSUISTA DE 50 PERGUNTAS DE EVOLUÇÃO RESOLVIDAS
-  if (user.solvedQuestions!.evolution >= 50) achievementIDs.push("kP3FFinlPXH3oDpQETpc");
+  if (user.solvedQuestions!.evolution >= 50 && !user.achievements?.includes("kP3FFinlPXH3oDpQETpc")) achievementIDs.push("kP3FFinlPXH3oDpQETpc");
   //  CONSUISTA DE 50 PERGUNTAS MERCADO RESOLVIDAS
-  if (user.solvedQuestions!.job >= 50) achievementIDs.push("eW3jJ9gGABYVwIFJlBvC");
+  if (user.solvedQuestions!.job >= 50 && !user.achievements?.includes("eW3jJ9gGABYVwIFJlBvC")) achievementIDs.push("eW3jJ9gGABYVwIFJlBvC");
   //  CONSUISTA DE 50 RECOMENDAÇÕES RESOLVIDAS
-  if (user.solvedQuestions!.recommendation >= 50) achievementIDs.push("qx4xO9zP0PPe7TOj99ic");
+  if (user.solvedQuestions!.recommendation >= 50 && !user.achievements?.includes("qx4xO9zP0PPe7TOj99ic")) achievementIDs.push("qx4xO9zP0PPe7TOj99ic");
   //  CONSUISTA DE 50 PERGUNTAS USÁRIO RESOLVIDAS
-  if (user.solvedQuestions!.user >= 50) achievementIDs.push("TDvSvuvlsh1KUmE8vwJ3");
+  if (user.solvedQuestions!.user >= 50 && !user.achievements?.includes("TDvSvuvlsh1KUmE8vwJ3")) achievementIDs.push("TDvSvuvlsh1KUmE8vwJ3");
 
   //  VERIFICAÇÃO DAS QUANTIDADES DE MÓDULOS RESOLVIDOS - RECOMPENSAS DE MÓDULOS
   //  CONQUISTA DE 10 MÓDULOS RESOLVIDOS
-  if (user.solvedModules!.total >= 10) achievementIDs.push("8u7YRrogjgFcGaYBCiYz");
+  if (user.solvedModules!.total >= 10 && !user.achievements?.includes("8u7YRrogjgFcGaYBCiYz")) achievementIDs.push("8u7YRrogjgFcGaYBCiYz");
   //  CONQUISTA DE 20 MÓDULOS RESOLVIDOS
-  if (user.solvedModules!.total >= 20) achievementIDs.push("AgSane3A8Bro1qCFhzSz");
+  if (user.solvedModules!.total >= 20 && !user.achievements?.includes("AgSane3A8Bro1qCFhzSz")) achievementIDs.push("AgSane3A8Bro1qCFhzSz");
   //  CONQUISTA DE RESOLVER TODOS OS MÓDULOS UMA VEZ
   if (
     user.solvedModules!.user > 0 &&
@@ -107,29 +107,30 @@ const checkAchievement = async (
     user.solvedModules!.academic > 0 &&
     user.solvedModules!.evolution > 0 &&
     user.solvedModules!.recommendation > 0
+    && !user.achievements?.includes("loAXc5SlwuyhWzZv0RkX")
   ) achievementIDs.push("loAXc5SlwuyhWzZv0RkX");
 
   //  VERIFICAÇÃO DOS NÍVEIS - RECOMPENSAS DE NÍVEL
   //  CONQUISTA DE NÍVEL DE SABEDORIA 10
-  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 10) achievementIDs.push("rwZZqwlO7O9FzJ92O9n0");
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 10 && !user.achievements?.includes("rwZZqwlO7O9FzJ92O9n0")) achievementIDs.push("rwZZqwlO7O9FzJ92O9n0");
   //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 10
-  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 10) achievementIDs.push("MiHohz5yMM4UwE5ubeNd");
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 10 && !user.achievements?.includes("MiHohz5yMM4UwE5ubeNd")) achievementIDs.push("MiHohz5yMM4UwE5ubeNd");
   //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 10
-  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 10) achievementIDs.push("ITNi35Z7wTtee82SHeFO");
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 10 && !user.achievements?.includes("ITNi35Z7wTtee82SHeFO")) achievementIDs.push("ITNi35Z7wTtee82SHeFO");
 
   //  CONQUISTA DE NÍVEL DE SABEDORIA 20
-  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 20) achievementIDs.push("3QL5VODqRBqshbRvGbGQ");
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 20 && !user.achievements?.includes("3QL5VODqRBqshbRvGbGQ")) achievementIDs.push("3QL5VODqRBqshbRvGbGQ");
   //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 20
-  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 20) achievementIDs.push("kJdz4SsajrdbGsTnH6uJ");
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 20 && !user.achievements?.includes("kJdz4SsajrdbGsTnH6uJ")) achievementIDs.push("kJdz4SsajrdbGsTnH6uJ");
   //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 20
-  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 20) achievementIDs.push("ITvq9xpIsw86phQM6BZ6");
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 20 && !user.achievements?.includes("ITvq9xpIsw86phQM6BZ6")) achievementIDs.push("ITvq9xpIsw86phQM6BZ6");
 
   //  CONQUISTA DE NÍVEL DE SABEDORIA 30
-  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 30) achievementIDs.push("h9f1GXofJ8o6GoMkmdBL");
+  if (checkLevel({ levelType: user?.wisdomLevel ?? 0 }) >= 30 && !user.achievements?.includes("h9f1GXofJ8o6GoMkmdBL")) achievementIDs.push("h9f1GXofJ8o6GoMkmdBL");
   //  CONQUISTA DE NÍVEL DE EXPERIÊNCIA 30
-  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 30) achievementIDs.push("LQfEzClIKShs59mz6gmp");
+  if (checkLevel({ levelType: user?.experienceLevel ?? 0 }) >= 30 && !user.achievements?.includes("LQfEzClIKShs59mz6gmp")) achievementIDs.push("LQfEzClIKShs59mz6gmp");
   //  CONQUISTA DE NÍVEL DE PROFISSIONALISMO 30
-  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 30) achievementIDs.push("IXlo9YNPQxb0EkpdxNP4");
+  if (checkLevel({ levelType: user?.professionalismLevel ?? 0 }) >= 30 && !user.achievements?.includes("IXlo9YNPQxb0EkpdxNP4")) achievementIDs.push("IXlo9YNPQxb0EkpdxNP4");
 
   if (achievementIDs.length === 0) return [[], []];
   //  BUSCAR AS CONQUISTAS EXISTENTS NO ARRAY
@@ -150,8 +151,8 @@ const randomFigure = async (galery: Partial<FigureProps>[]) => {
   const random: number = Math.floor(Math.random() * 11);
 
   if (random === 2 || random === 4 || random === 6) {
-    const achievementRef = collection(db, "achievements");
-    const q = galery.length ? query(achievementRef, where(documentId(), "not-in", galery)) : achievementRef;
+    const figuresRef = collection(db, "figures");
+    const q = galery.length ? query(figuresRef, where(documentId(), "not-in", galery)) : figuresRef;
     const galeryList: Partial<FigureProps>[] = await getDocs(q)
       .then(result => result.docs.map(item => ({ id: item.id, ...item.data() } as Partial<FigureProps>)))
       .catch(e => {
@@ -185,6 +186,12 @@ export default function SectionResolving() {
     defaultValues: Object.assign<QuestionOBJ, QuestionOBJ[]>({}, new Array(qtdQuestions)),
   });
 
+  const levelBase = {
+    wisdomLevel: mainSection?.xpType === 2 ? mainSection?.experience : 0,
+    professionalismLevel: mainSection?.xpType === 1 ? mainSection?.experience : 0,
+    experienceLevel: (mainSection?.experience * 0.10) + (mainSection?.xpType ? 0 : mainSection?.experience),
+  };
+
   const onSubmit = async (data: QuestionOBJ) => {
     if (currentPage === qtdQuestions) return router.push("/home");
 
@@ -197,12 +204,6 @@ export default function SectionResolving() {
         .then(async () => {
 
           const userRef = doc(db, "users", session!.id!);
-
-          const levelBase = {
-            wisdomLevel: mainSection?.xpType === 2 ? mainSection?.experience : 0,
-            professionalismLevel: mainSection?.xpType === 1 ? mainSection?.experience : 0,
-            experienceLevel: (mainSection?.experience * 0.10) + (mainSection?.xpType ? 0 : mainSection?.experience),
-          };
 
           // VERIFICAR SE VAI GANHAR ALGUMA CONQUISTA
           const [achievementIDs, achievementList] = await checkAchievement(session as Partial<User>, checkLevel);

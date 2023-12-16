@@ -60,14 +60,8 @@ export default function SignIn() {
                 return [];
               });
 
-            // console.warn(userSnap.data().collection);
-            console.warn(figuresList);
-            
-
             setCollection(figuresList);
           }
-
-          return;
 
           const jsonUser = JSON.stringify({ id: userSnap.id, ...userSnap.data() });
           await AsyncStorage.setItem("syncs_user", jsonUser)

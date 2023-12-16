@@ -214,8 +214,8 @@ interface RenderImagesProps {
 }
 
 interface AnyObjectWithPropImage {
-  image: string,
   [key: string]: unknown,
+  image: string,
 }
 
 interface RenderGalleryProps {

@@ -7,22 +7,8 @@ import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import AppContext from "../../services/AppContext";
+import { AnyObjectWithPropImage } from "../../types";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
-
-// const collection = [
-//   { code: "001", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/bulbasaur.png" },
-//   { code: "002", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/ivysaur.png" },
-//   { code: "003", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/venusaur.png" },
-//   { code: "004", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charmander.png" },
-//   { code: "005", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charmeleon.png" },
-//   { code: "006", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/charizard.png" },
-//   { code: "007", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/squirtle.png" },
-//   { code: "008", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/wartortle.png" },
-//   { code: "009", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/blastoise.png" },
-//   { code: "010", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/caterpie.png" },
-//   { code: "011", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/metapod.png" },
-//   { code: "012", name: "", image: "https://img.pokemondb.net/sprites/x-y/normal/butterfree.png" },
-// ];
 
 export default function Profile() {
   const { colors } = useAppTheme();
@@ -137,7 +123,7 @@ export default function Profile() {
         )}
       />
 
-      <RenderGaley gallery={session!.collection} />
+      <RenderGaley gallery={collection as Pick<AnyObjectWithPropImage, "image">[]} />
     </View>
   );
 }
@@ -168,7 +154,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexWrap: "wrap",
     flexDirection: "row",
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     justifyContent: "space-between",
   },
 
