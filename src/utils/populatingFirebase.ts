@@ -1,6 +1,6 @@
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
-import { AchievementProps, Section } from "../types";
+import { AchievementProps, FigureProps, Section } from "../types";
 
 
 async function createSection() {
@@ -55,12 +55,24 @@ async function createAchievement() {
 
     })
     .catch(() => alert("DEU ERRO"));
+}
 
+async function createFigure() {
+
+  const body: Partial<FigureProps> = {
+    name: "C9",
+    code: "C9",
+    image: "https://humulos.com/digimon/images/dot/vbdm/grey_b.gif",
+  };
+
+  await addDoc(collection(db, "figures"), body)
+    .then(() => alert("CONQUISTA CRIADA"))
+    .catch(() => alert("DEU ERRO"));
 }
 
 
 
 
 export {
-  createSection, createAchievement,
+  createSection, createAchievement, createFigure,
 };

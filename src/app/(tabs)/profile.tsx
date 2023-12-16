@@ -28,13 +28,13 @@ export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const { session, achievements, checkLevel } = useContext(AppContext);  
+  const { session, achievements, collection, checkLevel } = useContext(AppContext);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <FlatList
         numColumns={3}
-        data={session?.collection}
+        data={collection}
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={styles.columnStyle}
         ListFooterComponent={<View style={{ height: 80 }} />}
@@ -130,14 +130,14 @@ export default function Profile() {
 
         renderItem={({ item, index }) => (
           <CollectionItem
-            image={item.image}
             size={width / 3.4}
+            image={item.image!}
             onPress={() => startGallery({ initialPage: index })}
           />
         )}
       />
 
-      <RenderGaley gallery={session?.collection} />
+      <RenderGaley gallery={session!.collection} />
     </View>
   );
 }

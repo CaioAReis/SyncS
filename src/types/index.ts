@@ -239,6 +239,7 @@ interface AchievementProps {
 }
 
 interface FigureProps {
+  id: string,
   code: string,
   name: string,
   image: string,

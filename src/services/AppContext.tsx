@@ -1,6 +1,6 @@
 import { Dispatch, createContext } from "react";
 
-import { AchievementProps, Earnings, User } from "../types";
+import { AchievementProps, Earnings, FigureProps, User } from "../types";
 
 interface ContextData {
   isLoading: boolean,
@@ -11,6 +11,9 @@ interface ContextData {
 
   achievements: Partial<AchievementProps>[],
   setAchievements: Dispatch<React.SetStateAction<Partial<AchievementProps>[]>>,
+
+  collection: Partial<FigureProps>[],
+  setCollection: Dispatch<React.SetStateAction<Partial<FigureProps>[]>>,
 
   theme: string,
   setTheme: React.Dispatch<React.SetStateAction<string>>,

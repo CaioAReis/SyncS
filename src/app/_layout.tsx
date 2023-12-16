@@ -17,7 +17,7 @@ import {
 
 import { theme } from "../theme";
 import { Text } from "../components";
-import { AchievementProps, Earnings, User } from "../types";
+import { AchievementProps, Earnings, FigureProps, User } from "../types";
 import AppContext from "../services/AppContext";
 
 export default function App() {
@@ -26,6 +26,7 @@ export default function App() {
   const [currentTheme, setCurrentTheme] = useState("");
   const [session, setSession] = useState<User | null>(null);
   const [earnings, setEarnings] = useState<Earnings | null>(null);
+  const [collection, setCollection] = useState<Partial<FigureProps>[]>([]);
   const [achievements, setAchievements] = useState<Partial<AchievementProps>[]>([]);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -107,6 +108,9 @@ export default function App() {
 
           achievements: achievements,
           setAchievements: setAchievements,
+
+          collection: collection,
+          setCollection: setCollection,
 
           isLoading: isLoading,
           setIsLoading: setIsLoading,

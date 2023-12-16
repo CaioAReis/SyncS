@@ -11,7 +11,7 @@ import { Text } from "../../components";
 import { useAppTheme } from "../../theme";
 import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
-import { AchievementProps, Section, SectionResolvingProps, User } from "../../types";
+import { AchievementProps, FigureProps, Section, SectionResolvingProps, User } from "../../types";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
@@ -145,6 +145,30 @@ const checkAchievement = async (
   return [achievementIDs, achievementList];
 };
 
+const randomFigure = async (galery: Partial<FigureProps>[]) => {
+
+  const random: number = Math.floor(Math.random() * 11);
+
+  if (random === 2 || random === 4 || random === 6) {
+    const achievementRef = collection(db, "achievements");
+    const q = galery.length ? query(achievementRef, where(documentId(), "not-in", galery)) : achievementRef;
+    const galeryList: Partial<FigureProps>[] = await getDocs(q)
+      .then(result => result.docs.map(item => ({ id: item.id, ...item.data() } as Partial<FigureProps>)))
+      .catch(e => {
+        console.error("Ocorreu um erro: " + e);
+        return [];
+      });
+
+    if (galeryList.length) {
+      const randomValue = Math.floor(Math.random() * galeryList.length);
+      const figureSelected = galeryList[randomValue];
+
+      return figureSelected;
+    }
+
+  } return null;
+};
+
 export default function SectionResolving() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
@@ -152,7 +176,7 @@ export default function SectionResolving() {
   const [currentPage, setCurrentPage] = useState(0);
   const [percentSection, setPercentSection] = useState(0);
   const { color, icon, section } = useLocalSearchParams<Partial<SectionResolvingProps>>();
-  const { session, setSession, checkLevel, setAchievements, setEarnings, setIsLoading } = useContext(AppContext);
+  const { session, setSession, checkLevel, setCollection, setAchievements, setEarnings, setIsLoading } = useContext(AppContext);
 
   const mainSection: Section = JSON.parse(section!);
   const qtdQuestions = mainSection?.questions?.length;
@@ -184,9 +208,12 @@ export default function SectionResolving() {
           const [achievementIDs, achievementList] = await checkAchievement(session as Partial<User>, checkLevel);
 
           // RANDOMIZAR SE VAI GANHAR FIRUGA OU NÃO
+          const figureEarned = await randomFigure(session!.collection as Partial<FigureProps>[]);
 
-          if (achievementList.length) {
-            setAchievements(prev => [...new Set([...prev, ...achievementList])]);
+          if (achievementList.length || figureEarned) {
+
+            achievementList.length && setAchievements(prev => [...new Set([...prev, ...achievementList])]);
+            figureEarned && setCollection(prev => [...new Set([...prev, figureEarned])] as Partial<FigureProps>[]);
 
             setEarnings({
               type: "ACHIEVEMENT",
@@ -209,6 +236,8 @@ export default function SectionResolving() {
               [`solvedQuestions.${mainSection?.segment}`]: increment(qtdQuestions!),
 
               achievements: [...new Set([...session!.achievements, ...achievementIDs])],
+
+              collection: figureEarned ? [...new Set([...session!.collection, figureEarned.id])] : session!.collection,
             }
           );
 
@@ -231,10 +260,12 @@ export default function SectionResolving() {
             },
 
             achievements: [...new Set([...session!.achievements, ...achievementIDs])],
+
+            collection: (figureEarned ? [...new Set([...session!.collection, figureEarned.id])] : session!.collection) as FigureProps[],
           };
 
           // ATUALIZANDO O USER DO STORAGE E DO CONTEXTO
-          await AsyncStorage.setItem("syncs_user", JSON.stringify({ ...userBody, achievements: [...userBody.achievements!, ...achievementIDs] }))
+          await AsyncStorage.setItem("syncs_user", JSON.stringify({ ...userBody }))
             .then(() => {
               setSession(userBody as User);
               return __pagerRef.current?.setPage(currentPage + 1);

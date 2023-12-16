@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { Avatar } from "react-native-paper";
+import { Avatar, Button } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import { useAppTheme } from "../../theme";
 import AppContext from "../../services/AppContext";
 import { Banners, HomeButton, Text } from "../../components";
+import { createFigure } from "../../utils/populatingFirebase";
 
 export default function Home() {
   const { colors } = useAppTheme();
@@ -48,6 +49,8 @@ export default function Home() {
             source={{ uri: session?.picture }}
           />
         </View>
+
+        <Button onPress={createFigure} style={{ marginVertical: 40 }} mode="contained">ADD</Button>
 
         <Banners
           banners={[
