@@ -10,12 +10,14 @@ import AppContext from "../services/AppContext";
 
 export function LogoutButton() {
   const { colors } = useAppTheme();
-  const { setSession } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { setSession, setCollection, setAchievements } = useContext(AppContext);
 
   const onLogout = async () => {
     await AsyncStorage.clear().then(() => {
       setSession(null);
+      setCollection([]);
+      setAchievements([]);
       router.push("/signIn");
     });
   };

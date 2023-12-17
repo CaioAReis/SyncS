@@ -22,7 +22,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
           ...styles.content,
         }}
       >
-        <Image source={{ uri: achievement?.image }} style={{ flex: 1, borderRadius: 15 }} />
+        <Image source={{ uri: achievement?.image?.replace("/upload/", "/upload/c_thumb,w_500,h_500/") }} style={{ flex: 1, borderRadius: 15 }} />
 
         {achievement.quantity && (
           achievement.quantity > 1 && (
@@ -50,7 +50,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
             <View>
               <View style={{ alignItems: "center", marginBottom: 10 }}>
                 <Image
-                  style={{ width: 120, height: 120, borderRadius: 15 }}
+                  style={{ width: 200, height: 200, borderRadius: 15 }}
                   source={{ uri: achievement?.image }}
                 />
 
@@ -72,7 +72,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
                 )}
               </View>
 
-              <Text fs={14} style={{ color: colors.color1 }}>
+              <Text fs={14} style={{ textAlign: "center", color: colors.color1 }}>
                 {achievement?.description}
               </Text>
 
@@ -97,7 +97,7 @@ export function Achievement({ achievement, size }: AchievementBase) {
 const styles = StyleSheet.create({
 
   content: {
-    margin: 6,
+    margin: "2%",
     borderRadius: 15,
   },
 

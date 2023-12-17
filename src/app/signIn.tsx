@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, router } from "expo-router";
-import { collection, doc, documentId, getDoc, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,15 +8,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { Text } from "../components";
-import { AchievementProps, FigureProps, SignInData, User } from "../types";
 import { useAppTheme } from "../theme";
+import { SignInData, User } from "../types";
+import AppContext from "../services/AppContext";
 import { auth, db } from "../services/firebaseConfig";
 import { regexValidations } from "../utils/regexValidations";
-import AppContext from "../services/AppContext";
 
 export default function SignIn() {
   const { colors } = useAppTheme();
-  const { isLoading, setIsLoading, setAchievements, setCollection, setSession } = useContext(AppContext);
+  const { isLoading, setIsLoading, setSession } = useContext(AppContext);
 
   const { control, handleSubmit, formState: { errors } } = useForm<SignInData>({
     defaultValues: {
@@ -35,34 +35,6 @@ export default function SignIn() {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-          //  BUSCAR A LISTA DE COLEÇÃO E DE CONQUISTAS E SALVAR NOS CAMPOS DO USUÁRIO
-
-          if (userSnap.data().achievements.length > 0) {
-            const achievementRef = collection(db, "achievements");
-            const q = query(achievementRef, where(documentId(), "in", userSnap.data().achievements));
-            const achievementList: Partial<AchievementProps>[] = await getDocs(q)
-              .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
-              .catch(e => {
-                console.error("Ocorreu um erro: " + e);
-                return [];
-              });
-
-            setAchievements(achievementList);
-          }
-
-          if (userSnap.data().collection.length > 0) {
-            const figuresRef = collection(db, "figures");
-            const q = query(figuresRef, where(documentId(), "in", userSnap.data().collection));
-            const figuresList: Partial<FigureProps>[] = await getDocs(q)
-              .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
-              .catch(e => {
-                console.error("Ocorreu um erro: " + e);
-                return [];
-              });
-
-            setCollection(figuresList);
-          }
-
           const jsonUser = JSON.stringify({ id: userSnap.id, ...userSnap.data() });
           await AsyncStorage.setItem("syncs_user", jsonUser)
             .then(() => {

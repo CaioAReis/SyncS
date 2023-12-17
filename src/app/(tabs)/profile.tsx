@@ -1,20 +1,59 @@
 // import PagerView from "react-native-pager-view";
-import { useContext } from "react";
 import { router } from "expo-router";
-import { Avatar, IconButton } from "react-native-paper";
+import { useContext, useEffect, useState } from "react";
+import { ActivityIndicator, Avatar, IconButton } from "react-native-paper";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
+import { query, collection as collectionFB, where, documentId, getDocs } from "firebase/firestore";
 
 import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
+import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
-import { AnyObjectWithPropImage } from "../../types";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
+import { AchievementProps, AnyObjectWithPropImage, FigureProps } from "../../types";
 
 export default function Profile() {
   const { colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { RenderGaley, startGallery } = useGallery();
-  const { session, achievements, collection, checkLevel } = useContext(AppContext);
+  const [achivementLoad, setAchivementLoad] = useState(false);
+  const [collectionLoad, setCollectionLoad] = useState(false);
+  const { session, achievements, setAchievements, collection, setCollection, checkLevel } = useContext(AppContext);
+
+  const getAchievements = async () => {
+    setAchivementLoad(true);
+    const achievementRef = collectionFB(db, "achievements");
+    const q = query(achievementRef, where(documentId(), "in", session!.achievements));
+    const achievementList: Partial<AchievementProps>[] = await getDocs(q)
+      .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
+      .catch(e => {
+        console.error("Ocorreu um erro: " + e);
+        return [];
+      })
+      .finally(() => setAchivementLoad(false));
+
+    setAchievements(achievementList);
+  };
+
+  const getCollection = async () => {
+    setCollectionLoad(true);
+    const figuresRef = collectionFB(db, "figures");
+    const q = query(figuresRef, where(documentId(), "in", session!.collection));
+    const figuresList: Partial<FigureProps>[] = await getDocs(q)
+      .then(result => result.docs.map(item => ({ id: item.id, ...item.data() })))
+      .catch(e => {
+        console.error("Ocorreu um erro: " + e);
+        return [];
+      })
+      .finally(() => setCollectionLoad(false));
+
+    setCollection(figuresList);
+  };
+
+  useEffect(() => {
+    if (session!.achievements.length > 0 && achievements.length === 0) getAchievements();
+    if (session!.collection.length > 0 && collection.length === 0) getCollection();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -25,9 +64,13 @@ export default function Profile() {
         columnWrapperStyle={styles.columnStyle}
         ListFooterComponent={<View style={{ height: 80 }} />}
         ListEmptyComponent={
-          <View style={{ borderColor: colors.color10, alignItems: "center", borderStyle: "dashed", borderRadius: 10, borderWidth: 1, marginHorizontal: 20, paddingVertical: 100 }}>
-            <Text fs={16} ta="center">{"Você ainda não possui \nFIGURAS em sua coleção"}</Text>
-          </View>
+          collectionLoad
+            ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+            : (
+              <View style={{ borderColor: colors.color10, alignItems: "center", borderStyle: "dashed", borderRadius: 10, borderWidth: 1, marginHorizontal: 20, paddingVertical: 100 }}>
+                <Text fs={16} ta="center">{"Você ainda não possui \nFIGURAS em sua coleção"}</Text>
+              </View>
+            )
         }
         ListHeaderComponent={
           <>
@@ -99,9 +142,13 @@ export default function Profile() {
                   ))}
                 </View>
               ) : (
-                <View style={{ borderColor: colors.color10, borderStyle: "dashed", borderRadius: 10, alignItems: "center", borderWidth: 1, marginTop: 15, marginHorizontal: 20, paddingVertical: 20 }}>
-                  <Text fs={16} ta="center">Você ainda não possui conquistas</Text>
-                </View>
+                achivementLoad
+                  ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+                  : (
+                    <View style={{ borderColor: colors.color10, borderStyle: "dashed", borderRadius: 10, alignItems: "center", borderWidth: 1, marginTop: 15, marginHorizontal: 20, paddingVertical: 20 }}>
+                      <Text fs={16} ta="center">Você ainda não possui conquistas</Text>
+                    </View>
+                  )
               )}
             </View>
 
@@ -140,7 +187,6 @@ const styles = StyleSheet.create({
   columnStyle: {
     marginBottom: 10,
     marginHorizontal: 10,
-    justifyContent: "space-around",
   },
 
   levels: {
@@ -155,7 +201,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     marginHorizontal: 20,
-    justifyContent: "space-between",
   },
 
 });

@@ -14,6 +14,7 @@ export function CollectionItem({ image, size, onPress }: CollectionItemProps) {
           width: size,
           height: size,
           borderRadius: 10,
+          marginHorizontal: "1.5%",
           backgroundColor: colors.background5
         }}
       />
