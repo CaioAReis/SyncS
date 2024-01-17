@@ -51,9 +51,9 @@ export default function Home() {
 
         <Banners
           banners={[
-            { thumb: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.6kVrWhXQQN_I2r8MsTHg3gHaFC%26pid%3DApi&f=1&ipt=d43019c7d4db864387709b139fbbe655f2b172af43076593fc5a865635d7db1e&ipo=images", action: () => { } },
-            { thumb: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.p3yvO0laFDXIPpkniozoVAHaCQ%26pid%3DApi&f=1&ipt=747c6ff5747e0b16f6629f6d2e58ab9ab6136c02c339ff66a60e41f38e441992&ipo=images", action: () => { } },
-            { thumb: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.1kO65vjFgOjhuAkzmSlKRAHaDE%26pid%3DApi&f=1&ipt=f38b23cc2b4b0c623e1dcc73ed321662845cb23b1ea74dc5987fb81539bcf5ff&ipo=images", action: () => { } },
+            { thumb: "https://res.cloudinary.com/dqtkqo2a8/image/upload/v1705500323/SyncS/Banners/Banner1_h24vz7.png", action: () => { } },
+            { thumb: "https://res.cloudinary.com/dqtkqo2a8/image/upload/v1705502118/SyncS/Banners/Banner2_z9oodo.png", action: () => { } },
+            { thumb: "https://res.cloudinary.com/dqtkqo2a8/image/upload/v1705503244/SyncS/Banners/Banner3_qd5k8c.png", action: () => { } },
           ]}
         />
 
