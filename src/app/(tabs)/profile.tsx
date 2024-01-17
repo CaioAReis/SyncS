@@ -170,7 +170,7 @@ export default function Profile() {
         )}
       />
 
-      <RenderGaley gallery={collection as string[]} />
+      <RenderGaley gallery={collection.map(c => c.image) as string[]} />
     </View>
   );
 }
