@@ -97,7 +97,7 @@ interface TimelinePeriod {
   _id: string,
   body: string,
   title: string,
-  gallery?: AnyObjectWithPropImage[],
+  gallery?: string[],
   when: { day: number, month: string },
 }
 
@@ -210,7 +210,7 @@ interface TimelineCardProps {
 }
 
 interface RenderImagesProps {
-  gallery: AnyObjectWithPropImage[],
+  gallery: string[],
 }
 
 interface AnyObjectWithPropImage {
@@ -220,7 +220,7 @@ interface AnyObjectWithPropImage {
 
 interface RenderGalleryProps {
   initialPage?: number,
-  gallery?: Pick<AnyObjectWithPropImage, "image">[],
+  gallery?: string[],
 }
 
 interface ToastProps {

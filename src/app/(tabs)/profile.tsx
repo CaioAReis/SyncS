@@ -9,8 +9,8 @@ import { useGallery } from "../../hooks";
 import { useAppTheme } from "../../theme";
 import { db } from "../../services/firebaseConfig";
 import AppContext from "../../services/AppContext";
+import { AchievementProps, FigureProps } from "../../types";
 import { Achievement, CollectionItem, ExpCard, Text } from "../../components";
-import { AchievementProps, AnyObjectWithPropImage, FigureProps } from "../../types";
 
 export default function Profile() {
   const { colors } = useAppTheme();
@@ -170,7 +170,7 @@ export default function Profile() {
         )}
       />
 
-      <RenderGaley gallery={collection as Pick<AnyObjectWithPropImage, "image">[]} />
+      <RenderGaley gallery={collection as string[]} />
     </View>
   );
 }

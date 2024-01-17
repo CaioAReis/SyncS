@@ -35,7 +35,7 @@ export function useGallery() {
               />
 
               <ImageZoom
-                src={item.image}
+                src={item}
                 style={{ position: "absolute", width: width, height: width }}
               />
             </View>
