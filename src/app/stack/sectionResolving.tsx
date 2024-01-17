@@ -398,11 +398,13 @@ export default function SectionResolving() {
         ))}
 
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Text fs={30} fw="BOLD">Parabéns!</Text>
+          <Text fs={25} fw="BOLD" ta="center">
+            {`Parabéns\n ${session?.nickname.split(" ")[0]}!`}
+          </Text>
 
           <Image
             source={require("../../../assets/images/Success.png")}
-            style={{ marginTop: 15, width: width / 1.5, height: width / 1.5 }}
+            style={{ marginTop: 15, width: width / 1.7, height: width / 1.7 }}
           />
 
           <Text
@@ -411,7 +413,7 @@ export default function SectionResolving() {
             ta="center"
             style={{ marginVertical: 20, marginHorizontal: 30 }}
           >
-            Ótimo! Você concluiu esta bateria de perguntas, veja suas reconpensas e aguarde por novos desafios!
+            {`Perfeito! ${session?.nickname.split(" ")[0]} \nVocê concluiu esta bateria de perguntas, veja suas reconpensas e aguarde por novos desafios!`}
           </Text>
 
           <View style={styles.xpView}>
