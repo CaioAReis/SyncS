@@ -71,7 +71,7 @@ const checkAchievement = async (
   const achievementIDs = [];
 
   //  CONQUISTA DE PRIMEIRO MÓDULO RESOLVIDO
-  if (user.solvedModules!.total > 1 && !user.achievements?.includes("wXCt4WjiVLVzkS3uw9nC")) achievementIDs.push("wXCt4WjiVLVzkS3uw9nC");
+  if (user.solvedModules!.total >= 0 && !user.achievements?.includes("wXCt4WjiVLVzkS3uw9nC")) achievementIDs.push("wXCt4WjiVLVzkS3uw9nC");
 
   //   VERIFICAÇÃO DAS QUANTIDADES DE PERGUNTAS RESOLVIDAS - RECOMPENSAS DE PERGUNTAS
   //  CONSUISTA DE 50 PERGUNTAS RESOLVIDAS
@@ -147,27 +147,21 @@ const checkAchievement = async (
 };
 
 const randomFigure = async (galery: Partial<FigureProps>[]) => {
+  const figuresRef = collection(db, "figures");
+  const q = galery.length ? query(figuresRef, where(documentId(), "not-in", galery)) : figuresRef;
+  const galeryList: Partial<FigureProps>[] = await getDocs(q)
+    .then(result => result.docs.map(item => ({ id: item.id, ...item.data() } as Partial<FigureProps>)))
+    .catch(e => {
+      console.error("Ocorreu um erro: " + e);
+      return [];
+    });
 
-  const random: number = Math.floor(Math.random() * 11);
+  if (galeryList.length) {
+    const randomValue = Math.floor(Math.random() * galeryList.length);
+    const figureSelected = galeryList[randomValue];
 
-  if (random === 2 || random === 4 || random === 6) {
-    const figuresRef = collection(db, "figures");
-    const q = galery.length ? query(figuresRef, where(documentId(), "not-in", galery)) : figuresRef;
-    const galeryList: Partial<FigureProps>[] = await getDocs(q)
-      .then(result => result.docs.map(item => ({ id: item.id, ...item.data() } as Partial<FigureProps>)))
-      .catch(e => {
-        console.error("Ocorreu um erro: " + e);
-        return [];
-      });
-
-    if (galeryList.length) {
-      const randomValue = Math.floor(Math.random() * galeryList.length);
-      const figureSelected = galeryList[randomValue];
-
-      return figureSelected;
-    }
-
-  } return null;
+    return figureSelected;
+  }
 };
 
 export default function SectionResolving() {

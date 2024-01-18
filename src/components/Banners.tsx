@@ -34,7 +34,7 @@ export function Banners({ banners, style }: BannersProps) {
             onPress={banner.action}
             style={{ ...styles.bannerStyle, width: windowWidth - 40 }}
           >
-            <Image source={{ uri: banner.thumb }} style={{ flex: 1, backgroundColor: "red" }} />
+            <Image source={{ uri: banner.thumb }} style={{ flex: 1, backgroundColor: colors.background5 }} />
           </TouchableRipple>
         ))}
       </ScrollView>
