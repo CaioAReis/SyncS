@@ -20,7 +20,7 @@ export default function RecoverPass() {
   });
 
   const onSendEmail = (data: RecoverData) => {
-    console.warn("Enviar email de redefinição para: " + data);
+    // console.warn("Enviar email de redefinição para: " + data);
     pagesRef?.current?.setPage(1);
   };
 
