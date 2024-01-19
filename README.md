@@ -1,6 +1,6 @@
 
 #### Trabalho de Conclusão de Curso
-# Conectando Experiências: Uma Abordagem Gamificada para Coletar Insights de Egressos de Sistemas de Informação no Instituto Federal de Sergipe - Campus Lagarto.
+# Gamificando Experiências: Desenvolvimento de uma ferramenta para conectar e coletar insigths de egressos do Instituto Federal de Sergipe campus Lagarto
 
 Um aplicativo móvel dedicado ao fortalecimento da conexão entre os egressos e o Instituto Federal de Sergipe, campus Lagarto. Proporcionando um espaço interativo para eles que compartilhem suas experiências, visões e opiniões sobre os desafios, conquistas e aprendizados ao longo de suas carreiras. Essas valiosas informações serão repassadas ao grupo competente do instituto, contribuindo assim para a tomada de decisões fundamentadas no aprimoramento curricular. Objetivando formar profissionais cada vez mais preparados para se destacarem no mercado de trabalho.
 
