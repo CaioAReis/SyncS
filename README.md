@@ -1,7 +1,6 @@
 
 #### Trabalho de Conclusão de Curso
-# Gamificando Experiências: Desenvolvimento de uma ferramenta para conectar e coletar insigths de egressos do Instituto Federal de Sergipe campus Lagarto
-
+# SyncS - Aplicativo gamificado para compartilhamento de experiências dos egressos do Instituto Federal de Sergipe
 Um aplicativo móvel dedicado ao fortalecimento da conexão entre os egressos e o Instituto Federal de Sergipe, campus Lagarto. Proporcionando um espaço interativo para eles que compartilhem suas experiências, visões e opiniões sobre os desafios, conquistas e aprendizados ao longo de suas carreiras. Essas valiosas informações serão repassadas ao grupo competente do instituto, contribuindo assim para a tomada de decisões fundamentadas no aprimoramento curricular. Objetivando formar profissionais cada vez mais preparados para se destacarem no mercado de trabalho.
 
 <p align="center">
