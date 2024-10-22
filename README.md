@@ -35,7 +35,7 @@ Um aplicativo móvel dedicado ao fortalecimento da conexão entre os egressos e 
 
 ## Protótipo FIGMA
 
-O protótipo da aplicação pode ser visto nesse link: [SyncS - FIGMA](https://www.figma.com/file/neePuaoyD0FVMyRZGt26ha/TCC-2?type=design&node-id=0%3A1&mode=design&t=M1I7WmbQcRO1n36v-1)
+O protótipo da aplicação pode ser visto nesse link: [SyncS - FIGMA](https://www.figma.com/design/neePuaoyD0FVMyRZGt26ha/TCC-2?node-id=0-1&t=JLL0PlcZLVRkZguk-1)
 
 <a href="https://www.figma.com/file/neePuaoyD0FVMyRZGt26ha/TCC-2?type=design&node-id=0%3A1&mode=design&t=M1I7WmbQcRO1n36v-1" target="_blank">
 <p align="center">
